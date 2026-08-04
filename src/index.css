@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 207 33% 97%;
+    --foreground: 215 32% 17%;
+    --card: 0 0% 100%;
+    --card-foreground: 215 32% 17%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 215 32% 17%;
+    --primary: 211 74% 18%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 24% 94%;
+    --secondary-foreground: 211 74% 18%;
+    --muted: 210 24% 94%;
+    --muted-foreground: 215 15% 42%;
+    --accent: 178 100% 27%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 74% 50%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 210 24% 87%;
+    --input: 210 24% 87%;
+    --ring: 178 100% 27%;
+    --radius: 0.9rem;
+  }
+
+  .dark {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: 'Manrope', 'Inter', system-ui, sans-serif;
+  }
+  .scrollbar-thin::-webkit-scrollbar { width: 6px; height: 6px; }
+  .scrollbar-thin::-webkit-scrollbar-thumb { background: #D9E2EC; border-radius: 999px; }
+  .tabular-nums { font-variant-numeric: tabular-nums; }
+}

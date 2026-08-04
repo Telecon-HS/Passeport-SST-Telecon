@@ -1,0 +1,40 @@
+import type { TrainingModule } from "@/types";
+
+export const trainingCatalog: TrainingModule[] = [
+  { id: "DRV-EN", title: "Defensive Driving Video EN", category: "All Orientations", language: "EN", businessUnits: ["All"], tqt: [], delivery: "YouTube", requiresQuiz: true, requiresPSFCE: false, status: "Good to use - needs updating", modifiedDuties: true },
+  { id: "DRV-FR", title: "Conduite préventive Video FR", category: "All Orientations", language: "FR", businessUnits: ["All"], tqt: [], delivery: "YouTube", requiresQuiz: true, requiresPSFCE: false, status: "Good to use", modifiedDuties: true },
+  { id: "WHMIS-EN", title: "WHMIS Video EN", category: "All Orientations", language: "EN", businessUnits: ["All"], tqt: ["Matières dangereuses"], delivery: "YouTube", requiresQuiz: true, requiresPSFCE: false, status: "Good to use", modifiedDuties: true },
+  { id: "SIMDUT-FR", title: "SIMDUT Video FR", category: "All Orientations", language: "FR", businessUnits: ["All"], tqt: ["Matières dangereuses"], delivery: "YouTube", requiresQuiz: true, requiresPSFCE: false, status: "Good to use", modifiedDuties: true },
+  { id: "ORI-TEL-FR", title: "1-Telecon Orientation FR", category: "All Orientations", language: "FR", businessUnits: ["All"], tqt: [], delivery: "YouTube playlist", requiresQuiz: true, requiresPSFCE: false, status: "Ready to use", modifiedDuties: true },
+  { id: "SIL-FR", title: "Poussière de silice au travail", category: "INFRA", language: "FR", businessUnits: ["Infra"], tqt: ["Silice"], delivery: "YouTube", requiresQuiz: true, requiresPSFCE: false, status: "Good to go", modifiedDuties: true },
+  { id: "TQT-FR", title: "Travail TQT Introduction", category: "INFRA", language: "FR", businessUnits: ["Infra"], tqt: ["TQT"], delivery: "PowerPoint", requiresQuiz: true, requiresPSFCE: false, status: "Ready", modifiedDuties: true },
+  { id: "PUB-FR", title: "Interactions avec le public", category: "INFRA", language: "FR", businessUnits: ["Infra"], tqt: ["Public / tiers"], delivery: "Stream", requiresQuiz: true, requiresPSFCE: false, status: "Ready", modifiedDuties: true },
+  { id: "EXC-FR", title: "Introduction à l'excavation et au creusement de tranchées", category: "INFRA", language: "FR", businessUnits: ["Infra"], tqt: ["Excavation"], delivery: "Stream / YouTube", requiresQuiz: true, requiresPSFCE: true, status: "Ready", modifiedDuties: true },
+  { id: "DAY-EN", title: "Daylighting and Crossing Utilities", category: "INFRA", language: "EN", businessUnits: ["Infra"], tqt: ["Excavation / Utilities"], delivery: "Stream", requiresQuiz: true, requiresPSFCE: true, status: "Ready", modifiedDuties: true },
+  { id: "LOC-EN", title: "Reading and Verifying Utility Locates", category: "INFRA", language: "EN", businessUnits: ["Infra", "Locate"], tqt: ["Utility Locates"], delivery: "Stream", requiresQuiz: true, requiresPSFCE: true, status: "Ready", modifiedDuties: true },
+  { id: "TOOLS-FR", title: "Outils à main et motorisés", category: "Infra Only", language: "FR", businessUnits: ["Infra"], tqt: ["Outils"], delivery: "PowerPoint", requiresQuiz: true, requiresPSFCE: true, status: "Translation needs verification", modifiedDuties: false },
+  { id: "FLUKE-EN", title: "Use of Fluke C9970 Non-Contact Voltage Detector", category: "Infra Only", language: "EN", businessUnits: ["Infra"], tqt: ["Électricité"], delivery: "Stream", requiresQuiz: true, requiresPSFCE: true, status: "Ready", modifiedDuties: true },
+  { id: "TCP-ON", title: "TCPs and Traffic Control", category: "Ontario", language: "EN", businessUnits: ["Design", "Locate"], tqt: ["Circulation"], delivery: "PowerPoint", requiresQuiz: true, requiresPSFCE: false, status: "Ready", modifiedDuties: true },
+  { id: "NALOX-ON", title: "Naloxone Training", category: "Ontario", language: "EN", businessUnits: ["Ontario"], tqt: [], delivery: "External", requiresQuiz: true, requiresPSFCE: false, status: "From IHSA", modifiedDuties: true },
+  { id: "HAZCOM-US", title: "HazCom 2024", category: "US", language: "EN", businessUnits: ["US"], tqt: ["Hazard communication"], delivery: "YouTube", requiresQuiz: true, requiresPSFCE: false, status: "Ready", modifiedDuties: true },
+  { id: "FIRE-EN", title: "Fire Extinguishers and Safety", category: "Other", language: "EN", businessUnits: ["All"], tqt: ["Incendie"], delivery: "YouTube", requiresQuiz: true, requiresPSFCE: false, status: "Good to go", modifiedDuties: true },
+  { id: "ELEC-FR", title: "Sécurité électrique dans les télécommunications", category: "Other", language: "FR", businessUnits: ["Infra", "I&R", "Locate"], tqt: ["Électricité"], client: "Bell", delivery: "PPT / Video", requiresQuiz: true, requiresPSFCE: true, status: "Good to go - Bell approved", modifiedDuties: false },
+  { id: "RESP-FR", title: "Entretien et utilisation de la sélection des respirateurs", category: "Other", language: "FR", businessUnits: ["Infra"], tqt: ["Respirateur"], delivery: "PowerPoint", requiresQuiz: true, requiresPSFCE: false, status: "Translation not verified", modifiedDuties: false },
+  { id: "LEAD-FR", title: "Sensibilisation aux dangers du plomb", category: "Other", language: "FR", businessUnits: ["Infra"], tqt: ["Plomb"], delivery: "PowerPoint", requiresQuiz: true, requiresPSFCE: false, status: "Good to go", modifiedDuties: true },
+  { id: "ENERGY-FR", title: "La roue des énergies Introduction", category: "Supervisor Development", language: "FR", businessUnits: ["Superviseurs"], tqt: ["Energy Wheel"], delivery: "PowerPoint", requiresQuiz: true, requiresPSFCE: false, status: "Ready", modifiedDuties: true },
+  { id: "PREJOB-FR", title: "Excellentes réunions d'information prétravail", category: "Supervisor Development", language: "FR", businessUnits: ["Superviseurs"], tqt: ["Pre-job briefing"], delivery: "YouTube", requiresQuiz: true, requiresPSFCE: false, status: "Ready", modifiedDuties: true },
+  { id: "IMP-FR", title: "Doute raisonnable d'inaptitude au travail", category: "Supervisor Development", language: "FR", businessUnits: ["Superviseurs"], tqt: ["Aptitude au travail"], delivery: "Stream", requiresQuiz: true, requiresPSFCE: false, status: "Ready", modifiedDuties: true },
+  { id: "URG-FR", title: "Interventions d'urgence sur place", category: "Supervisor Development", language: "FR", businessUnits: ["Superviseurs", "Infra"], tqt: ["Urgence"], delivery: "Stream", requiresQuiz: true, requiresPSFCE: false, status: "Ready", modifiedDuties: true },
+  { id: "DIL-FR", title: "Diligence raisonnable", category: "Supervisor Development", language: "FR", businessUnits: ["Superviseurs"], tqt: ["Due diligence"], delivery: "PowerPoint", requiresQuiz: true, requiresPSFCE: false, status: "Ready", modifiedDuties: true },
+  { id: "EVID-FR", title: "Collecte de preuves pour superviseurs", category: "Supervisor Development", language: "FR", businessUnits: ["Superviseurs"], tqt: ["Investigation"], delivery: "PowerPoint", requiresQuiz: true, requiresPSFCE: false, status: "Ready", modifiedDuties: true },
+];
+
+export const categoryOrder = [
+  "All Orientations",
+  "INFRA",
+  "Infra Only",
+  "Ontario",
+  "US",
+  "Other",
+  "Supervisor Development",
+];

@@ -1,0 +1,7 @@
+node_modules
+dist
+dist-parcel
+.parcel-cache
+bundle.html
+*.log
+.DS_Store

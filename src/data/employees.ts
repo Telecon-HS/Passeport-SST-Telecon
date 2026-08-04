@@ -1,0 +1,118 @@
+import type { Employee } from "@/types";
+
+export const employees: Employee[] = [
+  {
+    id: "EMP001", name: "Alex Tremblay", employeeNumber: "TC-40231", position: "Monteur",
+    department: "Infra", businessUnit: "Infra Québec", province: "QC", client: "Bell",
+    manager: "Jordan Lee", startDate: "2026-08-10", globalStatus: "Sous supervision",
+    compliance: 72, photoInitials: "AT", jobFamily: "Infra",
+    mintzStatus: "Complété", drivingRecordStatus: "Complété", itAccess: true, microsoftAccount: true, onboardingSent: true,
+  },
+  {
+    id: "EMP002", name: "Sam Gagnon", employeeNumber: "TC-40232", position: "Monteur",
+    department: "Infra", businessUnit: "Infra Québec", province: "QC", client: "Bell",
+    manager: "Jordan Lee", startDate: "2026-08-10", globalStatus: "Non autorisé",
+    compliance: 48, photoInitials: "SG", jobFamily: "Infra",
+    mintzStatus: "En cours", drivingRecordStatus: "En attente", itAccess: true, microsoftAccount: true, onboardingSent: true,
+  },
+  {
+    id: "EMP003", name: "Camille Roy", employeeNumber: "TC-38120", position: "Localisateur",
+    department: "Locate", businessUnit: "Locate", province: "QC", client: "TELUS",
+    manager: "Nadia Boucher", startDate: "2025-11-03", globalStatus: "Autorisé",
+    compliance: 94, photoInitials: "CR", jobFamily: "Localisation",
+    mintzStatus: "Complété", drivingRecordStatus: "Complété", itAccess: true, microsoftAccount: true, onboardingSent: true,
+  },
+  {
+    id: "EMP004", name: "Jordan Lee", employeeNumber: "TC-31005", position: "Superviseur",
+    department: "Infra", businessUnit: "Infra Québec", province: "QC", client: "Bell",
+    manager: "Marie-Ève Fontaine", startDate: "2024-03-15", globalStatus: "Autorisé",
+    compliance: 91, photoInitials: "JL", jobFamily: "Infra",
+    mintzStatus: "Complété", drivingRecordStatus: "Complété", itAccess: true, microsoftAccount: true, onboardingSent: true,
+  },
+  {
+    id: "EMP005", name: "Maya Chartrand", employeeNumber: "TC-40255", position: "Manoeuvre / aide terrain",
+    department: "Infra", businessUnit: "Infra Québec", province: "QC", client: "Municipalité",
+    manager: "Jordan Lee", startDate: "2026-07-20", globalStatus: "Sous supervision",
+    compliance: 63, photoInitials: "MC", jobFamily: "Infra",
+    mintzStatus: "Complété", drivingRecordStatus: "Complété", itAccess: true, microsoftAccount: false, onboardingSent: true,
+  },
+  {
+    id: "EMP006", name: "Olivier Bernard", employeeNumber: "TC-39880", position: "Opérateur équipement",
+    department: "Infra", businessUnit: "Infra Québec", province: "QC", client: "Hydro-Québec",
+    manager: "Jordan Lee", startDate: "2025-05-12", globalStatus: "Autorisé",
+    compliance: 88, photoInitials: "OB", jobFamily: "Infra",
+    mintzStatus: "Complété", drivingRecordStatus: "Complété", itAccess: true, microsoftAccount: true, onboardingSent: true,
+  },
+  {
+    id: "EMP007", name: "Priya Nair", employeeNumber: "TC-40260", position: "Technicien IR",
+    department: "I&R", businessUnit: "I&R", province: "ON", client: "Bell",
+    manager: "Marc-André Simard", startDate: "2026-07-27", globalStatus: "Sous supervision",
+    compliance: 58, photoInitials: "PN", jobFamily: "IR",
+    mintzStatus: "En cours", drivingRecordStatus: "Complété", itAccess: true, microsoftAccount: true, onboardingSent: true,
+  },
+  {
+    id: "EMP008", name: "Karim Haddad", employeeNumber: "TC-37410", position: "Technicien câblage structuré",
+    department: "Câblage structuré", businessUnit: "Operations régionales", province: "ON", client: "Client commercial",
+    manager: "Marc-André Simard", startDate: "2025-02-18", globalStatus: "Autorisé",
+    compliance: 96, photoInitials: "KH", jobFamily: "Câblage structuré",
+    mintzStatus: "Complété", drivingRecordStatus: "Complété", itAccess: true, microsoftAccount: true, onboardingSent: true,
+  },
+  {
+    id: "EMP009", name: "Léa Poirier", employeeNumber: "TC-40270", position: "Dessinateur CAD",
+    department: "Design", businessUnit: "Design", province: "QC", client: "TELUS",
+    manager: "Nadia Boucher", startDate: "2026-06-01", globalStatus: "Autorisé",
+    compliance: 100, photoInitials: "LP", jobFamily: "Conception CAD",
+    mintzStatus: "Complété", drivingRecordStatus: "Complété", itAccess: true, microsoftAccount: true, onboardingSent: true,
+  },
+  {
+    id: "EMP010", name: "Étienne Cormier", employeeNumber: "TC-40281", position: "Géomètre / designer terrain",
+    department: "Design", businessUnit: "Design", province: "QC", client: "Municipalité",
+    manager: "Nadia Boucher", startDate: "2026-07-06", globalStatus: "Sous supervision",
+    compliance: 55, photoInitials: "EC", jobFamily: "Géomètres Design",
+    mintzStatus: "Complété", drivingRecordStatus: "En cours", itAccess: true, microsoftAccount: true, onboardingSent: true,
+  },
+  {
+    id: "EMP011", name: "Fatima Zahra", employeeNumber: "TC-36210", position: "Commis entrepôt",
+    department: "Entrepôt", businessUnit: "Entrepôt", province: "QC", client: "Interne",
+    manager: "Renée Lavoie", startDate: "2024-09-09", globalStatus: "Autorisé",
+    compliance: 84, photoInitials: "FZ", jobFamily: "Entrepôt",
+    mintzStatus: "Complété", drivingRecordStatus: "Complété", itAccess: true, microsoftAccount: true, onboardingSent: true,
+  },
+  {
+    id: "EMP012", name: "Marc-André Simard", employeeNumber: "TC-30110", position: "Superviseur",
+    department: "I&R", businessUnit: "I&R", province: "ON", client: "Bell",
+    manager: "Marie-Ève Fontaine", startDate: "2023-01-10", globalStatus: "Autorisé",
+    compliance: 93, photoInitials: "MS", jobFamily: "IR",
+    mintzStatus: "Complété", drivingRecordStatus: "Complété", itAccess: true, microsoftAccount: true, onboardingSent: true,
+  },
+  {
+    id: "EMP013", name: "Nadia Boucher", employeeNumber: "TC-29040", position: "Superviseur",
+    department: "Design", businessUnit: "Design", province: "QC", client: "TELUS",
+    manager: "Marie-Ève Fontaine", startDate: "2022-11-21", globalStatus: "Autorisé",
+    compliance: 97, photoInitials: "NB", jobFamily: "Géomètres Design",
+    mintzStatus: "Complété", drivingRecordStatus: "Complété", itAccess: true, microsoftAccount: true, onboardingSent: true,
+  },
+  {
+    id: "EMP014", name: "Renée Lavoie", employeeNumber: "TC-28870", position: "Superviseur",
+    department: "Entrepôt", businessUnit: "Entrepôt", province: "QC", client: "Interne",
+    manager: "Marie-Ève Fontaine", startDate: "2021-06-14", globalStatus: "Autorisé",
+    compliance: 90, photoInitials: "RL", jobFamily: "Entrepôt",
+    mintzStatus: "Complété", drivingRecordStatus: "Complété", itAccess: true, microsoftAccount: true, onboardingSent: true,
+  },
+  {
+    id: "EMP015", name: "Thomas Bélanger", employeeNumber: "TC-40290", position: "Localisateur",
+    department: "Locate", businessUnit: "Locate", province: "AB", client: "Hydro-Québec",
+    manager: "Nadia Boucher", startDate: "2026-08-01", globalStatus: "Non autorisé",
+    compliance: 32, photoInitials: "TB", jobFamily: "Localisation",
+    mintzStatus: "En attente", drivingRecordStatus: "En attente", itAccess: false, microsoftAccount: false, onboardingSent: true,
+  },
+  {
+    id: "EMP016", name: "Marie-Ève Fontaine", employeeNumber: "TC-20015", position: "Directrice Opérations",
+    department: "Direction", businessUnit: "Direction régionale", province: "QC", client: "—",
+    manager: "VP Opérations", startDate: "2019-04-02", globalStatus: "Autorisé",
+    compliance: 99, photoInitials: "MF", jobFamily: "Direction",
+    mintzStatus: "Complété", drivingRecordStatus: "Complété", itAccess: true, microsoftAccount: true, onboardingSent: true,
+  },
+];
+
+export const employeeById = (id: string) => employees.find((e) => e.id === id);
