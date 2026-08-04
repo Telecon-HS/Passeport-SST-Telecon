@@ -113,7 +113,7 @@ export function DigitalPassport() {
                             </div>
                             {module.resources && module.resources.length > 0 && (
                               <div className="ml-7 mt-1.5">
-                                <ModuleResources resources={module.resources} compact />
+                                <ModuleResources resources={module.resources} />
                               </div>
                             )}
                           </div>

@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { trainingCatalog, categoryOrder } from "@/data/trainingCatalog";
 import { TrainingModuleCard } from "@/components/shared/TrainingModuleCard";
 import { FilterPanel } from "@/components/shared/FilterPanel";
-import { GraduationCap } from "lucide-react";
+import { GraduationCap, Info } from "lucide-react";
 
 export function TrainingCenter() {
   const [search, setSearch] = useState("");
@@ -36,6 +36,23 @@ export function TrainingCenter() {
         <div>
           <h1 className="font-display text-2xl font-bold text-tc-navy">Centre de formation</h1>
           <p className="text-sm text-slate-500">{trainingCatalog.length} modules du catalogue SSE-800.</p>
+        </div>
+      </div>
+
+      <div className="flex items-start gap-2.5 rounded-xl border border-tc-border bg-white p-4">
+        <Info className="mt-0.5 h-4 w-4 shrink-0 text-tc-teal" />
+        <div className="text-xs leading-relaxed text-slate-600">
+          Les quiz d'<span className="font-medium">orientation</span> ne demandent pas de connexion —
+          les comptes Microsoft ne sont généralement pas encore actifs à ce moment. Les quiz du
+          <span className="font-medium"> Programme de développement des superviseurs</span> exigent
+          une connexion au compte professionnel Microsoft.
+          <br />
+          Problème de connexion :{" "}
+          <a href="https://support.telecon.ca/support/home" target="_blank" rel="noopener noreferrer"
+             className="font-medium text-tc-navy2 underline">
+            support.telecon.ca
+          </a>{" "}
+          · lien défectueux : signalez-le à votre HSBP.
         </div>
       </div>
 

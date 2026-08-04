@@ -155,26 +155,35 @@ BU canoniques pour garder les croisements cohérents entre la matrice et les dos
 
 ## Ressources de formation
 
-Les modules portent les **liens réels** vers les vidéos YouTube et les quiz Microsoft Forms
-(champ `resources` dans `src/data/trainingCatalog.ts`). Ils s'ouvrent dans un nouvel onglet
-depuis le Centre de formation et le Passeport numérique.
-
-Couverture actuelle : version **française** de 7 modules — `ORI-001`, `WHMIS-001`, `DRV-001`,
-`SIL-001`, `EXC-001`, `TOOLS-001`, `ELEC-001`.
+Les modules portent les **liens réels** (vidéos YouTube, quiz Microsoft Forms, présentations),
+groupés par langue — champ `resources` dans `src/data/trainingCatalog.ts`. 24 des 28 modules sont
+équipés, pour 52 liens actifs.
 
 Trois cas sont distingués visuellement :
 
-- **Lien externe** → cliquable, ouvre YouTube ou Forms ;
-- **Fichier interne** (`.mp4`, `.pptx` non publiés) → affiché en grisé, non cliquable, pour ne pas
-  laisser croire à un lien mort ;
-- **Réserve connue** → pastille orange, ex. « Traduction à vérifier » ou lien manquant.
+- **Lien externe** → cliquable, ouvre YouTube ou Forms dans un nouvel onglet ;
+- **Fichier interne** (`.mp4`, `.pptx` non publiés) → grisé, non cliquable ;
+- **Réserve connue** → pastille orange (traduction à vérifier, lien manquant, contenu à mettre à jour).
+
+### Connexion Microsoft
+
+Les quiz d'**orientation** ne demandent pas de connexion (les comptes ne sont pas encore actifs à
+l'embauche). Les quiz du **Programme de développement des superviseurs** exigent une connexion au
+compte professionnel Microsoft. Cette distinction est rappelée dans le Centre de formation, avec
+le lien vers `support.telecon.ca`.
 
 ### À compléter
 
-- Quiz **SIMDUT 2022** : le lien Forms n'a pas été fourni (seul un libellé était présent).
-- Traductions à vérifier : quiz `EXC-001`, présentation et quiz `TOOLS-001`.
-- Fichiers à publier : vidéo excavation (`.mp4`), présentations `TOOLS-001` et `ELEC-001` (`.pptx`).
-- Versions **anglaises** : aucune ressource fournie à ce jour.
+| Élément | Manque |
+|---|---|
+| Quiz SIMDUT FR | Lien Forms absent · version 2022 périmée |
+| Quiz Energy Wheel (EN et FR) | Liens Forms absents |
+| Naloxone (vidéo et quiz) | Liens IHSA / Telecon absents |
+| Excavation EN | Vidéo sur YouTube, lien à récupérer |
+| Daylighting, Reading Locates | Versions FR à venir |
+| Extincteurs FR | Pas de quiz FR distinct |
+| Traductions à vérifier | Quiz `EXC-001`, `TOOLS-001` (présentation et quiz), `RESP-001` |
+| Fichiers à publier | 14 `.mp4` / `.pptx` hébergés en interne |
 
 ## Moteur de matrice
 

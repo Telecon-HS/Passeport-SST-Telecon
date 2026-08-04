@@ -51,7 +51,7 @@ export function TrainingModuleCard({
       )}
       {module.resources && module.resources.length > 0 && (
         <div className="mt-3 border-t border-tc-border pt-3">
-          <ModuleResources resources={module.resources} compact />
+          <ModuleResources resources={module.resources} />
         </div>
       )}
       <div className="mt-3 flex items-center justify-between border-t border-tc-border pt-3">
