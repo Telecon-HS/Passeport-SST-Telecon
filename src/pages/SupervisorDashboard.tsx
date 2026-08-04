@@ -1,7 +1,5 @@
 import { useApp } from "@/lib/app-context";
-import { employees } from "@/data/employees";
-import { authorizations } from "@/data/authorizations";
-import { psfceRecords } from "@/data/psfce";
+import { useDataStore } from "@/lib/data-store";
 import { ComplianceKpiCard } from "@/components/shared/ComplianceKpiCard";
 import { EmployeeTable } from "@/components/shared/EmployeeTable";
 import { StatusBadge } from "@/components/shared/StatusBadge";
@@ -9,8 +7,9 @@ import { psfceTone, psfceLabel } from "@/lib/status";
 import { Users, ShieldAlert, ClipboardList, TrendingUp, ArrowRight, AlertOctagon } from "lucide-react";
 
 export function SupervisorDashboard() {
-  const { persona, setScreen, navigateToPassport } = useApp();
-  const team = employees.filter((e) => e.manager === persona.displayName);
+  const { persona, setScreen, navigateToPassport, visibleEmployees } = useApp();
+  const { authorizations, psfce: psfceRecords } = useDataStore();
+  const team = visibleEmployees.filter((e) => e.id !== persona.employeeId);
   const avgCompliance = team.length ? Math.round(team.reduce((s, e) => s + e.compliance, 0) / team.length) : 0;
   const notAuthorized = team.filter((e) => e.globalStatus === "Non autorisé").length;
   const teamPsfce = psfceRecords.filter((p) => team.some((e) => e.id === p.employeeId));

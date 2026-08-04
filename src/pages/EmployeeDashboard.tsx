@@ -2,8 +2,7 @@ import { useApp } from "@/lib/app-context";
 import { employeeById } from "@/data/employees";
 import { recordsForEmployee } from "@/data/trainingRecords";
 import { trainingCatalog } from "@/data/trainingCatalog";
-import { authorizationsForEmployee } from "@/data/authorizations";
-import { psfceRecords } from "@/data/psfce";
+import { useDataStore } from "@/lib/data-store";
 import { onboardingCases } from "@/data/evidence";
 import { ComplianceKpiCard } from "@/components/shared/ComplianceKpiCard";
 import { StatusBadge } from "@/components/shared/StatusBadge";
@@ -16,13 +15,14 @@ import { Button } from "@/components/ui/button";
 
 export function EmployeeDashboard() {
   const { focusEmployeeId, setScreen } = useApp();
+  const { authorizations: allAuthorizations, psfce: allPsfce } = useDataStore();
   const employee = employeeById(focusEmployeeId ?? "EMP001")!;
   const records = recordsForEmployee(employee.id);
   const completed = records.filter((r) => r.state === "Complété").length;
   const inProgress = records.filter((r) => r.state === "En cours").length;
   const upcoming = records.filter((r) => r.state === "Expire bientôt" || r.state === "À faire");
-  const authorizations = authorizationsForEmployee(employee.id);
-  const myPsfce = psfceRecords.filter((p) => p.employeeId === employee.id);
+  const authorizations = allAuthorizations.filter((a) => a.employeeId === employee.id);
+  const myPsfce = allPsfce.filter((p) => p.employeeId === employee.id);
   const onboarding = onboardingCases.find((o) => o.employeeId === employee.id);
 
   const nextModules = records

@@ -1,8 +1,10 @@
-import React, { createContext, useContext, useState, useMemo } from "react";
-import type { Role } from "@/types";
+import React, { createContext, useContext, useState, useMemo, useEffect } from "react";
+import type { Role, Employee } from "@/types";
+import { useAuth } from "./auth-context";
+import { useDataStore } from "./data-store";
+import { employees } from "@/data/employees";
 
 export type ScreenId =
-  | "home"
   | "employeeDashboard"
   | "passport"
   | "supervisorDashboard"
@@ -13,7 +15,16 @@ export type ScreenId =
   | "trainingCenter"
   | "matrix"
   | "powerbi"
-  | "evidenceLibrary";
+  | "evidenceLibrary"
+  | "activity";
+
+const defaultScreenByRole: Record<Role, ScreenId> = {
+  "Employé": "employeeDashboard",
+  "Superviseur": "supervisorDashboard",
+  "Gestionnaire": "managerDashboard",
+  "PASS SST": "passsstDashboard",
+  "RH": "hrDashboard",
+};
 
 interface Persona {
   employeeId: string | null;
@@ -21,56 +32,91 @@ interface Persona {
   title: string;
 }
 
-const personaByRole: Record<Role, Persona> = {
-  "Employé": { employeeId: "EMP001", displayName: "Alex Tremblay", title: "Monteur — Infra Québec" },
-  "Superviseur": { employeeId: "EMP004", displayName: "Jordan Lee", title: "Superviseur — Infra Québec" },
-  "Gestionnaire": { employeeId: "EMP016", displayName: "Marie-Ève Fontaine", title: "Directrice Opérations" },
-  "PASS SST": { employeeId: null, displayName: "Renée Dubé", title: "PASS SST / HSBP" },
-  "RH": { employeeId: null, displayName: "Isabelle Moreau", title: "RH — Talent et culture" },
-};
-
 interface AppContextValue {
   role: Role;
-  setRole: (r: Role) => void;
+  persona: Persona;
   screen: ScreenId;
   setScreen: (s: ScreenId) => void;
-  persona: Persona;
   focusEmployeeId: string | null;
   setFocusEmployeeId: (id: string | null) => void;
   navigateToPassport: (employeeId: string) => void;
+  /** Employés que le compte connecté a le droit de consulter. */
+  visibleEmployees: Employee[];
+  canViewEmployee: (id: string) => boolean;
 }
 
 const AppContext = createContext<AppContextValue | null>(null);
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
-  const [role, setRoleState] = useState<Role>("Employé");
-  const [screen, setScreen] = useState<ScreenId>("home");
-  const [focusEmployeeId, setFocusEmployeeId] = useState<string | null>("EMP001");
+  const { account } = useAuth();
+  const { preferences, setPreferences } = useDataStore();
 
-  const setRole = (r: Role) => {
-    setRoleState(r);
-    const p = personaByRole[r];
-    setFocusEmployeeId(p.employeeId ?? null);
-    const defaultScreen: Record<Role, ScreenId> = {
-      "Employé": "employeeDashboard",
-      "Superviseur": "supervisorDashboard",
-      "Gestionnaire": "managerDashboard",
-      "PASS SST": "passsstDashboard",
-      "RH": "hrDashboard",
-    };
-    setScreen(defaultScreen[r]);
+  if (!account) throw new Error("AppProvider requiert un compte authentifié");
+
+  const visibleEmployees = useMemo<Employee[]>(() => {
+    if (account.scope === "all") return employees;
+    if (account.scope === "team") {
+      return employees.filter(
+        (e) => e.manager === account.displayName || e.id === account.employeeId
+      );
+    }
+    return employees.filter((e) => e.id === account.employeeId);
+  }, [account]);
+
+  const allowedIds = useMemo(
+    () => new Set(visibleEmployees.map((e) => e.id)),
+    [visibleEmployees]
+  );
+
+  const initialScreen = useMemo<ScreenId>(() => {
+    const saved = preferences.lastScreen as ScreenId | null;
+    return saved ?? defaultScreenByRole[account.role];
+  }, [account.role]);
+
+  const [screen, setScreenState] = useState<ScreenId>(initialScreen);
+  const [focusEmployeeId, setFocusEmployeeId] = useState<string | null>(
+    account.employeeId ?? visibleEmployees[0]?.id ?? null
+  );
+
+  // Réinitialise la vue quand le compte change (déconnexion / reconnexion).
+  useEffect(() => {
+    setScreenState(preferences.lastScreen as ScreenId ?? defaultScreenByRole[account.role]);
+    setFocusEmployeeId(account.employeeId ?? visibleEmployees[0]?.id ?? null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [account.username]);
+
+  const setScreen = (s: ScreenId) => {
+    setScreenState(s);
+    setPreferences({ lastScreen: s });
   };
 
+  const canViewEmployee = (id: string) => allowedIds.has(id);
+
   const navigateToPassport = (employeeId: string) => {
+    if (!allowedIds.has(employeeId)) return;
     setFocusEmployeeId(employeeId);
     setScreen("passport");
   };
 
-  const persona = personaByRole[role];
+  const persona: Persona = {
+    employeeId: account.employeeId,
+    displayName: account.displayName,
+    title: account.title,
+  };
 
   const value = useMemo(
-    () => ({ role, setRole, screen, setScreen, persona, focusEmployeeId, setFocusEmployeeId, navigateToPassport }),
-    [role, screen, persona, focusEmployeeId]
+    () => ({
+      role: account.role,
+      persona,
+      screen,
+      setScreen,
+      focusEmployeeId,
+      setFocusEmployeeId,
+      navigateToPassport,
+      visibleEmployees,
+      canViewEmployee,
+    }),
+    [account, screen, focusEmployeeId, visibleEmployees]
   );
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
@@ -78,6 +124,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
 
 export function useApp() {
   const ctx = useContext(AppContext);
-  if (!ctx) throw new Error("useApp must be used within AppProvider");
+  if (!ctx) throw new Error("useApp doit être utilisé dans un AppProvider");
   return ctx;
 }

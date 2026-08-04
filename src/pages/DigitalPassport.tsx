@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { useApp } from "@/lib/app-context";
-import { employees, employeeById } from "@/data/employees";
+import { employeeById } from "@/data/employees";
 import { recordsForEmployee } from "@/data/trainingRecords";
 import { trainingCatalog } from "@/data/trainingCatalog";
-import { authorizationsForEmployee } from "@/data/authorizations";
-import { psfceRecords } from "@/data/psfce";
+import { useDataStore } from "@/lib/data-store";
 import { evidenceForEmployee } from "@/data/evidence";
 import { PassportCard } from "@/components/shared/PassportCard";
 import { StatusBadge } from "@/components/shared/StatusBadge";
@@ -26,14 +25,16 @@ const stateIcon: Record<string, any> = {
 };
 
 export function DigitalPassport() {
-  const { focusEmployeeId, setFocusEmployeeId, role } = useApp();
+  const { focusEmployeeId, setFocusEmployeeId, role, visibleEmployees, canViewEmployee } = useApp();
+  const { authorizations: allAuthorizations, psfce: allPsfce } = useDataStore();
   const [evidenceOpen, setEvidenceOpen] = useState(false);
-  const employee = employeeById(focusEmployeeId ?? "EMP001") ?? employees[0];
+  const resolvedId = focusEmployeeId && canViewEmployee(focusEmployeeId) ? focusEmployeeId : visibleEmployees[0]?.id;
+  const employee = (resolvedId ? employeeById(resolvedId) : undefined) ?? visibleEmployees[0];
   const records = recordsForEmployee(employee.id);
-  const authorizations = authorizationsForEmployee(employee.id);
-  const psfce = psfceRecords.filter((p) => p.employeeId === employee.id);
+  const authorizations = allAuthorizations.filter((a) => a.employeeId === employee.id);
+  const psfce = allPsfce.filter((p) => p.employeeId === employee.id);
   const evidence = evidenceForEmployee(employee.id);
-  const canSwitch = role !== "Employé";
+  const canSwitch = role !== "Employé" && visibleEmployees.length > 1;
 
   const groups: { label: string; filter: (id: string) => boolean }[] = [
     { label: "Orientation corporative", filter: (id) => id.startsWith("ORI") || id.startsWith("SIM") || id.startsWith("WHMIS") || id.startsWith("DRV") },
@@ -53,7 +54,7 @@ export function DigitalPassport() {
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              {employees.map((e) => (
+              {visibleEmployees.map((e) => (
                 <SelectItem key={e.id} value={e.id}>
                   {e.name} — {e.position}
                 </SelectItem>

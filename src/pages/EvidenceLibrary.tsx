@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { evidenceLibrary } from "@/data/evidence";
-import { employeeById, employees } from "@/data/employees";
+import { employeeById } from "@/data/employees";
+import { useApp } from "@/lib/app-context";
 import { FilterPanel } from "@/components/shared/FilterPanel";
 import { StatusBadge } from "@/components/shared/StatusBadge";
 import { FolderCheck, FileCheck2, Award, Eye, Signature, FileText, Download } from "lucide-react";
@@ -10,13 +11,15 @@ const typeIcon: Record<string, any> = { Quiz: FileCheck2, Certificate: Award, Ob
 const typeLabel: Record<string, string> = { Quiz: "Quiz", Certificate: "Certificat", Observation: "Observation", Signature: "Signature", File: "Fichier" };
 
 export function EvidenceLibrary() {
+  const { visibleEmployees, canViewEmployee } = useApp();
   const [search, setSearch] = useState("");
   const [type, setType] = useState("Tous");
   const [status, setStatus] = useState("Tous");
 
-  const typeOptions = Array.from(new Set(evidenceLibrary.map((e) => e.type)));
+  const scopedEvidence = evidenceLibrary.filter((e) => canViewEmployee(e.employeeId));
+  const typeOptions = Array.from(new Set(scopedEvidence.map((e) => e.type)));
 
-  const filtered = evidenceLibrary.filter((e) => {
+  const filtered = scopedEvidence.filter((e) => {
     const emp = employeeById(e.employeeId);
     if (search && !e.label.toLowerCase().includes(search.toLowerCase()) && !emp?.name.toLowerCase().includes(search.toLowerCase())) return false;
     if (type !== "Tous" && e.type !== type) return false;
@@ -24,8 +27,8 @@ export function EvidenceLibrary() {
     return true;
   });
 
-  const auditReadyCount = evidenceLibrary.filter((e) => e.auditReady).length;
-  const incompleteCount = evidenceLibrary.length - auditReadyCount;
+  const auditReadyCount = scopedEvidence.filter((e) => e.auditReady).length;
+  const incompleteCount = scopedEvidence.length - auditReadyCount;
 
   return (
     <div className="mx-auto max-w-6xl space-y-6 px-4 py-6 sm:px-8">
@@ -40,10 +43,10 @@ export function EvidenceLibrary() {
       </div>
 
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <ComplianceKpiCard label="Total des preuves" value={evidenceLibrary.length} icon={FolderCheck} tone="navy" />
+        <ComplianceKpiCard label="Total des preuves" value={scopedEvidence.length} icon={FolderCheck} tone="navy" />
         <ComplianceKpiCard label="Prêtes pour audit" value={auditReadyCount} icon={FileCheck2} tone="green" />
         <ComplianceKpiCard label="Incomplètes" value={incompleteCount} icon={Eye} tone="orange" />
-        <ComplianceKpiCard label="Employés couverts" value={employees.length} icon={Award} tone="teal" />
+        <ComplianceKpiCard label="Employés couverts" value={visibleEmployees.length} icon={Award} tone="teal" />
       </div>
 
       <FilterPanel

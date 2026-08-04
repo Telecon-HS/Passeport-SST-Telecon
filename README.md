@@ -91,6 +91,50 @@ Palette Telecon (voir `tailwind.config.js`, tokens `tc-*`) :
 - Bleu foncé `#082A52` · Bleu secondaire `#123E6D` · Turquoise `#008C82`
 - Vert conformité `#16A34A` · Orange alerte `#F59E0B` · Rouge sécurité `#DC2626`
 
+## Accès et comptes
+
+L'application s'ouvre sur un écran de connexion. Chaque compte détermine le rôle, la navigation
+disponible et le **périmètre de données visible** :
+
+| Identifiant | Rôle | Périmètre |
+|---|---|---|
+| `alex.tremblay` | Employé | Son dossier uniquement |
+| `jordan.lee` | Superviseur | Son équipe (Infra Québec) |
+| `marc.simard` | Superviseur | Son équipe (I&R) |
+| `marie.fontaine` | Gestionnaire | Toute l'organisation |
+| `renee.dube` | PASS SST | Toute l'organisation |
+| `isabelle.moreau` | RH | Toute l'organisation |
+
+Mot de passe commun : `Telecon2026`.
+
+> ⚠️ **Sécurité — à lire avant tout usage réel.**
+> L'authentification est réalisée **côté client uniquement**. Les comptes et mots de passe sont
+> présents dans le code livré au navigateur : n'importe qui peut les lire et contourner l'écran de
+> connexion. Ce mécanisme sert à démontrer l'expérience par rôle, **pas à protéger des données**.
+> Le prototype ne doit contenir que des données fictives.
+>
+> Pour un déploiement réel, il faut une authentification serveur (Netlify Identity, Auth0, ou
+> Microsoft Entra ID pour rester aligné avec l'écosystème Telecon) et un filtrage des données
+> côté serveur, pas seulement dans l'interface.
+
+## Persistance des données
+
+Les modifications faites dans l'application sont conservées dans le **stockage local du
+navigateur** :
+
+- progression des étapes PSFCE, création de PSFCE, observations de mentor ;
+- autorisations de travail accordées ;
+- formations marquées complétées ;
+- préférences par utilisateur (dernier écran consulté) ;
+- journal d'activité (écran *Journal d'activité*, accessible aux rôles encadrants).
+
+Limites actuelles : les données restent **sur l'appareil et le navigateur utilisés**. Elles ne sont
+ni synchronisées entre postes, ni partagées entre utilisateurs, ni sauvegardées. Le bouton
+*Réinitialiser les données* (écran Journal d'activité) restaure le jeu de données initial.
+
+Pour une persistance réelle et partagée, il faudra une base de données côté serveur (Netlify
+Database/Blobs, SharePoint Lists, Dataverse ou équivalent) — voir la cible d'architecture.
+
 ## Statut
 
 Prototype fonctionnel — données fictives, pas d'intégration live avec SharePoint, Microsoft Forms, QuickBase, eCompliance ou Power BI. Ces connecteurs sont documentés comme cibles d'architecture mais ne sont pas implémentés dans ce dépôt.

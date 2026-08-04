@@ -1,5 +1,5 @@
-import { employees } from "@/data/employees";
-import { authorizations } from "@/data/authorizations";
+import { useApp } from "@/lib/app-context";
+import { useDataStore } from "@/lib/data-store";
 import { matrixRules } from "@/data/matrixRules";
 import { ComplianceKpiCard } from "@/components/shared/ComplianceKpiCard";
 import { PowerBIWidget } from "@/components/shared/PowerBIWidget";
@@ -25,6 +25,8 @@ function groupAvg<T>(items: T[], keyFn: (t: T) => string, valFn: (t: T) => numbe
 }
 
 export function ManagerDashboard() {
+  const { visibleEmployees: employees } = useApp();
+  const { authorizations } = useDataStore();
   const avgCompliance = Math.round(employees.reduce((s, e) => s + e.compliance, 0) / employees.length);
   const authorized = employees.filter((e) => e.globalStatus === "Autorisé").length;
 
