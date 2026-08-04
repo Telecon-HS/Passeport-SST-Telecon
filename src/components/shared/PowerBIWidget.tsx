@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { MoreHorizontal, Maximize2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 

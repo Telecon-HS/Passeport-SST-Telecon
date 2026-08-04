@@ -46,9 +46,6 @@ employees.forEach((emp, idx) => {
       rec.quizScore = mod.requiresQuiz ? Math.round(72 + rand() * 28) : undefined;
       rec.expiryDate = state === "Expire bientôt" ? "2026-09-1" + Math.floor(rand() * 9) : "2027-06-01";
     }
-    if (state === "Expiré") {
-      rec.expiryDate = "2026-06-01";
-    }
     trainingRecords.push(rec);
   });
 });

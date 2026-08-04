@@ -2,7 +2,6 @@ import { useApp } from "@/lib/app-context";
 import { employees } from "@/data/employees";
 import { authorizations } from "@/data/authorizations";
 import { psfceRecords } from "@/data/psfce";
-import { recordsForEmployee } from "@/data/trainingRecords";
 import { ComplianceKpiCard } from "@/components/shared/ComplianceKpiCard";
 import { EmployeeTable } from "@/components/shared/EmployeeTable";
 import { StatusBadge } from "@/components/shared/StatusBadge";

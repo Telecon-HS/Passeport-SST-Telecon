@@ -1,7 +1,6 @@
 import { useApp } from "@/lib/app-context";
 import { matrixRules } from "@/data/matrixRules";
 import { trainingCatalog } from "@/data/trainingCatalog";
-import { employees } from "@/data/employees";
 import { ComplianceKpiCard } from "@/components/shared/ComplianceKpiCard";
 import { PowerBIWidget } from "@/components/shared/PowerBIWidget";
 import { StatusBadge } from "@/components/shared/StatusBadge";
@@ -14,7 +13,6 @@ export function PassSSTDashboard() {
   const totalRules = matrixRules.length;
   const toValidate = matrixRules.filter((r) => r.status === "À valider").length;
   const highPriority = matrixRules.filter((r) => r.riskPriority === "Élevée").length;
-  const nonGenericTqt = matrixRules.filter((r) => r.tqt !== "Tous").length;
 
   const modulesNeedingWork = trainingCatalog.filter((m) => moduleStatusTone(m.status) !== "green");
   const clientSpecific = matrixRules.filter((r) => r.client !== "Tous");

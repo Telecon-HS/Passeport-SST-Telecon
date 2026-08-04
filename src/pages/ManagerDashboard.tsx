@@ -1,4 +1,3 @@
-import { useApp } from "@/lib/app-context";
 import { employees } from "@/data/employees";
 import { authorizations } from "@/data/authorizations";
 import { matrixRules } from "@/data/matrixRules";
@@ -26,9 +25,7 @@ function groupAvg<T>(items: T[], keyFn: (t: T) => string, valFn: (t: T) => numbe
 }
 
 export function ManagerDashboard() {
-  const { navigateToPassport } = useApp();
   const avgCompliance = Math.round(employees.reduce((s, e) => s + e.compliance, 0) / employees.length);
-  const notAuthorized = employees.filter((e) => e.globalStatus === "Non autorisé").length;
   const authorized = employees.filter((e) => e.globalStatus === "Autorisé").length;
 
   const byBU = groupAvg(employees, (e) => e.businessUnit, (e) => e.compliance).sort((a, b) => b.value - a.value);

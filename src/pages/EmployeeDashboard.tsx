@@ -10,7 +10,7 @@ import { StatusBadge } from "@/components/shared/StatusBadge";
 import { TrainingModuleCard } from "@/components/shared/TrainingModuleCard";
 import { AuthorizationCard } from "@/components/shared/AuthorizationCard";
 import { OnboardingTimeline } from "@/components/shared/OnboardingTimeline";
-import { trainingStateTone, psfceTone, psfceLabel } from "@/lib/status";
+import { psfceTone, psfceLabel } from "@/lib/status";
 import { GraduationCap, ClipboardCheck, ShieldCheck, AlertTriangle, CreditCard, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
