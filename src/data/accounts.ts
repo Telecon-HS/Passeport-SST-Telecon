@@ -20,7 +20,7 @@ export const accounts: Account[] = [
     role: "Employé",
     employeeId: "EMP001",
     displayName: "Alex T.",
-    title: "Monteur — Infra",
+    title: "Monteur — Infrastructure QC",
     scope: "self",
   },
   {
@@ -29,7 +29,7 @@ export const accounts: Account[] = [
     role: "Superviseur",
     employeeId: "EMP004",
     displayName: "Jordan L.",
-    title: "Superviseur — Infra",
+    title: "Superviseur — Infrastructure QC",
     scope: "team",
   },
   {
@@ -38,7 +38,7 @@ export const accounts: Account[] = [
     role: "Superviseur",
     employeeId: "EMP012",
     displayName: "Marc-André S.",
-    title: "Superviseur — IR",
+    title: "Superviseur — I&R Ontario",
     scope: "team",
   },
   {

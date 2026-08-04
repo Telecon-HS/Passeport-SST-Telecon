@@ -35,15 +35,15 @@ export function PassportCard({ employee }: { employee: Employee }) {
         <div className="flex items-center gap-2 text-white/85">
           <Building2 className="h-3.5 w-3.5 text-tc-teal" />
           <div>
-            <div className="text-white/50">BU</div>
+            <div className="text-white/50">Business Unit</div>
             <div className="font-medium">{employee.businessUnit}</div>
           </div>
         </div>
         <div className="flex items-center gap-2 text-white/85">
           <MapPin className="h-3.5 w-3.5 text-tc-teal" />
           <div>
-            <div className="text-white/50">Province</div>
-            <div className="font-medium">{employee.province}</div>
+            <div className="text-white/50">Région</div>
+            <div className="font-medium">{employee.region} · {employee.province}</div>
           </div>
         </div>
         <div className="flex items-center gap-2 text-white/85">

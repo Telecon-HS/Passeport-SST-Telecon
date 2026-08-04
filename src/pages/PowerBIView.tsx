@@ -1,4 +1,4 @@
-import { employees } from "@/data/employees";
+import { useApp } from "@/lib/app-context";
 import { authorizations } from "@/data/authorizations";
 import { matrixRules } from "@/data/matrixRules";
 import { PowerBIWidget } from "@/components/shared/PowerBIWidget";
@@ -21,16 +21,17 @@ const trend = [
 ];
 
 export function PowerBIView() {
-  const [province, setProvince] = useState("Tous");
-  const provinces = Array.from(new Set(employees.map((e) => e.province))).sort();
-  const scoped = province === "Tous" ? employees : employees.filter((e) => e.province === province);
+  const { visibleEmployees: employees } = useApp();
+  const [region, setRegion] = useState("Tous");
+  const regionList = Array.from(new Set(employees.map((e) => e.region))).sort();
+  const scoped = region === "Tous" ? employees : employees.filter((e) => e.region === region);
   const avgCompliance = Math.round(scoped.reduce((s, e) => s + e.compliance, 0) / (scoped.length || 1));
 
-  const byClient = Array.from(new Set(employees.map((e) => e.client).filter(Boolean))).map((c) => ({
-    name: c as string,
+  const byBU = Array.from(new Set(scoped.map((e) => e.businessUnit))).map((c) => ({
+    name: c,
     value: Math.round(
-      employees.filter((e) => e.client === c).reduce((s, e) => s + e.compliance, 0) /
-        employees.filter((e) => e.client === c).length
+      scoped.filter((e) => e.businessUnit === c).reduce((s, e) => s + e.compliance, 0) /
+        scoped.filter((e) => e.businessUnit === c).length
     ),
   }));
 
@@ -51,11 +52,11 @@ export function PowerBIView() {
             <p className="text-sm text-slate-500">Simulation de tableau de bord connecté à SharePoint / Forms / eCompliance.</p>
           </div>
         </div>
-        <Select value={province} onValueChange={setProvince}>
-          <SelectTrigger className="h-9 w-40 border-tc-border text-sm"><SelectValue placeholder="Province" /></SelectTrigger>
+        <Select value={region} onValueChange={setRegion}>
+          <SelectTrigger className="h-9 w-44 border-tc-border text-sm"><SelectValue placeholder="Région" /></SelectTrigger>
           <SelectContent>
-            <SelectItem value="Tous">Toutes provinces</SelectItem>
-            {provinces.map((p) => <SelectItem key={p} value={p}>{p}</SelectItem>)}
+            <SelectItem value="Tous">Toutes régions</SelectItem>
+            {regionList.map((r) => <SelectItem key={r} value={r}>{r}</SelectItem>)}
           </SelectContent>
         </Select>
       </div>
@@ -95,9 +96,9 @@ export function PowerBIView() {
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <PowerBIWidget title="Conformité par client" subtitle="Moyenne par compte">
+        <PowerBIWidget title="Conformité par Business Unit" subtitle="Moyenne par BU">
           <ResponsiveContainer width="100%" height={200}>
-            <BarChart data={byClient} margin={{ left: -20 }}>
+            <BarChart data={byBU} margin={{ left: -20 }}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#EEF2F6" />
               <XAxis dataKey="name" tick={{ fontSize: 10, fill: "#64748B" }} axisLine={false} tickLine={false} interval={0} angle={-15} textAnchor="end" height={50} />
               <YAxis domain={[0, 100]} tick={{ fontSize: 11, fill: "#64748B" }} axisLine={false} tickLine={false} />

@@ -31,7 +31,7 @@ export function ManagerDashboard() {
   const authorized = employees.filter((e) => e.globalStatus === "Autorisé").length;
 
   const byBU = groupAvg(employees, (e) => e.businessUnit, (e) => e.compliance).sort((a, b) => b.value - a.value);
-  const byProvince = groupAvg(employees, (e) => e.province, (e) => e.compliance).sort((a, b) => b.value - a.value);
+  const byRegion = groupAvg(employees, (e) => e.region, (e) => e.compliance).sort((a, b) => b.value - a.value);
 
   const statusCounts = ["Autorisé", "Sous supervision", "Non autorisé", "Expiré"].map((s) => ({
     name: s,
@@ -92,9 +92,9 @@ export function ManagerDashboard() {
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-        <PowerBIWidget title="Conformité par province" subtitle="Effectif actif">
+        <PowerBIWidget title="Conformité par région" subtitle="QC · ON · West · USA">
           <ResponsiveContainer width="100%" height={200}>
-            <BarChart data={byProvince} layout="vertical" margin={{ left: 10 }}>
+            <BarChart data={byRegion} layout="vertical" margin={{ left: 10 }}>
               <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#EEF2F6" />
               <XAxis type="number" domain={[0, 100]} tick={{ fontSize: 11, fill: "#64748B" }} axisLine={false} tickLine={false} />
               <YAxis type="category" dataKey="name" tick={{ fontSize: 11, fill: "#64748B" }} axisLine={false} tickLine={false} width={32} />

@@ -117,6 +117,42 @@ Mot de passe commun : `Telecon2026`.
 > Microsoft Entra ID pour rester aligné avec l'écosystème Telecon) et un filtrage des données
 > côté serveur, pas seulement dans l'interface.
 
+## Référentiel organisationnel
+
+Hiérarchie à trois niveaux (`src/data/organization.ts`), issue des programmes d'orientation SST
+Telecon (HSE-00, HSE-800) :
+
+**Niveau 1 — Business Unit**
+
+| BU | Portée |
+|---|---|
+| Infrastructure | Excavation, daylighting, électricité télécom, TCP, travaux civils, FTTH, aérien/souterrain |
+| I&R | Installation, réparation, travaux terrain télécommunications |
+| Structured Cabling | Fibre, cuivre, Wi-Fi, DAS, AV, sécurité, centres de données |
+| Design | Conception, dessin technique, ingénierie réseaux, arpentage |
+| Locate | Localisation d'infrastructures, utility locating (Promark) |
+| Warehouse | Entrepôt, réception, inventaire, matériel |
+
+**Niveau 2 — Région** : QC · ON · West · USA (dérivée de la province).
+
+**Niveau 3 — Poste** : Monteur, Technicien, Localisateur, Arpenteur, Dessinateur CAD,
+Contremaître, Superviseur, Gestionnaire, Magasinier.
+
+Chaîne complète visée : `BU → Région → Poste → Client → Projet → Formation → TQT → PSFCE → Autorisations`.
+
+Les feuilles Excel utilisent des libellés abrégés hérités (`Infra`, `IR`, `Câblage structuré`,
+`Opérations régionales`…). `normalizeBusinessUnit()` et `matchesBusinessUnit()` les rattachent aux
+BU canoniques pour garder les croisements cohérents entre la matrice et les dossiers employés.
+
+### Points à confirmer
+
+- Les BU corporatives (`Home Connectivity`, `Turnkey`, `Design USA`) ne sont pas modélisées :
+  elles relèvent de la gouvernance, pas des parcours de formation SST.
+- `Wireless` figure au référentiel Excel mais pas dans la liste opérationnelle consolidée :
+  les dossiers concernés sont rattachés à `I&R` — à valider.
+- Les régions Atlantique (NB, NS, PE, NL) et les codes internes (TDU, TDI, AGIR, Questzone,
+  SC360) ne sont pas couverts.
+
 ## Persistance des données
 
 Les modifications faites dans l'application sont conservées dans le **stockage local du

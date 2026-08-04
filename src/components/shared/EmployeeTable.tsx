@@ -15,7 +15,7 @@ export function EmployeeTable({ employees }: { employees: Employee[] }) {
           <TableRow className="bg-slate-50/70 hover:bg-slate-50/70">
             <TableHead className="text-xs font-semibold uppercase tracking-wide text-slate-500">Employé</TableHead>
             <TableHead className="text-xs font-semibold uppercase tracking-wide text-slate-500">Poste / BU</TableHead>
-            <TableHead className="text-xs font-semibold uppercase tracking-wide text-slate-500">Province</TableHead>
+            <TableHead className="text-xs font-semibold uppercase tracking-wide text-slate-500">Région</TableHead>
             <TableHead className="text-xs font-semibold uppercase tracking-wide text-slate-500">Conformité</TableHead>
             <TableHead className="text-xs font-semibold uppercase tracking-wide text-slate-500">Statut</TableHead>
             <TableHead className="w-8" />
@@ -43,7 +43,7 @@ export function EmployeeTable({ employees }: { employees: Employee[] }) {
                 <div className="text-sm text-tc-text">{emp.position}</div>
                 <div className="text-xs text-slate-500">{emp.businessUnit}</div>
               </TableCell>
-              <TableCell className="text-sm text-slate-600">{emp.province}</TableCell>
+              <TableCell><div className="text-sm text-tc-text">{emp.region}</div><div className="text-xs text-slate-500">{emp.province}</div></TableCell>
               <TableCell className="w-40">
                 <TrainingProgressBar value={emp.compliance} size="sm" />
               </TableCell>

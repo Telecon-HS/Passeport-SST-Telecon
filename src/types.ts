@@ -27,6 +27,8 @@ export interface Employee {
   position: string;
   department: string;
   businessUnit: string;
+  division?: string;
+  region: string;
   province: string;
   client?: string;
   manager: string;
