@@ -33,7 +33,7 @@ export const businessUnitDivisions: Partial<Record<BusinessUnit, string[]>> = {
 };
 
 /** Niveau 2 — Régions. */
-export const regions = ["QC", "ON", "West", "USA"] as const;
+export const regions = ["QC", "ON", "West", "Atlantique", "USA"] as const;
 export type Region = (typeof regions)[number];
 
 /** Rattachement province → région. */
@@ -41,6 +41,7 @@ const provinceToRegion: Record<string, Region> = {
   QC: "QC",
   ON: "ON",
   AB: "West", BC: "West", SK: "West", MB: "West",
+  NB: "Atlantique", NS: "Atlantique", PE: "Atlantique", NL: "Atlantique",
   US: "USA",
 };
 

@@ -43,7 +43,7 @@ L'application simule 5 rôles, chacun avec son propre point d'entrée et sa navi
 
 | Rôle | Écrans principaux |
 |---|---|
-| **Employé** | Tableau de bord personnel, Passeport numérique, Centre de formation |
+| **Employé** | Accueil, Tableau de bord personnel, Passeport numérique, Centre de formation |
 | **Superviseur** | Tableau de bord équipe, PSFCE, Passeport numérique, Matrice, Centre de formation |
 | **Gestionnaire** | Tableau de bord gestion, Matrice, Vue Power BI, Bibliothèque de preuves |
 | **PASS SST** | Tableau de bord PASS SST, Matrice de formation, Centre de formation, Bibliothèque de preuves, Vue Power BI |
@@ -133,7 +133,7 @@ Telecon (HSE-00, HSE-800) :
 | Locate | Localisation d'infrastructures, utility locating (Promark) |
 | Warehouse | Entrepôt, réception, inventaire, matériel |
 
-**Niveau 2 — Région** : QC · ON · West · USA (dérivée de la province).
+**Niveau 2 — Région** : QC · ON · West · Atlantique · USA (dérivée de la province).
 
 **Niveau 3 — Poste** : Monteur, Technicien, Localisateur, Arpenteur, Dessinateur CAD,
 Contremaître, Superviseur, Gestionnaire, Magasinier.
@@ -150,8 +150,8 @@ BU canoniques pour garder les croisements cohérents entre la matrice et les dos
   elles relèvent de la gouvernance, pas des parcours de formation SST.
 - `Wireless` figure au référentiel Excel mais pas dans la liste opérationnelle consolidée :
   les dossiers concernés sont rattachés à `I&R` — à valider.
-- Les régions Atlantique (NB, NS, PE, NL) et les codes internes (TDU, TDI, AGIR, Questzone,
-  SC360) ne sont pas couverts.
+- Les codes internes (TDU, TDI, AGIR, Questzone, SC360, Marcomm) ne sont pas modélisés :
+  ils relèvent des feuilles de temps, pas des parcours de formation SST.
 
 ## Persistance des données
 

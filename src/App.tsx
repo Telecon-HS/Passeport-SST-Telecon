@@ -3,6 +3,7 @@ import { DataStoreProvider } from "@/lib/data-store";
 import { AppProvider, useApp } from "@/lib/app-context";
 import { AppShell } from "@/components/layout/AppShell";
 import { Login } from "@/pages/Login";
+import { Home } from "@/pages/Home";
 import { EmployeeDashboard } from "@/pages/EmployeeDashboard";
 import { DigitalPassport } from "@/pages/DigitalPassport";
 import { SupervisorDashboard } from "@/pages/SupervisorDashboard";
@@ -39,6 +40,7 @@ function Screens() {
   }
 
   switch (screen) {
+    case "home": return <Home />;
     case "employeeDashboard": return <EmployeeDashboard />;
     case "passport": return <DigitalPassport />;
     case "supervisorDashboard": return <SupervisorDashboard />;
@@ -51,7 +53,7 @@ function Screens() {
     case "powerbi": return <PowerBIView />;
     case "evidenceLibrary": return <EvidenceLibrary />;
     case "activity": return <ActivityJournal />;
-    default: return <EmployeeDashboard />;
+    default: return <Home />;
   }
 }
 

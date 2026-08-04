@@ -127,6 +127,27 @@ export const employees: Employee[] = [
     compliance: 89, photoInitials: "SR", jobFamily: "IR",
     mintzStatus: "Complété", drivingRecordStatus: "Complété", itAccess: true, microsoftAccount: true, onboardingSent: true,
   },
+  {
+    id: "EMP019", name: "Gabriel D.", employeeNumber: "TC-40310", position: "Technicien",
+    department: "I&R", businessUnit: "I&R", region: "Atlantique", province: "NB", client: "Bell",
+    manager: "Marc-André S.", startDate: "2026-04-13", globalStatus: "Sous supervision",
+    compliance: 61, photoInitials: "GD", jobFamily: "IR",
+    mintzStatus: "Complété", drivingRecordStatus: "Complété", itAccess: true, microsoftAccount: true, onboardingSent: true,
+  },
+  {
+    id: "EMP020", name: "Chloé M.", employeeNumber: "TC-39501", position: "Localisateur",
+    department: "Locate", businessUnit: "Locate", division: "Promark Utility Services", region: "Atlantique", province: "NS", client: "Municipalité",
+    manager: "Nadia B.", startDate: "2025-08-11", globalStatus: "Autorisé",
+    compliance: 87, photoInitials: "CM", jobFamily: "Localisation",
+    mintzStatus: "Complété", drivingRecordStatus: "Complété", itAccess: true, microsoftAccount: true, onboardingSent: true,
+  },
+  {
+    id: "EMP021", name: "Dylan P.", employeeNumber: "TC-40320", position: "Dessinateur CAD",
+    department: "Design", businessUnit: "Design", division: "Design USA", region: "USA", province: "US", client: "Client commercial",
+    manager: "Nadia B.", startDate: "2026-02-02", globalStatus: "Autorisé",
+    compliance: 92, photoInitials: "DP", jobFamily: "Conception CAD",
+    mintzStatus: "Complété", drivingRecordStatus: "Complété", itAccess: true, microsoftAccount: true, onboardingSent: true,
+  },
 ];
 
 export const employeeById = (id: string) => employees.find((e) => e.id === id);

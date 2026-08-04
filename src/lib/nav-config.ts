@@ -11,6 +11,7 @@ import {
   MonitorSmartphone,
   FolderCheck,
   History,
+  Home,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import type { Role } from "@/types";
@@ -25,6 +26,7 @@ export interface NavItem {
 }
 
 export const navItems: NavItem[] = [
+  { id: "home", label: "Accueil", icon: Home, roles: ["Employé", "Superviseur", "Gestionnaire", "PASS SST", "RH"], section: "principal" },
   { id: "employeeDashboard", label: "Mon tableau de bord", icon: LayoutGrid, roles: ["Employé"], section: "principal" },
   { id: "passport", label: "Passeport numérique", icon: CreditCard, roles: ["Employé", "Superviseur", "Gestionnaire", "PASS SST", "RH"], section: "principal" },
   { id: "supervisorDashboard", label: "Tableau de bord équipe", icon: Users, roles: ["Superviseur"], section: "principal" },

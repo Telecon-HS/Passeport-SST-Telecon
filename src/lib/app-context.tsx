@@ -5,6 +5,7 @@ import { useDataStore } from "./data-store";
 import { employees } from "@/data/employees";
 
 export type ScreenId =
+  | "home"
   | "employeeDashboard"
   | "passport"
   | "supervisorDashboard"
@@ -19,11 +20,11 @@ export type ScreenId =
   | "activity";
 
 const defaultScreenByRole: Record<Role, ScreenId> = {
-  "Employé": "employeeDashboard",
-  "Superviseur": "supervisorDashboard",
-  "Gestionnaire": "managerDashboard",
-  "PASS SST": "passsstDashboard",
-  "RH": "hrDashboard",
+  "Employé": "home",
+  "Superviseur": "home",
+  "Gestionnaire": "home",
+  "PASS SST": "home",
+  "RH": "home",
 };
 
 interface Persona {
