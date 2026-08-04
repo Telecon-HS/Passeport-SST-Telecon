@@ -170,6 +170,19 @@ BU + Poste + Région
 Le Passeport numérique affiche ce profil requis, et l'état de formation de chaque employé est
 dérivé de ses modules requis plutôt que du catalogue complet.
 
+### Profil de visiteur de base (repli)
+
+Lorsqu'un couple **BU + Poste** n'est pas encore couvert par une règle, la règle **R-000
+« Visiteur / profil de base »** s'applique automatiquement :
+
+- modules minimaux : `ORI-001`, `SRI-001`, `WHMIS-001`, `EMERG-001` ;
+- aucun PSFCE ;
+- autorisation limitée à un **accès site accompagné, sans tâche critique**, validée par le
+  superviseur d'accueil.
+
+Le passeport signale visiblement que ce repli est appliqué, pour que le PASS SST sache qu'une
+règle de poste reste à créer. Aucun dossier ne se retrouve donc sans exigence SST définie.
+
 Sources de la matrice : SSE-800 (orientation et formation), SSE-801 (jeunes et nouveaux
 travailleurs), SSE-203 (supervision compétente), documents Enterprise Structured Cabling et
 Livre du localisateur. Toutes les règles sont au statut **« À valider »** — la liste officielle

@@ -4,7 +4,7 @@ import { employeeById } from "@/data/employees";
 import { recordsForEmployee } from "@/data/trainingRecords";
 import { trainingCatalog } from "@/data/trainingCatalog";
 import { useDataStore } from "@/lib/data-store";
-import { rulesForEmployee, psfceRequirementFor, fieldCompetenciesFor, targetAuthorizationsFor } from "@/lib/matrix-engine";
+import { usesVisitorProfile, psfceRequirementFor, fieldCompetenciesFor, targetAuthorizationsFor } from "@/lib/matrix-engine";
 import { evidenceForEmployee } from "@/data/evidence";
 import { PassportCard } from "@/components/shared/PassportCard";
 import { StatusBadge } from "@/components/shared/StatusBadge";
@@ -161,12 +161,13 @@ export function DigitalPassport() {
             <p className="mt-0.5 text-xs text-slate-500">
               {employee.businessUnit} · {employee.position}
             </p>
-            {rulesForEmployee(employee).length === 0 ? (
-              <p className="mt-3 text-xs text-tc-orange">
-                Aucune règle de matrice ne correspond encore à ce poste — à compléter par le PASS SST.
-              </p>
-            ) : (
-              <>
+            {usesVisitorProfile(employee) && (
+              <div className="mt-2 rounded-lg border border-tc-orange/25 bg-tc-orange/[0.06] px-2.5 py-2 text-[11px] leading-relaxed text-tc-orange">
+                <span className="font-semibold">Profil de visiteur de base appliqué.</span> Ce poste
+                n'est pas encore couvert par une règle de matrice : accès accompagné uniquement,
+                aucune tâche critique autorisée. À compléter par le PASS SST.
+              </div>
+            )}
                 <div className="mt-3 flex items-center justify-between border-b border-tc-border/60 pb-2 text-xs">
                   <span className="text-slate-500">PSFCE requis</span>
                   <span className="font-medium text-tc-text">{psfceRequirementFor(employee)}</span>
@@ -195,8 +196,6 @@ export function DigitalPassport() {
                     ))}
                   </ul>
                 </div>
-              </>
-            )}
           </section>
 
           <section className="rounded-2xl border border-tc-border bg-white p-5 shadow-sm">

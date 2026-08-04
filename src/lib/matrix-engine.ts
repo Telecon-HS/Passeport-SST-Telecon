@@ -8,14 +8,35 @@ export function ruleCoversRegion(rule: MatrixRule, region: string): boolean {
   return rule.regions.split("/").map((r) => r.trim()).includes(region);
 }
 
-/** Règles de la matrice applicables à un employé (BU + poste + région). */
-export function rulesForEmployee(employee: Employee): MatrixRule[] {
+/** Identifiant du profil de repli appliqué aux postes non encore couverts. */
+export const VISITOR_RULE_ID = "R-000";
+
+export const visitorRule = matrixRules.find((r) => r.id === VISITOR_RULE_ID)!;
+
+/** Règles explicitement définies pour ce poste (sans repli). */
+export function explicitRulesForEmployee(employee: Employee): MatrixRule[] {
   return matrixRules.filter(
     (r) =>
+      r.id !== VISITOR_RULE_ID &&
       r.bu === employee.businessUnit &&
       r.position === employee.position &&
       ruleCoversRegion(r, employee.region)
   );
+}
+
+/**
+ * Règles applicables à un employé. Si aucun poste ne correspond encore à la matrice,
+ * le profil de visiteur de base s'applique : orientation minimale, accès accompagné,
+ * aucune tâche critique autorisée.
+ */
+export function rulesForEmployee(employee: Employee): MatrixRule[] {
+  const explicit = explicitRulesForEmployee(employee);
+  return explicit.length > 0 ? explicit : [visitorRule];
+}
+
+/** Vrai si l'employé est couvert par le profil de repli plutôt qu'une règle de poste. */
+export function usesVisitorProfile(employee: Employee): boolean {
+  return explicitRulesForEmployee(employee).length === 0;
 }
 
 /**
@@ -51,10 +72,8 @@ export function targetAuthorizationsFor(employee: Employee): {
 export function psfceRequirementFor(employee: Employee): string {
   const rules = rulesForEmployee(employee);
   if (rules.some((r) => r.psfceRequired === "Oui")) return "Oui";
-  if (rules.some((r) => r.psfceRequired.startsWith("Selon"))) {
-    return rules.find((r) => r.psfceRequired.startsWith("Selon"))!.psfceRequired;
-  }
-  return rules.length ? "Non" : "À déterminer";
+  const conditional = rules.find((r) => r.psfceRequired.startsWith("Selon"));
+  return conditional ? conditional.psfceRequired : "Non";
 }
 
 /** Compétences terrain à évaluer pour le poste. */

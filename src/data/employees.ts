@@ -87,7 +87,7 @@ export const employees: Employee[] = [
   },
   {
     id: "EMP013", name: "Nadia B.", employeeNumber: "TC-29040", position: "Superviseur localisation",
-    department: "Design", businessUnit: "Design CAD", division: "Design Canada", region: "QC", province: "QC", client: "TELUS",
+    department: "Locate", businessUnit: "Locate", division: "Promark Utility Services", region: "QC", province: "QC", client: "TELUS",
     manager: "Marie-Ève F.", startDate: "2022-11-21", globalStatus: "Autorisé",
     compliance: 97, photoInitials: "NB", jobFamily: "Géomètres Design",
     mintzStatus: "Complété", drivingRecordStatus: "Complété", itAccess: true, microsoftAccount: true, onboardingSent: true,
@@ -147,6 +147,13 @@ export const employees: Employee[] = [
     manager: "Nadia B.", startDate: "2026-02-02", globalStatus: "Autorisé",
     compliance: 92, photoInitials: "DP", jobFamily: "Conception CAD",
     mintzStatus: "Complété", drivingRecordStatus: "Complété", itAccess: true, microsoftAccount: true, onboardingSent: true,
+  },
+  {
+    id: "EMP022", name: "Ravi S.", employeeNumber: "TC-40330", position: "Technicien AV",
+    department: "Structured Cabling", businessUnit: "Structured Cabling", region: "ON", province: "ON", client: "Client commercial",
+    manager: "Marc-André S.", startDate: "2026-07-13", globalStatus: "Non autorisé",
+    compliance: 35, photoInitials: "RS", jobFamily: "Câblage structuré",
+    mintzStatus: "Complété", drivingRecordStatus: "En cours", itAccess: true, microsoftAccount: true, onboardingSent: true,
   },
 ];
 
