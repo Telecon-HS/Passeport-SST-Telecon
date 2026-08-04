@@ -47,7 +47,7 @@ export function FilterPanel({
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="Tous">{f.label} : Tous</SelectItem>
-            {f.options.map((opt) => (
+            {f.options.filter((opt) => opt !== "Tous").map((opt) => (
               <SelectItem key={opt} value={opt}>
                 {opt}
               </SelectItem>

@@ -1,18 +1,20 @@
 import { useMemo, useState } from "react";
-import { trainingCatalog, categoryOrder } from "@/data/trainingCatalog";
+import { categoryOrder } from "@/data/trainingCatalog";
+import { useResourceEditing } from "@/pages/ResourceManager";
 import { TrainingModuleCard } from "@/components/shared/TrainingModuleCard";
 import { FilterPanel } from "@/components/shared/FilterPanel";
 import { GraduationCap, Info } from "lucide-react";
 
 export function TrainingCenter() {
+  const { trainingCatalogWithOverrides: trainingCatalog } = useResourceEditing();
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("Tous");
   const [language, setLanguage] = useState("Tous");
   const [bu, setBu] = useState("Tous");
   const [tqt, setTqt] = useState("Tous");
 
-  const buOptions = useMemo(() => Array.from(new Set(trainingCatalog.flatMap((m) => m.businessUnits))).sort(), []);
-  const tqtOptions = useMemo(() => Array.from(new Set(trainingCatalog.flatMap((m) => m.tqt))).filter(Boolean).sort(), []);
+  const buOptions = useMemo(() => Array.from(new Set(trainingCatalog.flatMap((m) => m.businessUnits))).sort(), [trainingCatalog]);
+  const tqtOptions = useMemo(() => Array.from(new Set(trainingCatalog.flatMap((m) => m.tqt))).filter(Boolean).sort(), [trainingCatalog]);
 
   const filtered = trainingCatalog.filter((m) => {
     if (search && !m.title.toLowerCase().includes(search.toLowerCase()) && !m.id.toLowerCase().includes(search.toLowerCase())) return false;

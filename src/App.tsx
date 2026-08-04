@@ -16,6 +16,8 @@ import { TrainingMatrix } from "@/pages/TrainingMatrix";
 import { PowerBIView } from "@/pages/PowerBIView";
 import { EvidenceLibrary } from "@/pages/EvidenceLibrary";
 import { ActivityJournal } from "@/pages/ActivityJournal";
+import { ResourceManager } from "@/pages/ResourceManager";
+import { PathBuilder } from "@/pages/PathBuilder";
 import { navItems } from "@/lib/nav-config";
 import { Toaster } from "@/components/ui/toaster";
 import { ShieldAlert } from "lucide-react";
@@ -53,6 +55,8 @@ function Screens() {
     case "powerbi": return <PowerBIView />;
     case "evidenceLibrary": return <EvidenceLibrary />;
     case "activity": return <ActivityJournal />;
+    case "resourceManager": return <ResourceManager />;
+    case "pathBuilder": return <PathBuilder />;
     default: return <Home />;
   }
 }

@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ShieldHalf, LogIn, AlertCircle, Info } from "lucide-react";
 import { isPersistent } from "@/lib/storage";
+import { TeleconLogo } from "@/components/shared/TeleconLogo";
 
 export function Login() {
   const { login } = useAuth();
@@ -72,6 +73,7 @@ export function Login() {
       {/* Volet connexion */}
       <div className="flex flex-1 items-center justify-center p-6 lg:p-12">
         <div className="w-full max-w-sm">
+          <TeleconLogo className="mb-6 h-7" />
           <h2 className="font-display text-2xl font-bold text-tc-navy">Connexion</h2>
           <p className="mt-1 text-sm text-slate-500">Accédez à votre espace selon votre rôle.</p>
 

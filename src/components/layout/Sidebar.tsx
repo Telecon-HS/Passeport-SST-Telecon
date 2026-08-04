@@ -2,6 +2,7 @@ import { useApp } from "@/lib/app-context";
 import { navItems } from "@/lib/nav-config";
 import { cn } from "@/lib/utils";
 import { ShieldHalf } from "lucide-react";
+import { TeleconLogo } from "@/components/shared/TeleconLogo";
 
 export function Sidebar() {
   const { role, screen, setScreen } = useApp();
@@ -17,7 +18,7 @@ export function Sidebar() {
         </div>
         <div className="leading-tight">
           <div className="font-display text-sm font-bold text-white">Passeport SST</div>
-          <div className="text-[11px] font-medium text-white/50">Telecon</div>
+          <TeleconLogo variant="dark" className="mt-1" />
         </div>
       </div>
 

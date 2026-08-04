@@ -185,6 +185,23 @@ le lien vers `support.telecon.ca`.
 | Traductions à vérifier | Quiz `EXC-001`, `TOOLS-001` (présentation et quiz), `RESP-001` |
 | Fichiers à publier | 14 `.mp4` / `.pptx` hébergés en interne |
 
+## Rôles spécialisés
+
+### Gestionnaire du programme SST — écran « Ressources de formation »
+
+Permet de maintenir les liens de formation sans passer par le code : ajout, modification et
+suppression de ressources (vidéo, quiz, présentation, fichier), par module et par langue.
+Un filtre isole les modules dont il manque des liens. Chaque modification est tracée dans le
+journal d'activité et se répercute immédiatement dans le Centre de formation et le Passeport.
+Un bouton permet de revenir aux ressources d'origine.
+
+### Partenaire d'affaires SST (HSBP) — écran « Parcours de formation »
+
+Permet de composer un parcours selon **BU · Poste · Client · Type de projet · Région**.
+Le bouton *Proposer depuis la matrice* pré-sélectionne les modules issus des règles
+correspondantes ; la sélection reste ajustable manuellement. Les parcours enregistrés sont
+persistés et partagés.
+
 ## Moteur de matrice
 
 `src/lib/matrix-engine.ts` transforme un dossier employé en exigences concrètes, ce qui correspond

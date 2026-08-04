@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useMemo, useCallback, useEffect } from "react";
-import type { PSFCE, Authorization } from "@/types";
+import type { PSFCE, Authorization, TrainingResource, TrainingPath } from "@/types";
 import { psfceRecords as seedPsfce } from "@/data/psfce";
 import { authorizations as seedAuthorizations } from "@/data/authorizations";
 import { readValue, writeValue, removeValue, isPersistent } from "./storage";
@@ -10,6 +10,8 @@ const PSFCE_KEY = "data:psfce";
 const AUTH_KEY = "data:authorizations";
 const TRAINING_KEY = "data:trainingOverrides";
 const ACTIVITY_KEY = "data:activity";
+const RESOURCES_KEY = "data:resourceOverrides";
+const PATHS_KEY = "data:trainingPaths";
 
 export interface ActivityEntry {
   id: string;
@@ -34,10 +36,15 @@ const defaultPreferences: UserPreferences = {
 /** État d'une formation surchargé par l'utilisateur (ex. module marqué complété). */
 export type TrainingOverrides = Record<string, "Complété" | "En cours">;
 
+/** Ressources d'un module remplacées par le gestionnaire de programme SST. */
+export type ResourceOverrides = Record<string, TrainingResource[]>;
+
 interface DataStoreValue {
   psfce: PSFCE[];
   authorizations: Authorization[];
   trainingOverrides: TrainingOverrides;
+  resourceOverrides: ResourceOverrides;
+  trainingPaths: TrainingPath[];
   activity: ActivityEntry[];
   preferences: UserPreferences;
 
@@ -46,6 +53,10 @@ interface DataStoreValue {
   addPsfceObservation: (psfceId: string, note: string) => void;
   grantAuthorization: (authorizationId: string, validatedBy: string) => void;
   markTrainingComplete: (employeeId: string, moduleId: string) => void;
+  saveModuleResources: (moduleId: string, resources: TrainingResource[]) => void;
+  resetModuleResources: (moduleId: string) => void;
+  addTrainingPath: (path: TrainingPath) => void;
+  deleteTrainingPath: (pathId: string) => void;
   setPreferences: (patch: Partial<UserPreferences>) => void;
   resetAll: () => void;
   /** true tant que l'état partagé n'a pas été récupéré du serveur. */
@@ -71,6 +82,12 @@ export function DataStoreProvider({ children }: { children: React.ReactNode }) {
     readValue<TrainingOverrides>(TRAINING_KEY, {})
   );
   const [activity, setActivity] = useState<ActivityEntry[]>(() => readValue<ActivityEntry[]>(ACTIVITY_KEY, []));
+  const [resourceOverrides, setResourceOverrides] = useState<ResourceOverrides>(() =>
+    readValue<ResourceOverrides>(RESOURCES_KEY, {})
+  );
+  const [trainingPaths, setTrainingPaths] = useState<TrainingPath[]>(() =>
+    readValue<TrainingPath[]>(PATHS_KEY, [])
+  );
   const [preferences, setPreferencesState] = useState<UserPreferences>(() =>
     readValue<UserPreferences>(prefsKey, defaultPreferences)
   );
@@ -86,6 +103,8 @@ export function DataStoreProvider({ children }: { children: React.ReactNode }) {
       authorizations: Authorization[];
       trainingOverrides: TrainingOverrides;
       activity: ActivityEntry[];
+      resourceOverrides: ResourceOverrides;
+      trainingPaths: TrainingPath[];
     }>().then((remote) => {
       if (cancelled) return;
       if (remote) {
@@ -93,6 +112,8 @@ export function DataStoreProvider({ children }: { children: React.ReactNode }) {
         if (remote.authorizations) { setAuthorizations(remote.authorizations); writeValue(AUTH_KEY, remote.authorizations); }
         if (remote.trainingOverrides) { setTrainingOverrides(remote.trainingOverrides); writeValue(TRAINING_KEY, remote.trainingOverrides); }
         if (remote.activity) { setActivity(remote.activity); writeValue(ACTIVITY_KEY, remote.activity); }
+        if (remote.resourceOverrides) { setResourceOverrides(remote.resourceOverrides); writeValue(RESOURCES_KEY, remote.resourceOverrides); }
+        if (remote.trainingPaths) { setTrainingPaths(remote.trainingPaths); writeValue(PATHS_KEY, remote.trainingPaths); }
       }
       setLoading(false);
     });
@@ -107,8 +128,8 @@ export function DataStoreProvider({ children }: { children: React.ReactNode }) {
   // Réplication vers l'état partagé (différée) dès que les données métier changent.
   useEffect(() => {
     if (loading) return;
-    saveSharedState({ psfce, authorizations, trainingOverrides, activity });
-  }, [psfce, authorizations, trainingOverrides, activity, loading]);
+    saveSharedState({ psfce, authorizations, trainingOverrides, activity, resourceOverrides, trainingPaths });
+  }, [psfce, authorizations, trainingOverrides, activity, resourceOverrides, trainingPaths, loading]);
 
   const log = useCallback(
     (action: string, target: string) => {
@@ -202,6 +223,43 @@ export function DataStoreProvider({ children }: { children: React.ReactNode }) {
     [log]
   );
 
+  const saveModuleResources = useCallback((moduleId: string, resources: TrainingResource[]) => {
+    setResourceOverrides((prev) => {
+      const next = { ...prev, [moduleId]: resources };
+      writeValue(RESOURCES_KEY, next);
+      return next;
+    });
+    log("Mise à jour des ressources d'un module", moduleId);
+  }, [log]);
+
+  const resetModuleResources = useCallback((moduleId: string) => {
+    setResourceOverrides((prev) => {
+      const next = { ...prev };
+      delete next[moduleId];
+      writeValue(RESOURCES_KEY, next);
+      return next;
+    });
+    log("Ressources d'un module réinitialisées", moduleId);
+  }, [log]);
+
+  const addTrainingPath = useCallback((path: TrainingPath) => {
+    setTrainingPaths((prev) => {
+      const next = [...prev, path];
+      writeValue(PATHS_KEY, next);
+      return next;
+    });
+    log("Création d'un parcours de formation", `${path.id} — ${path.name}`);
+  }, [log]);
+
+  const deleteTrainingPath = useCallback((pathId: string) => {
+    setTrainingPaths((prev) => {
+      const next = prev.filter((p) => p.id !== pathId);
+      writeValue(PATHS_KEY, next);
+      return next;
+    });
+    log("Suppression d'un parcours de formation", pathId);
+  }, [log]);
+
   const setPreferences = useCallback(
     (patch: Partial<UserPreferences>) => {
       setPreferencesState((prev) => {
@@ -219,11 +277,15 @@ export function DataStoreProvider({ children }: { children: React.ReactNode }) {
     removeValue(AUTH_KEY);
     removeValue(TRAINING_KEY);
     removeValue(ACTIVITY_KEY);
+    removeValue(RESOURCES_KEY);
+    removeValue(PATHS_KEY);
     removeValue(prefsKey);
     setPsfce(seedPsfce);
     setAuthorizations(seedAuthorizations);
     setTrainingOverrides({});
     setActivity([]);
+    setResourceOverrides({});
+    setTrainingPaths([]);
     setPreferencesState(defaultPreferences);
   }, [prefsKey]);
 
@@ -232,6 +294,8 @@ export function DataStoreProvider({ children }: { children: React.ReactNode }) {
       psfce,
       authorizations,
       trainingOverrides,
+      resourceOverrides,
+      trainingPaths,
       activity,
       preferences,
       togglePsfceStep,
@@ -239,6 +303,10 @@ export function DataStoreProvider({ children }: { children: React.ReactNode }) {
       addPsfceObservation,
       grantAuthorization,
       markTrainingComplete,
+      saveModuleResources,
+      resetModuleResources,
+      addTrainingPath,
+      deleteTrainingPath,
       setPreferences,
       resetAll,
       loading,
@@ -247,6 +315,8 @@ export function DataStoreProvider({ children }: { children: React.ReactNode }) {
       psfce,
       authorizations,
       trainingOverrides,
+      resourceOverrides,
+      trainingPaths,
       activity,
       preferences,
       togglePsfceStep,
@@ -254,6 +324,10 @@ export function DataStoreProvider({ children }: { children: React.ReactNode }) {
       addPsfceObservation,
       grantAuthorization,
       markTrainingComplete,
+      saveModuleResources,
+      resetModuleResources,
+      addTrainingPath,
+      deleteTrainingPath,
       setPreferences,
       resetAll,
       loading,

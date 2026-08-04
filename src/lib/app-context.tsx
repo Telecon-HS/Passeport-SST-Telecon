@@ -17,13 +17,17 @@ export type ScreenId =
   | "matrix"
   | "powerbi"
   | "evidenceLibrary"
-  | "activity";
+  | "activity"
+  | "resourceManager"
+  | "pathBuilder";
 
 const defaultScreenByRole: Record<Role, ScreenId> = {
   "Employé": "home",
   "Superviseur": "home",
   "Gestionnaire": "home",
   "PASS SST": "home",
+  "HSBP": "home",
+  "Gestionnaire programme SST": "home",
   "RH": "home",
 };
 

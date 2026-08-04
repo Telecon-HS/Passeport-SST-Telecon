@@ -1,4 +1,11 @@
-export type Role = "Employé" | "Superviseur" | "Gestionnaire" | "PASS SST" | "RH";
+export type Role =
+  | "Employé"
+  | "Superviseur"
+  | "Gestionnaire"
+  | "PASS SST"
+  | "HSBP"
+  | "Gestionnaire programme SST"
+  | "RH";
 
 export type GlobalStatus = "Autorisé" | "Sous supervision" | "Non autorisé" | "Expiré";
 
@@ -155,4 +162,19 @@ export interface OnboardingCase {
   receivedDate: string;
   status: "Nouveau" | "Profil créé" | "Formation assignée" | "En validation" | "Complété";
   steps: { label: string; done: boolean; date?: string }[];
+}
+
+/** Parcours de formation composé par un partenaire d'affaires SST. */
+export interface TrainingPath {
+  id: string;
+  name: string;
+  businessUnit: string;
+  position: string;
+  client: string;
+  projectType: string;
+  region: string;
+  moduleIds: string[];
+  note: string;
+  createdBy: string;
+  createdAt: string;
 }

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useApp } from "@/lib/app-context";
 import { employeeById } from "@/data/employees";
 import { recordsForEmployee } from "@/data/trainingRecords";
-import { trainingCatalog } from "@/data/trainingCatalog";
+import { useResourceEditing } from "@/pages/ResourceManager";
 import { useDataStore } from "@/lib/data-store";
 import { usesVisitorProfile, psfceRequirementFor, fieldCompetenciesFor, targetAuthorizationsFor } from "@/lib/matrix-engine";
 import { evidenceForEmployee } from "@/data/evidence";
@@ -29,6 +29,7 @@ const stateIcon: Record<string, any> = {
 export function DigitalPassport() {
   const { focusEmployeeId, setFocusEmployeeId, role, visibleEmployees, canViewEmployee } = useApp();
   const { authorizations: allAuthorizations, psfce: allPsfce } = useDataStore();
+  const { trainingCatalogWithOverrides: trainingCatalog } = useResourceEditing();
   const [evidenceOpen, setEvidenceOpen] = useState(false);
   const resolvedId = focusEmployeeId && canViewEmployee(focusEmployeeId) ? focusEmployeeId : visibleEmployees[0]?.id;
   const employee = (resolvedId ? employeeById(resolvedId) : undefined) ?? visibleEmployees[0];
