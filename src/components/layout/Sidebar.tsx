@@ -28,7 +28,8 @@ export function Sidebar() {
 
       <div className="border-t border-white/10 p-4">
         <div className="rounded-xl bg-white/5 p-3 text-[11px] leading-relaxed text-white/50">
-          Prototype fonctionnel — données fictives. Intégrations SharePoint / Forms / eCompliance / Power BI à venir.
+          Prototype fonctionnel — données fictives.
+          <span className="mt-1 block font-mono text-[10px] text-white/35">Build {__APP_BUILD__}</span>
         </div>
       </div>
     </aside>

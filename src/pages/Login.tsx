@@ -64,6 +64,8 @@ export function Login() {
 
         <p className="relative text-[11px] text-white/40">
           Prototype — données fictives. Ne pas utiliser avec de vraies données d'employés.
+          <br />
+          <span className="font-mono">Build {__APP_BUILD__}</span>
         </p>
       </div>
 
