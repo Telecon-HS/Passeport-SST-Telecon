@@ -185,6 +185,30 @@ le lien vers `support.telecon.ca`.
 | Traductions à vérifier | Quiz `EXC-001`, `TOOLS-001` (présentation et quiz), `RESP-001` |
 | Fichiers à publier | 14 `.mp4` / `.pptx` hébergés en interne |
 
+## Bilinguisme (FR / EN)
+
+Sélecteur de langue dans l'en-tête et sur l'écran de connexion. Le choix est un **réglage de
+l'appareil** (clé `psst:lang`), pas du compte : la langue choisie avant connexion reste active
+après. Toute clé manquante retombe sur le français, puis sur la clé brute — une traduction
+absente n'affiche jamais de chaîne vide.
+
+- Dictionnaire : `src/lib/dictionary.ts` · provider : `src/lib/i18n.tsx`
+- Usage : `const t = useT();` puis `t("nav.home")`
+
+### Couverture actuelle
+
+**Traduits** : navigation, en-tête, menu utilisateur, écran de connexion, Accueil, badges de
+statut, intitulés de rôles, bandeau et pied de page.
+
+**Non encore traduits** : le corps des écrans spécialisés (Passeport, PSFCE, Matrice, Centre de
+formation, tableaux de bord, Power BI, Preuves, Journal, Ressources, Parcours). Les clés
+`passport.*`, `field.*` et `action.*` sont déjà en place dans le dictionnaire ; il reste à les
+brancher écran par écran.
+
+**Hors périmètre de l'interface** : les libellés issus des données (titres de modules, postes,
+BU, compétences, règles de matrice) proviennent des documents Telecon et restent dans leur langue
+d'origine. Les traduire supposerait une version bilingue de la matrice et du catalogue.
+
 ## Glossaire
 
 | Sigle | Signification |

@@ -8,12 +8,15 @@ import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem,
   DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { navItems, roleFullName } from "@/lib/nav-config";
+import { navItems } from "@/lib/nav-config";
+import { useT } from "@/lib/i18n";
+import { LanguageToggle } from "./LanguageToggle";
 import { cn } from "@/lib/utils";
 
 export function Header() {
   const { persona, role, screen, setScreen } = useApp();
   const { account, logout } = useAuth();
+  const t = useT();
   const visible = navItems.filter((item) => item.roles.includes(role));
   const initials = persona.displayName.split(" ").map((n) => n[0]).slice(0, 2).join("");
 
@@ -30,7 +33,7 @@ export function Header() {
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-tc-teal">
               <ShieldHalf className="h-4 w-4 text-white" />
             </div>
-            <div className="font-display text-sm font-bold">Passeport SST Telecon</div>
+            <div className="font-display text-sm font-bold">{t("app.name")} Telecon</div>
           </div>
           <nav className="p-3">
             {visible.map((item) => {
@@ -46,7 +49,7 @@ export function Header() {
                   )}
                 >
                   <Icon className="h-4 w-4" />
-                  {item.label}
+                  {t(`nav.${item.id}`)}
                 </button>
               );
             })}
@@ -56,16 +59,18 @@ export function Header() {
 
       <div className="relative hidden max-w-xs flex-1 sm:block">
         <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-        <Input placeholder="Rechercher un employé, une formation..." className="border-tc-border bg-slate-50 pl-9 text-sm" />
+        <Input placeholder={t("header.search")} className="border-tc-border bg-slate-50 pl-9 text-sm" />
       </div>
 
       <div className="flex-1" />
 
+      <LanguageToggle />
+
       <span
-        title={roleFullName[role]}
+        title={t(`roleFull.${role}`)}
         className="hidden cursor-help rounded-full border border-tc-border bg-slate-50 px-3 py-1 text-xs font-semibold text-tc-navy2 md:inline"
       >
-        {role}
+        {t(`role.${role}`)}
       </span>
 
       <DropdownMenu>
@@ -85,7 +90,7 @@ export function Header() {
             <div className="text-sm font-semibold text-tc-text">{persona.displayName}</div>
             <div className="text-xs font-normal text-slate-500">{persona.title}</div>
             <div className="mt-1 text-[11px] font-normal leading-snug text-slate-500">
-              {roleFullName[role]}
+              {t(`roleFull.${role}`)}
             </div>
             <div className="mt-1 font-mono text-[11px] font-normal text-slate-400">
               {account?.username}
@@ -94,11 +99,11 @@ export function Header() {
           <DropdownMenuSeparator />
           <DropdownMenuItem disabled className="text-xs">
             <User2 className="mr-2 h-3.5 w-3.5" />
-            Périmètre : {account?.scope === "all" ? "organisation" : account?.scope === "team" ? "mon équipe" : "mon dossier"}
+            {t("header.scope")} : {t(`scope.${account?.scope ?? "self"}`)}
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={logout} className="text-tc-red focus:text-tc-red">
-            <LogOut className="mr-2 h-4 w-4" /> Se déconnecter
+            <LogOut className="mr-2 h-4 w-4" /> {t("header.logout")}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

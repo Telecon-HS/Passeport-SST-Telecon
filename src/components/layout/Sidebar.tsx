@@ -1,11 +1,13 @@
 import { useApp } from "@/lib/app-context";
 import { navItems } from "@/lib/nav-config";
+import { useT } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import { ShieldHalf } from "lucide-react";
 import { TeleconLogo } from "@/components/shared/TeleconLogo";
 
 export function Sidebar() {
   const { role, screen, setScreen } = useApp();
+  const t = useT();
   const visible = navItems.filter((item) => item.roles.includes(role));
   const principal = visible.filter((i) => i.section === "principal");
   const outils = visible.filter((i) => i.section === "outils");
@@ -17,20 +19,20 @@ export function Sidebar() {
           <ShieldHalf className="h-4.5 w-4.5 text-white" />
         </div>
         <div className="leading-tight">
-          <div className="font-display text-sm font-bold text-white">Passeport SST</div>
+          <div className="font-display text-sm font-bold text-white">{t("app.name")}</div>
           <TeleconLogo variant="dark" className="mt-1" />
         </div>
       </div>
 
       <nav className="scrollbar-thin flex-1 overflow-y-auto px-3 py-5">
-        <SidebarGroup label="Principal" items={principal} activeId={screen} onSelect={setScreen} />
-        {outils.length > 0 && <SidebarGroup label="Outils" items={outils} activeId={screen} onSelect={setScreen} />}
+        <SidebarGroup label={t("nav.principal")} items={principal} activeId={screen} onSelect={setScreen} />
+        {outils.length > 0 && <SidebarGroup label={t("nav.outils")} items={outils} activeId={screen} onSelect={setScreen} />}
       </nav>
 
       <div className="border-t border-white/10 p-4">
         <div className="rounded-xl bg-white/5 p-3 text-[11px] leading-relaxed text-white/50">
-          Prototype fonctionnel — données fictives.
-          <span className="mt-1 block font-mono text-[10px] text-white/35">Build {__APP_BUILD__}</span>
+          {t("app.footer")}
+          <span className="mt-1 block font-mono text-[10px] text-white/35">{t("app.build")} {__APP_BUILD__}</span>
         </div>
       </div>
     </aside>
@@ -48,6 +50,8 @@ function SidebarGroup({
   activeId: string;
   onSelect: (id: any) => void;
 }) {
+  const t = useT();
+  const label2 = (id: string) => t(`nav.${id}`);
   if (items.length === 0) return null;
   return (
     <div className="mb-6">
@@ -66,7 +70,7 @@ function SidebarGroup({
               )}
             >
               <Icon className="h-4 w-4 shrink-0" />
-              <span className="truncate">{item.label}</span>
+              <span className="truncate">{label2(item.id)}</span>
             </button>
           );
         })}

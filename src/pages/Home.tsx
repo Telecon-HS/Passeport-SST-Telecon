@@ -9,15 +9,19 @@ import { globalStatusTone } from "@/lib/status";
 import { TrainingProgressBar } from "@/components/shared/TrainingProgressBar";
 import { ArrowRight, Building2, Clock, MapPin } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useT } from "@/lib/i18n";
 
-function greeting() {
+function useGreeting() {
+  const t = useT();
   const h = new Date().getHours();
-  if (h < 12) return "Bonjour";
-  if (h < 18) return "Bon après-midi";
-  return "Bonsoir";
+  if (h < 12) return t("home.greetingMorning");
+  if (h < 18) return t("home.greetingAfternoon");
+  return t("home.greetingEvening");
 }
 
 export function Home() {
+  const t = useT();
+  const greeting = useGreeting;
   const { role, persona, setScreen, visibleEmployees } = useApp();
   const { account } = useAuth();
   const { psfce, authorizations, activity } = useDataStore();
@@ -44,12 +48,7 @@ export function Home() {
           {greeting()}, {persona.displayName.split(" ")[0]}
         </h1>
         <p className="text-sm text-slate-500">
-          {persona.title} · périmètre{" "}
-          {account?.scope === "all"
-            ? "organisation"
-            : account?.scope === "team"
-            ? "mon équipe"
-            : "mon dossier"}
+          {persona.title} · {t("header.scope").toLowerCase()} {t(`scope.${account?.scope ?? "self"}`)}
         </p>
       </div>
 
@@ -62,7 +61,7 @@ export function Home() {
                 {me.photoInitials}
               </div>
               <div>
-                <div className="text-sm font-semibold text-tc-text">Mon statut SST</div>
+                <div className="text-sm font-semibold text-tc-text">{t("home.myStatus")}</div>
                 <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-500">
                   <span className="flex items-center gap-1">
                     <Building2 className="h-3 w-3" /> {me.division ?? me.businessUnit}
@@ -85,15 +84,15 @@ export function Home() {
 
       {/* Indicateurs de périmètre */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <SummaryTile label="Conformité moyenne" value={`${avgCompliance} %`} tone={avgCompliance >= 85 ? "green" : avgCompliance >= 65 ? "orange" : "red"} />
-        <SummaryTile label="PSFCE en cours" value={openPsfce} tone={openPsfce > 0 ? "teal" : "green"} />
-        <SummaryTile label="Autorisations à traiter" value={blockedAuth} tone={blockedAuth > 0 ? "orange" : "green"} />
+        <SummaryTile label={t("home.avgCompliance")} value={`${avgCompliance} %`} tone={avgCompliance >= 85 ? "green" : avgCompliance >= 65 ? "orange" : "red"} />
+        <SummaryTile label={t("home.openPsfce")} value={openPsfce} tone={openPsfce > 0 ? "teal" : "green"} />
+        <SummaryTile label={t("home.pendingAuth")} value={blockedAuth} tone={blockedAuth > 0 ? "orange" : "green"} />
       </div>
 
       {/* Accès rapides */}
       <section>
         <h2 className="mb-3 text-xs font-bold uppercase tracking-wide text-slate-400">
-          Accès rapides
+          {t("home.shortcuts")}
         </h2>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {shortcuts.map((item) => {
@@ -107,7 +106,7 @@ export function Home() {
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-tc-navy/5 text-tc-navy2">
                   <Icon className="h-4.5 w-4.5" />
                 </div>
-                <span className="flex-1 text-sm font-semibold text-tc-text">{item.label}</span>
+                <span className="flex-1 text-sm font-semibold text-tc-text">{t(`nav.${item.id}`)}</span>
                 <ArrowRight className="h-4 w-4 text-slate-300 transition-transform group-hover:translate-x-0.5 group-hover:text-tc-teal" />
               </button>
             );
@@ -120,7 +119,7 @@ export function Home() {
         {me && businessUnitScope[me.businessUnit as keyof typeof businessUnitScope] && (
           <section className="rounded-2xl border border-tc-border bg-white p-5 shadow-sm">
             <h2 className="font-display text-sm font-bold text-tc-navy">
-              Portée — {me.businessUnit}
+              {t("home.scopeOf")} — {me.businessUnit}
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-slate-600">
               {businessUnitScope[me.businessUnit as keyof typeof businessUnitScope]}
@@ -132,10 +131,10 @@ export function Home() {
         <section className="rounded-2xl border border-tc-border bg-white p-5 shadow-sm">
           <div className="mb-3 flex items-center gap-2">
             <Clock className="h-4 w-4 text-slate-400" />
-            <h2 className="font-display text-sm font-bold text-tc-navy">Dernières actions</h2>
+            <h2 className="font-display text-sm font-bold text-tc-navy">{t("home.recentActions")}</h2>
           </div>
           {activity.length === 0 ? (
-            <p className="text-sm text-slate-400">Aucune action enregistrée pour l'instant.</p>
+            <p className="text-sm text-slate-400">{t("home.noActions")}</p>
           ) : (
             <div className="space-y-2">
               {activity.slice(0, 4).map((a) => (

@@ -1,5 +1,6 @@
 import { AuthProvider, useAuth } from "@/lib/auth-context";
 import { DataStoreProvider } from "@/lib/data-store";
+import { I18nProvider } from "@/lib/i18n";
 import { AppProvider, useApp } from "@/lib/app-context";
 import { AppShell } from "@/components/layout/AppShell";
 import { Login } from "@/pages/Login";
@@ -81,8 +82,10 @@ function App() {
   return (
     <AuthProvider>
       <DataStoreProvider>
-        <Gate />
-        <Toaster />
+        <I18nProvider>
+          <Gate />
+          <Toaster />
+        </I18nProvider>
       </DataStoreProvider>
     </AuthProvider>
   );
