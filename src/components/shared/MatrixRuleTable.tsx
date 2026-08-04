@@ -14,7 +14,7 @@ export function MatrixRuleTable({ rules }: { rules: MatrixRule[] }) {
       <Table>
         <TableHeader>
           <TableRow className="bg-slate-50/70 hover:bg-slate-50/70">
-            {["Règle","BU / Région","Poste","TQT","Formations requises","PSFCE","Autorisation visée","Validation","Contrôle COR"].map((h) => (
+            {["Règle","Statut","BU / Région","Poste","TQT","Formations requises","PSFCE","Autorisation visée","Contrôle COR"].map((h) => (
               <TableHead key={h} className="text-xs font-semibold uppercase tracking-wide text-slate-500">{h}</TableHead>
             ))}
           </TableRow>
@@ -23,6 +23,14 @@ export function MatrixRuleTable({ rules }: { rules: MatrixRule[] }) {
           {rules.map((rule) => (
             <TableRow key={rule.id} className="align-top">
               <TableCell className="font-mono text-xs font-semibold text-tc-navy2">{rule.id}</TableCell>
+              <TableCell>
+                <StatusBadge
+                  label={rule.status === "Proposé — à valider" ? "Proposé" : rule.status === "Profil de base" ? "Repli" : "À valider"}
+                  tone={rule.status === "Proposé — à valider" ? "orange" : rule.status === "Profil de base" ? "gray" : "blue"}
+                  className="text-[10px]"
+                  dot={false}
+                />
+              </TableCell>
               <TableCell>
                 <div className="text-sm font-medium text-tc-text">{rule.bu}</div>
                 <div className="text-xs text-slate-500">{rule.regions}</div>
@@ -49,7 +57,6 @@ export function MatrixRuleTable({ rules }: { rules: MatrixRule[] }) {
                 <div className="text-xs text-tc-text">{rule.targetAuthorization}</div>
                 <div className="text-[11px] text-slate-400">Par défaut : {rule.defaultAuthorizationStatus}</div>
               </TableCell>
-              <TableCell className="max-w-[140px] text-xs text-slate-600">{rule.validationOwner}</TableCell>
               <TableCell className="max-w-[150px] text-xs text-slate-600">
                 {rule.corControl}
                 <div className="mt-0.5 font-mono text-[10px] text-slate-400">{rule.bpmn}</div>

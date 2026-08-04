@@ -13,6 +13,7 @@ export function TrainingMatrix() {
   const [bu, setBu] = useState("Tous");
   const [client, setClient] = useState("Tous");
   const [province, setProvince] = useState("Tous");
+  const [ruleStatus, setRuleStatus] = useState("Tous");
 
   const familyOptions = useMemo(() => Array.from(new Set(matrixRules.map((r) => r.bu))).sort(), []);
   const buOptions = useMemo(() => Array.from(new Set(matrixRules.map((r) => r.position))).sort(), []);
@@ -25,6 +26,7 @@ export function TrainingMatrix() {
     if (bu !== "Tous" && r.position !== bu) return false;
     if (client !== "Tous" && r.client !== client) return false;
     if (province !== "Tous" && r.regions !== province) return false;
+    if (ruleStatus !== "Tous" && r.status !== ruleStatus) return false;
     return true;
   });
 
@@ -56,8 +58,9 @@ export function TrainingMatrix() {
               { key: "bu", label: "Poste", options: buOptions, value: bu, onChange: setBu },
               { key: "client", label: "Client", options: clientOptions, value: client, onChange: setClient },
               { key: "province", label: "Région", options: provinceOptions, value: province, onChange: setProvince },
+              { key: "status", label: "Statut", options: ["À valider", "Proposé — à valider", "Profil de base"], value: ruleStatus, onChange: setRuleStatus },
             ]}
-            onReset={() => { setSearch(""); setFamily("Tous"); setBu("Tous"); setClient("Tous"); setProvince("Tous"); }}
+            onReset={() => { setSearch(""); setFamily("Tous"); setBu("Tous"); setClient("Tous"); setProvince("Tous"); setRuleStatus("Tous"); }}
           />
           <MatrixRuleTable rules={filtered} />
         </TabsContent>

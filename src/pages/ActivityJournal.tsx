@@ -1,5 +1,7 @@
 import { useDataStore } from "@/lib/data-store";
-import { isPersistent } from "@/lib/storage";
+
+import { getSyncMode, onSyncModeChange } from "@/lib/sync";
+import { useEffect, useState } from "react";
 import { History, RotateCcw, HardDriveDownload, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,6 +18,8 @@ function formatDate(iso: string) {
 
 export function ActivityJournal() {
   const { activity, resetAll } = useDataStore();
+  const [mode, setMode] = useState(getSyncMode());
+  useEffect(() => onSyncModeChange(setMode), []);
 
   return (
     <div className="mx-auto max-w-4xl space-y-6 px-4 py-6 sm:px-8">
@@ -59,16 +63,24 @@ export function ActivityJournal() {
       <div className="flex items-start gap-2.5 rounded-xl border border-tc-border bg-white p-4">
         <HardDriveDownload className="mt-0.5 h-4 w-4 shrink-0 text-tc-teal" />
         <div className="text-xs leading-relaxed text-slate-600">
-          {isPersistent() ? (
+          {mode === "partagé" ? (
             <>
-              Les données sont conservées dans le navigateur de cet appareil. Elles ne sont pas
-              synchronisées entre postes ni entre utilisateurs — une base de données partagée sera
-              nécessaire pour un déploiement réel.
+              <span className="font-semibold text-tc-teal">Mode partagé.</span> Les modifications
+              sont enregistrées côté serveur et visibles par tous les postes connectés au
+              prototype. Aucune authentification serveur n'est en place : à réserver aux données
+              fictives.
+            </>
+          ) : mode === "local" ? (
+            <>
+              <span className="font-semibold text-tc-orange">Mode local.</span> Le serveur d'état
+              partagé n'est pas joignable : les modifications restent dans le navigateur de cet
+              appareil et ne sont pas visibles par les autres utilisateurs.
             </>
           ) : (
             <>
-              Le stockage local est indisponible dans ce contexte : les modifications restent en
-              mémoire et seront perdues au rafraîchissement.
+              <span className="font-semibold text-tc-red">Mode mémoire.</span> Ni le serveur ni le
+              stockage local ne sont disponibles : les modifications seront perdues au
+              rafraîchissement.
             </>
           )}
         </div>

@@ -2,7 +2,8 @@ import React, { createContext, useContext, useState, useMemo, useCallback, useEf
 import type { PSFCE, Authorization } from "@/types";
 import { psfceRecords as seedPsfce } from "@/data/psfce";
 import { authorizations as seedAuthorizations } from "@/data/authorizations";
-import { readValue, writeValue, removeValue } from "./storage";
+import { readValue, writeValue, removeValue, isPersistent } from "./storage";
+import { loadSharedState, saveSharedState, clearSharedState, setMemoryMode } from "./sync";
 import { useAuth } from "./auth-context";
 
 const PSFCE_KEY = "data:psfce";
@@ -47,6 +48,8 @@ interface DataStoreValue {
   markTrainingComplete: (employeeId: string, moduleId: string) => void;
   setPreferences: (patch: Partial<UserPreferences>) => void;
   resetAll: () => void;
+  /** true tant que l'état partagé n'a pas été récupéré du serveur. */
+  loading: boolean;
 }
 
 const DataStoreContext = createContext<DataStoreValue | null>(null);
@@ -72,10 +75,40 @@ export function DataStoreProvider({ children }: { children: React.ReactNode }) {
     readValue<UserPreferences>(prefsKey, defaultPreferences)
   );
 
+  const [loading, setLoading] = useState(true);
+
+  // Hydratation : l'état partagé du serveur, s'il existe, fait autorité sur le local.
+  useEffect(() => {
+    let cancelled = false;
+    if (!isPersistent()) setMemoryMode();
+    loadSharedState<{
+      psfce: PSFCE[];
+      authorizations: Authorization[];
+      trainingOverrides: TrainingOverrides;
+      activity: ActivityEntry[];
+    }>().then((remote) => {
+      if (cancelled) return;
+      if (remote) {
+        if (remote.psfce) { setPsfce(remote.psfce); writeValue(PSFCE_KEY, remote.psfce); }
+        if (remote.authorizations) { setAuthorizations(remote.authorizations); writeValue(AUTH_KEY, remote.authorizations); }
+        if (remote.trainingOverrides) { setTrainingOverrides(remote.trainingOverrides); writeValue(TRAINING_KEY, remote.trainingOverrides); }
+        if (remote.activity) { setActivity(remote.activity); writeValue(ACTIVITY_KEY, remote.activity); }
+      }
+      setLoading(false);
+    });
+    return () => { cancelled = true; };
+  }, []);
+
   // Recharge les préférences quand l'utilisateur connecté change.
   useEffect(() => {
     setPreferencesState(readValue<UserPreferences>(prefsKey, defaultPreferences));
   }, [prefsKey]);
+
+  // Réplication vers l'état partagé (différée) dès que les données métier changent.
+  useEffect(() => {
+    if (loading) return;
+    saveSharedState({ psfce, authorizations, trainingOverrides, activity });
+  }, [psfce, authorizations, trainingOverrides, activity, loading]);
 
   const log = useCallback(
     (action: string, target: string) => {
@@ -181,6 +214,7 @@ export function DataStoreProvider({ children }: { children: React.ReactNode }) {
   );
 
   const resetAll = useCallback(() => {
+    void clearSharedState();
     removeValue(PSFCE_KEY);
     removeValue(AUTH_KEY);
     removeValue(TRAINING_KEY);
@@ -207,6 +241,7 @@ export function DataStoreProvider({ children }: { children: React.ReactNode }) {
       markTrainingComplete,
       setPreferences,
       resetAll,
+      loading,
     }),
     [
       psfce,
@@ -221,6 +256,7 @@ export function DataStoreProvider({ children }: { children: React.ReactNode }) {
       markTrainingComplete,
       setPreferences,
       resetAll,
+      loading,
     ]
   );
 

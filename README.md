@@ -183,6 +183,17 @@ Lorsqu'un couple **BU + Poste** n'est pas encore couvert par une règle, la règ
 Le passeport signale visiblement que ce repli est appliqué, pour que le PASS SST sache qu'une
 règle de poste reste à créer. Aucun dossier ne se retrouve donc sans exigence SST définie.
 
+### Statut des règles
+
+| Plage | Statut | Provenance |
+|---|---|---|
+| `R-000` | Profil de base | Repli visiteur, appliqué aux postes non couverts |
+| `R-001` → `R-028` | À valider | **Sourcées** : SSE-800, SSE-801, SSE-203, docs Enterprise / Locate |
+| `R-029` → `R-048` | Proposé — à valider | **Non sourcées** : postes cités dans les documents Telecon mais sans règle documentée, dérivés par analogie avec les postes voisins de la même BU |
+
+Les règles `R-029` à `R-048` sont une proposition de structure, pas une exigence validée.
+Elles doivent être revues par le PASS SST avant toute utilisation opérationnelle.
+
 Sources de la matrice : SSE-800 (orientation et formation), SSE-801 (jeunes et nouveaux
 travailleurs), SSE-203 (supervision compétente), documents Enterprise Structured Cabling et
 Livre du localisateur. Toutes les règles sont au statut **« À valider »** — la liste officielle
