@@ -2,7 +2,7 @@ import type { PSFCE } from "@/types";
 
 export const psfceRecords: PSFCE[] = [
   {
-    id: "PSFCE-001", employeeId: "EMP001", competency: "Excavation sécuritaire", mentor: "Olivier Bernard",
+    id: "PSFCE-001", employeeId: "EMP001", competency: "Excavation sécuritaire", mentor: "Olivier B.",
     status: "In progress", level: "Intermediate",
     observations: [
       "Respecte les distances de sécurité autour de la tranchée.",
@@ -28,7 +28,7 @@ export const psfceRecords: PSFCE[] = [
     ],
   },
   {
-    id: "PSFCE-003", employeeId: "EMP005", competency: "Signalisation et zone d'exclusion", mentor: "Jordan Lee",
+    id: "PSFCE-003", employeeId: "EMP005", competency: "Signalisation et zone d'exclusion", mentor: "Jordan L.",
     status: "In progress", level: "Beginner",
     observations: ["Bonne compréhension théorique, pratique à renforcer."],
     steps: [
@@ -39,7 +39,7 @@ export const psfceRecords: PSFCE[] = [
     ],
   },
   {
-    id: "PSFCE-004", employeeId: "EMP007", competency: "Sécurité électrique - installations IR", mentor: "Marc-André Simard",
+    id: "PSFCE-004", employeeId: "EMP007", competency: "Sécurité électrique - installations IR", mentor: "Marc-André S.",
     status: "In progress", level: "Beginner",
     observations: ["Nécessite supervision rapprochée près des sources d'énergie."],
     steps: [
@@ -50,7 +50,7 @@ export const psfceRecords: PSFCE[] = [
     ],
   },
   {
-    id: "PSFCE-005", employeeId: "EMP010", competency: "Sécurité routière et signalisation terrain", mentor: "Nadia Boucher",
+    id: "PSFCE-005", employeeId: "EMP010", competency: "Sécurité routière et signalisation terrain", mentor: "Nadia B.",
     status: "Blocked", level: "Beginner",
     observations: ["Bloqué en attente de la carte de signaleur (PCCC)."],
     steps: [
@@ -61,7 +61,7 @@ export const psfceRecords: PSFCE[] = [
     ],
   },
   {
-    id: "PSFCE-006", employeeId: "EMP015", competency: "Lecture et vérification des localisations", mentor: "Camille Roy",
+    id: "PSFCE-006", employeeId: "EMP015", competency: "Lecture et vérification des localisations", mentor: "Camille R.",
     status: "Not started", level: "Beginner",
     observations: [],
     steps: [
@@ -72,7 +72,7 @@ export const psfceRecords: PSFCE[] = [
     ],
   },
   {
-    id: "PSFCE-007", employeeId: "EMP003", competency: "Lecture et vérification des localisations", mentor: "Nadia Boucher",
+    id: "PSFCE-007", employeeId: "EMP003", competency: "Lecture et vérification des localisations", mentor: "Nadia B.",
     status: "Completed", level: "Competent",
     observations: ["Compétence démontrée de façon constante sur 3 chantiers.", "Autorisation recommandée."],
     steps: [
