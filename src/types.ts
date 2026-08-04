@@ -3,7 +3,6 @@ export type Role =
   | "Superviseur"
   | "Gestionnaire"
   | "PASS SST"
-  | "HSBP"
   | "Gestionnaire programme SST"
   | "RH";
 

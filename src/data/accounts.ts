@@ -56,7 +56,7 @@ export const accounts: Account[] = [
     role: "PASS SST",
     employeeId: null,
     displayName: "Renée D.",
-    title: "PASS SST / HSBP",
+    title: "Partenaire d'affaires SST (PASS)",
     scope: "all",
   },
   {
@@ -66,15 +66,6 @@ export const accounts: Account[] = [
     employeeId: null,
     displayName: "Jeff Van Allen",
     title: "Gestionnaire du programme de santé et sécurité",
-    scope: "all",
-  },
-  {
-    username: "sophie.b",
-    password: "Telecon2026",
-    role: "HSBP",
-    employeeId: null,
-    displayName: "Sophie B.",
-    title: "Partenaire d'affaires — Santé et sécurité",
     scope: "all",
   },
   {

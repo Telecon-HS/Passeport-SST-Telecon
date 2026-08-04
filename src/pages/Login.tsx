@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "@/lib/auth-context";
 import { accounts } from "@/data/accounts";
+import { roleFullName } from "@/lib/nav-config";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -135,7 +136,7 @@ export function Login() {
                   className="flex w-full items-center justify-between rounded-lg px-2 py-1.5 text-left text-xs hover:bg-slate-50"
                 >
                   <span className="font-mono text-slate-600">{a.username}</span>
-                  <span className="text-slate-400">{a.role}</span>
+                  <span className="text-slate-400" title={roleFullName[a.role]}>{a.role}</span>
                 </button>
               ))}
             </div>

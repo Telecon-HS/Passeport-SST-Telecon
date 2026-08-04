@@ -26,7 +26,6 @@ const defaultScreenByRole: Record<Role, ScreenId> = {
   "Superviseur": "home",
   "Gestionnaire": "home",
   "PASS SST": "home",
-  "HSBP": "home",
   "Gestionnaire programme SST": "home",
   "RH": "home",
 };

@@ -8,7 +8,7 @@ import {
   DropdownMenu, DropdownMenuContent, DropdownMenuItem,
   DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { navItems } from "@/lib/nav-config";
+import { navItems, roleFullName } from "@/lib/nav-config";
 import { cn } from "@/lib/utils";
 
 export function Header() {
@@ -61,7 +61,10 @@ export function Header() {
 
       <div className="flex-1" />
 
-      <span className="hidden rounded-full border border-tc-border bg-slate-50 px-3 py-1 text-xs font-semibold text-tc-navy2 md:inline">
+      <span
+        title={roleFullName[role]}
+        className="hidden cursor-help rounded-full border border-tc-border bg-slate-50 px-3 py-1 text-xs font-semibold text-tc-navy2 md:inline"
+      >
         {role}
       </span>
 
@@ -81,6 +84,9 @@ export function Header() {
           <DropdownMenuLabel>
             <div className="text-sm font-semibold text-tc-text">{persona.displayName}</div>
             <div className="text-xs font-normal text-slate-500">{persona.title}</div>
+            <div className="mt-1 text-[11px] font-normal leading-snug text-slate-500">
+              {roleFullName[role]}
+            </div>
             <div className="mt-1 font-mono text-[11px] font-normal text-slate-400">
               {account?.username}
             </div>

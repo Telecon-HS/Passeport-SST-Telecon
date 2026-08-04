@@ -185,6 +185,18 @@ le lien vers `support.telecon.ca`.
 | Traductions à vérifier | Quiz `EXC-001`, `TOOLS-001` (présentation et quiz), `RESP-001` |
 | Fichiers à publier | 14 `.mp4` / `.pptx` hébergés en interne |
 
+## Glossaire
+
+| Sigle | Signification |
+|---|---|
+| **PASS SST** | Partenaire d'affaires SST — équivalent français de *Health & Safety Business Partner* (**HSBP**). Un seul et même rôle. |
+| **TQT** | Tâche à quotient de tolérance (travaux à risque élevé, *STKY Work*) |
+| **PSFCE** | Programme de suivi et formation en compétence terrain |
+| **COR** | Certificate of Recognition — programme d'audit SST |
+| **BU** | Business Unit |
+
+Les intitulés complets s'affichent en infobulle sur le badge de rôle et dans le menu utilisateur.
+
 ## Rôles spécialisés
 
 ### Gestionnaire du programme SST — écran « Ressources de formation »
@@ -195,7 +207,7 @@ Un filtre isole les modules dont il manque des liens. Chaque modification est tr
 journal d'activité et se répercute immédiatement dans le Centre de formation et le Passeport.
 Un bouton permet de revenir aux ressources d'origine.
 
-### Partenaire d'affaires SST (HSBP) — écran « Parcours de formation »
+### PASS SST — écran « Parcours de formation »
 
 Permet de composer un parcours selon **BU · Poste · Client · Type de projet · Région**.
 Le bouton *Proposer depuis la matrice* pré-sélectionne les modules issus des règles
