@@ -4,11 +4,13 @@ import { trainingCatalog } from "@/data/trainingCatalog";
 import { ComplianceKpiCard } from "@/components/shared/ComplianceKpiCard";
 import { PowerBIWidget } from "@/components/shared/PowerBIWidget";
 import { StatusBadge } from "@/components/shared/StatusBadge";
+import { useT } from "@/lib/i18n";
 import { moduleStatusTone } from "@/lib/status";
 import { ClipboardList, ShieldAlert, Grid3x3, FileWarning, ArrowRight } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from "recharts";
 
 export function PassSSTDashboard() {
+  const t = useT();
   const { setScreen } = useApp();
   const totalRules = matrixRules.length;
   const toValidate = matrixRules.filter((r) => r.status === "À valider").length;
@@ -26,15 +28,15 @@ export function PassSSTDashboard() {
   return (
     <div className="mx-auto max-w-6xl space-y-6 px-4 py-6 sm:px-8">
       <div>
-        <h1 className="font-display text-2xl font-bold text-tc-navy">Tableau de bord PASS SST</h1>
-        <p className="text-sm text-slate-500">Administration de la matrice, des TQT, des formations et de la préparation COR.</p>
+        <h1 className="font-display text-2xl font-bold text-tc-navy">{t("dash.passsstTitle")}</h1>
+        <p className="text-sm text-slate-500">{t("dash.passsstSubtitle")}</p>
       </div>
 
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <ComplianceKpiCard label="Règles actives" value={totalRules} icon={Grid3x3} tone="navy" />
-        <ComplianceKpiCard label="Règles à valider" value={toValidate} icon={ClipboardList} tone="orange" />
-        <ComplianceKpiCard label="Règles avec PSFCE" value={psfceRules} icon={ShieldAlert} tone="red" />
-        <ComplianceKpiCard label="Formations à corriger" value={modulesNeedingWork.length} icon={FileWarning} tone="orange" />
+        <ComplianceKpiCard label={t("dash.activeRules")} value={totalRules} icon={Grid3x3} tone="navy" />
+        <ComplianceKpiCard label={t("dash.rulesToValidate")} value={toValidate} icon={ClipboardList} tone="orange" />
+        <ComplianceKpiCard label={t("dash.psfceRules")} value={psfceRules} icon={ShieldAlert} tone="red" />
+        <ComplianceKpiCard label={t("dash.modulesToFix")} value={modulesNeedingWork.length} icon={FileWarning} tone="orange" />
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
@@ -51,15 +53,15 @@ export function PassSSTDashboard() {
             </BarChart>
           </ResponsiveContainer>
           <button onClick={() => setScreen("matrix")} className="mt-2 flex items-center gap-1 text-xs font-semibold text-tc-teal hover:underline">
-            Ouvrir la matrice complète <ArrowRight className="h-3.5 w-3.5" />
+            {t("dash.openMatrix")} <ArrowRight className="h-3.5 w-3.5" />
           </button>
         </PowerBIWidget>
 
         <div className="lg:col-span-2 space-y-3">
           <div className="flex items-center justify-between">
-            <h2 className="font-display text-base font-bold text-tc-navy">Formations à corriger avant diffusion</h2>
+            <h2 className="font-display text-base font-bold text-tc-navy">{t("dash.fixBeforeRelease")}</h2>
             <button onClick={() => setScreen("trainingCenter")} className="flex items-center gap-1 text-xs font-semibold text-tc-teal hover:underline">
-              Centre de formation <ArrowRight className="h-3.5 w-3.5" />
+              {t("nav.trainingCenter")} <ArrowRight className="h-3.5 w-3.5" />
             </button>
           </div>
           <div className="max-h-[280px] space-y-2 overflow-y-auto scrollbar-thin pr-1">
@@ -78,7 +80,7 @@ export function PassSSTDashboard() {
 
       <div className="rounded-2xl border border-tc-border bg-white p-5 shadow-sm">
         <div className="mb-3 flex items-center justify-between">
-          <h2 className="font-display text-base font-bold text-tc-navy">Contextualisation client</h2>
+          <h2 className="font-display text-base font-bold text-tc-navy">{t("dash.clientContext")}</h2>
           <span className="text-xs text-slate-400">{clientSpecific.length} règles avec exigence client spécifique</span>
         </div>
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">

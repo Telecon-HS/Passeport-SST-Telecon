@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { FilterPanel } from "@/components/shared/FilterPanel";
 import { StatusBadge } from "@/components/shared/StatusBadge";
+import { useT } from "@/lib/i18n";
 import { moduleStatusTone } from "@/lib/status";
 import { Link2, Plus, Trash2, RotateCcw, Save, ExternalLink, AlertTriangle, CheckCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -16,6 +17,7 @@ import { cn } from "@/lib/utils";
 const kinds: ResourceKind[] = ["video", "quiz", "presentation", "fichier"];
 
 export function ResourceManager() {
+  const t = useT();
   const { trainingCatalogWithOverrides, saveModuleResources, resetModuleResources, resourceOverrides } =
     useResourceEditing();
   const { account } = useAuth();
@@ -77,10 +79,9 @@ export function ResourceManager() {
           <Link2 className="h-5 w-5" />
         </div>
         <div>
-          <h1 className="font-display text-2xl font-bold text-tc-navy">Ressources de formation</h1>
+          <h1 className="font-display text-2xl font-bold text-tc-navy">{t("res.title")}</h1>
           <p className="text-sm text-slate-500">
-            Mise à jour des liens SharePoint, YouTube et Microsoft Forms · {missingCount} ressource(s)
-            sans lien
+            {t("res.subtitle")} · {missingCount} {t("res.missing")}
           </p>
         </div>
       </div>
@@ -88,11 +89,11 @@ export function ResourceManager() {
       <FilterPanel
         search={search}
         onSearchChange={setSearch}
-        searchPlaceholder="Rechercher un module..."
+        searchPlaceholder={t("res.searchPlaceholder")}
         filters={[
           {
             key: "state",
-            label: "État",
+            label: t("field.status"),
             options: ["À compléter", "Complet"],
             value: onlyIncomplete,
             onChange: setOnlyIncomplete,
@@ -128,7 +129,7 @@ export function ResourceManager() {
                     <span className="font-mono text-[10px] font-semibold text-tc-navy2">{m.id}</span>
                     {overridden && (
                       <span className="rounded bg-tc-teal/10 px-1 text-[9px] font-semibold text-tc-teal">
-                        modifié
+                        {t("res.modified")}
                       </span>
                     )}
                   </div>
@@ -196,7 +197,7 @@ export function ResourceManager() {
 
                     <div className="mt-2 grid grid-cols-1 gap-2 sm:grid-cols-2">
                       <div>
-                        <Label className="text-[10px] text-slate-500">Lien (SharePoint, YouTube, Forms)</Label>
+                        <Label className="text-[10px] text-slate-500">{t("res.link")}</Label>
                         <div className="mt-0.5 flex items-center gap-1">
                           <Input
                             value={r.url ?? ""}
@@ -213,7 +214,7 @@ export function ResourceManager() {
                         </div>
                       </div>
                       <div>
-                        <Label className="text-[10px] text-slate-500">Fichier interne (si non publié)</Label>
+                        <Label className="text-[10px] text-slate-500">{t("res.internalFile")}</Label>
                         <Input
                           value={r.fileName ?? ""}
                           onChange={(e) => edit(i, { fileName: e.target.value })}
@@ -224,7 +225,7 @@ export function ResourceManager() {
                     </div>
 
                     <div className="mt-2">
-                      <Label className="text-[10px] text-slate-500">Réserve à signaler</Label>
+                      <Label className="text-[10px] text-slate-500">{t("res.caveat")}</Label>
                       <Input
                         value={r.caveat ?? ""}
                         onChange={(e) => edit(i, { caveat: e.target.value })}
@@ -236,7 +237,7 @@ export function ResourceManager() {
                     {!r.url && (
                       <p className="mt-2 flex items-center gap-1 text-[11px] text-tc-orange">
                         <AlertTriangle className="h-3 w-3" />
-                        Sans lien, la ressource s'affiche en grisé et n'est pas cliquable.
+                        {t("res.noLinkWarning")}
                       </p>
                     )}
                   </div>
@@ -244,14 +245,14 @@ export function ResourceManager() {
 
                 {current.length === 0 && (
                   <p className="py-6 text-center text-sm text-slate-400">
-                    Aucune ressource pour ce module.
+                    {t("res.noResources")}
                   </p>
                 )}
               </div>
 
               <div className="mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-tc-border pt-4">
                 <Button variant="outline" size="sm" onClick={addRow} className="border-tc-border text-xs">
-                  <Plus className="mr-1.5 h-3.5 w-3.5" /> Ajouter une ressource
+                  <Plus className="mr-1.5 h-3.5 w-3.5" /> {t("res.addResource")}
                 </Button>
                 <div className="flex items-center gap-2">
                   {resourceOverrides[selected.id] && (
@@ -260,14 +261,14 @@ export function ResourceManager() {
                       onClick={() => { resetModuleResources(selected.id); setDraft(null); }}
                       className="text-xs text-slate-500"
                     >
-                      <RotateCcw className="mr-1.5 h-3.5 w-3.5" /> Revenir à l'origine
+                      <RotateCcw className="mr-1.5 h-3.5 w-3.5" /> {t("res.backToOrigin")}
                     </Button>
                   )}
                   <Button
                     size="sm" onClick={save} disabled={!dirty}
                     className="bg-tc-navy text-xs hover:bg-tc-navy2 disabled:opacity-40"
                   >
-                    <Save className="mr-1.5 h-3.5 w-3.5" /> Enregistrer
+                    <Save className="mr-1.5 h-3.5 w-3.5" /> {t("action.save")}
                   </Button>
                 </div>
               </div>
@@ -279,7 +280,7 @@ export function ResourceManager() {
             </div>
           ) : (
             <div className="rounded-2xl border border-dashed border-tc-border py-16 text-center text-sm text-slate-400">
-              Sélectionnez un module.
+              {t("res.selectModule")}
             </div>
           )}
         </div>
@@ -288,7 +289,7 @@ export function ResourceManager() {
   );
 }
 
-/** Catalogue enrichi des ressources modifiées par le gestionnaire de programme. */
+/** Catalogue enrichi des ressources {t("res.modified")}es par le gestionnaire de programme. */
 export function useResourceEditing() {
   const store = useDataStore();
   const trainingCatalogWithOverrides = useMemo(

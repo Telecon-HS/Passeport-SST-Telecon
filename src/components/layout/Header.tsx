@@ -78,7 +78,7 @@ export function Header() {
           <button className="flex items-center gap-2.5 rounded-full border-l border-tc-border pl-3 text-left outline-none">
             <div className="hidden leading-tight sm:block">
               <div className="text-sm font-semibold text-tc-text">{persona.displayName}</div>
-              <div className="text-xs text-slate-500">{persona.title}</div>
+              <div className="text-xs text-slate-500">{t(`roleFull.${role}`)}</div>
             </div>
             <div className="flex h-9 w-9 items-center justify-center rounded-full bg-tc-navy text-xs font-bold text-white">
               {initials}
@@ -88,7 +88,7 @@ export function Header() {
         <DropdownMenuContent align="end" className="w-60">
           <DropdownMenuLabel>
             <div className="text-sm font-semibold text-tc-text">{persona.displayName}</div>
-            <div className="text-xs font-normal text-slate-500">{persona.title}</div>
+
             <div className="mt-1 text-[11px] font-normal leading-snug text-slate-500">
               {t(`roleFull.${role}`)}
             </div>

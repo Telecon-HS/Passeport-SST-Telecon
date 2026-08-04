@@ -6,11 +6,13 @@ import { FilterPanel } from "@/components/shared/FilterPanel";
 import { StatusBadge } from "@/components/shared/StatusBadge";
 import { FolderCheck, FileCheck2, Award, Eye, Signature, FileText, Download } from "lucide-react";
 import { ComplianceKpiCard } from "@/components/shared/ComplianceKpiCard";
+import { useT } from "@/lib/i18n";
 
 const typeIcon: Record<string, any> = { Quiz: FileCheck2, Certificate: Award, Observation: Eye, Signature: Signature, File: FileText };
 const typeLabel: Record<string, string> = { Quiz: "Quiz", Certificate: "Certificat", Observation: "Observation", Signature: "Signature", File: "Fichier" };
 
 export function EvidenceLibrary() {
+  const t = useT();
   const { visibleEmployees, canViewEmployee } = useApp();
   const [search, setSearch] = useState("");
   const [type, setType] = useState("Tous");
@@ -37,25 +39,25 @@ export function EvidenceLibrary() {
           <FolderCheck className="h-5 w-5" />
         </div>
         <div>
-          <h1 className="font-display text-2xl font-bold text-tc-navy">Bibliothèque de preuves</h1>
-          <p className="text-sm text-slate-500">Preuves centralisées et exportables pour la préparation d'un audit COR.</p>
+          <h1 className="font-display text-2xl font-bold text-tc-navy">{t("evidence.title")}</h1>
+          <p className="text-sm text-slate-500">{t("evidence.subtitle")}</p>
         </div>
       </div>
 
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <ComplianceKpiCard label="Total des preuves" value={scopedEvidence.length} icon={FolderCheck} tone="navy" />
-        <ComplianceKpiCard label="Prêtes pour audit" value={auditReadyCount} icon={FileCheck2} tone="green" />
-        <ComplianceKpiCard label="Incomplètes" value={incompleteCount} icon={Eye} tone="orange" />
-        <ComplianceKpiCard label="Employés couverts" value={visibleEmployees.length} icon={Award} tone="teal" />
+        <ComplianceKpiCard label={t("evidence.total")} value={scopedEvidence.length} icon={FolderCheck} tone="navy" />
+        <ComplianceKpiCard label={t("evidence.auditReady")} value={auditReadyCount} icon={FileCheck2} tone="green" />
+        <ComplianceKpiCard label={t("evidence.incomplete")} value={incompleteCount} icon={Eye} tone="orange" />
+        <ComplianceKpiCard label={t("evidence.covered")} value={visibleEmployees.length} icon={Award} tone="teal" />
       </div>
 
       <FilterPanel
         search={search}
         onSearchChange={setSearch}
-        searchPlaceholder="Rechercher une preuve ou un employé..."
+        searchPlaceholder={t("evidence.searchPlaceholder")}
         filters={[
           { key: "type", label: "Type", options: typeOptions, value: type, onChange: setType },
-          { key: "status", label: "Statut", options: ["Prêt", "Incomplet"], value: status, onChange: setStatus },
+          { key: "status", label: t("field.status"), options: ["Prêt", "Incomplet"], value: status, onChange: setStatus },
         ]}
         onReset={() => { setSearch(""); setType("Tous"); setStatus("Tous"); }}
       />
@@ -76,13 +78,13 @@ export function EvidenceLibrary() {
                 <div className="min-w-0 flex-1">
                   <div className="truncate text-sm font-semibold text-tc-text">{e.label}</div>
                   <div className="truncate text-xs text-slate-500">
-                    {emp?.name} · lié à {e.linkedTo} · {e.date}
+                    {emp?.name} · {t("evidence.linkedTo")} {e.linkedTo} · {e.date}
                   </div>
                 </div>
                 <span className="hidden rounded-md bg-slate-100 px-2 py-0.5 text-[11px] font-medium text-slate-500 sm:inline">
                   {typeLabel[e.type]}
                 </span>
-                <StatusBadge label={e.auditReady ? "Prêt pour audit" : "Incomplet"} tone={e.auditReady ? "green" : "orange"} className="text-[10px]" />
+                <StatusBadge label={e.auditReady ? t("evidence.ready") : t("evidence.notReady")} tone={e.auditReady ? "green" : "orange"} className="text-[10px]" />
                 <button className="rounded-lg p-2 text-slate-300 hover:bg-slate-100 hover:text-tc-navy2">
                   <Download className="h-4 w-4" />
                 </button>

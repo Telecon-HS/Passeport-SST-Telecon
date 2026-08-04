@@ -1,6 +1,7 @@
 import type { MatrixRule } from "@/types";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { StatusBadge } from "./StatusBadge";
+import { useT } from "@/lib/i18n";
 
 function psfceTone(v: string) {
   if (v === "Oui") return "teal" as const;
@@ -9,12 +10,13 @@ function psfceTone(v: string) {
 }
 
 export function MatrixRuleTable({ rules }: { rules: MatrixRule[] }) {
+  const t = useT();
   return (
     <div className="overflow-auto rounded-2xl border border-tc-border bg-white shadow-sm">
       <Table>
         <TableHeader>
           <TableRow className="bg-slate-50/70 hover:bg-slate-50/70">
-            {["Règle","Statut","BU / Région","Poste","TQT","Formations requises","PSFCE","Autorisation visée","Contrôle COR"].map((h) => (
+            {[t("matrix.col.rule"),t("field.status"),t("matrix.col.buRegion"),t("field.position"),t("matrix.col.tqt"),t("matrix.col.requiredTraining"),"PSFCE",t("matrix.col.targetAuth"),t("matrix.col.corControl")].map((h) => (
               <TableHead key={h} className="text-xs font-semibold uppercase tracking-wide text-slate-500">{h}</TableHead>
             ))}
           </TableRow>
@@ -55,7 +57,7 @@ export function MatrixRuleTable({ rules }: { rules: MatrixRule[] }) {
               </TableCell>
               <TableCell className="max-w-[180px]">
                 <div className="text-xs text-tc-text">{rule.targetAuthorization}</div>
-                <div className="text-[11px] text-slate-400">Par défaut : {rule.defaultAuthorizationStatus}</div>
+                <div className="text-[11px] text-slate-400">{t("matrix.byDefault")} : {rule.defaultAuthorizationStatus}</div>
               </TableCell>
               <TableCell className="max-w-[150px] text-xs text-slate-600">
                 {rule.corControl}
@@ -65,7 +67,7 @@ export function MatrixRuleTable({ rules }: { rules: MatrixRule[] }) {
           ))}
           {rules.length === 0 && (
             <TableRow><TableCell colSpan={9} className="py-10 text-center text-sm text-slate-400">
-              Aucune règle ne correspond aux filtres sélectionnés.
+              {t("common.noResults")}
             </TableCell></TableRow>
           )}
         </TableBody>

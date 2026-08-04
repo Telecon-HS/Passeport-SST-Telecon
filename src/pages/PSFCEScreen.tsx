@@ -14,9 +14,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { useT } from "@/lib/i18n";
 import { CheckCircle2, Circle, Plus, UserCheck, Save } from "lucide-react";
 
 export function PSFCEScreen() {
+  const t = useT();
   const { visibleEmployees, canViewEmployee } = useApp();
   const { psfce, togglePsfceStep, addPsfce, addPsfceObservation } = useDataStore();
 
@@ -67,26 +69,26 @@ export function PSFCEScreen() {
       <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
         <div>
           <h1 className="font-display text-2xl font-bold text-tc-navy">
-            PSFCE — Programme de suivi et formation en compétence terrain
+            {t("psfce.title")}
           </h1>
           <p className="text-sm text-slate-500">
-            Créez, encadrez et validez la compétence terrain. Les modifications sont conservées.
+            {t("psfce.subtitle")}
           </p>
         </div>
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
             <Button className="bg-tc-navy hover:bg-tc-navy2">
-              <Plus className="mr-2 h-4 w-4" /> Nouveau PSFCE
+              <Plus className="mr-2 h-4 w-4" /> {t("psfce.new")}
             </Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle className="font-display">Créer un PSFCE</DialogTitle>
+              <DialogTitle className="font-display">{t("psfce.create")}</DialogTitle>
               <DialogDescription>Encadrez le développement terrain d'un employé de votre périmètre.</DialogDescription>
             </DialogHeader>
             <div className="space-y-3">
               <div>
-                <Label className="text-xs">Employé</Label>
+                <Label className="text-xs">{t("field.employee")}</Label>
                 <Select value={form.employeeId} onValueChange={(v) => setForm({ ...form, employeeId: v })}>
                   <SelectTrigger className="mt-1"><SelectValue placeholder="Sélectionner un employé" /></SelectTrigger>
                   <SelectContent>
@@ -97,21 +99,21 @@ export function PSFCEScreen() {
                 </Select>
               </div>
               <div>
-                <Label className="text-xs">Compétence à acquérir</Label>
+                <Label className="text-xs">{t("psfce.competency")}</Label>
                 <Input className="mt-1" value={form.competency}
                   onChange={(e) => setForm({ ...form, competency: e.target.value })}
                   placeholder="Ex. Excavation sécuritaire" />
               </div>
               <div>
-                <Label className="text-xs">Mentor</Label>
+                <Label className="text-xs">{t("psfce.mentor")}</Label>
                 <Input className="mt-1" value={form.mentor}
                   onChange={(e) => setForm({ ...form, mentor: e.target.value })}
                   placeholder="Ex. Jordan Lee" />
               </div>
             </div>
             <DialogFooter>
-              <Button variant="outline" onClick={() => setOpen(false)}>Annuler</Button>
-              <Button className="bg-tc-navy hover:bg-tc-navy2" onClick={createPsfce}>Créer le PSFCE</Button>
+              <Button variant="outline" onClick={() => setOpen(false)}>{t("action.cancel")}</Button>
+              <Button className="bg-tc-navy hover:bg-tc-navy2" onClick={createPsfce}>{t("psfce.create")}</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
@@ -144,7 +146,7 @@ export function PSFCEScreen() {
           })}
           {scoped.length === 0 && (
             <div className="rounded-xl border border-dashed border-tc-border py-10 text-center text-sm text-slate-400">
-              Aucun PSFCE dans votre périmètre.
+              {t("psfce.noneInScope")}
             </div>
           )}
         </div>
@@ -156,19 +158,19 @@ export function PSFCEScreen() {
                 <div>
                   <h2 className="font-display text-lg font-bold text-tc-navy">{selected.competency}</h2>
                   <p className="mt-0.5 text-sm text-slate-500">
-                    Employé : {employeeById(selected.employeeId)?.name} · Mentor : {selected.mentor}
+                    {t("field.employee")} : {employeeById(selected.employeeId)?.name} · {t("psfce.mentor")} : {selected.mentor}
                   </p>
                 </div>
                 <div className="flex items-center gap-2">
                   <StatusBadge label={psfceLabel(selected.status)} tone={psfceTone(selected.status)} />
                   <span className="rounded-full border border-tc-border px-2.5 py-0.5 text-xs font-medium text-slate-500">
-                    Niveau : {selected.level === "Beginner" ? "Débutant" : selected.level === "Intermediate" ? "Intermédiaire" : "Compétent"}
+                    {t("psfce.level")} : {selected.level === "Beginner" ? "Débutant" : selected.level === "Intermediate" ? "Intermédiaire" : "Compétent"}
                   </span>
                 </div>
               </div>
 
               <div className="mt-6">
-                <h3 className="mb-3 text-xs font-bold uppercase tracking-wide text-slate-400">Étapes d'apprentissage</h3>
+                <h3 className="mb-3 text-xs font-bold uppercase tracking-wide text-slate-400">{t("psfce.steps")}</h3>
                 <div className="space-y-2">
                   {selected.steps.map((s, i) => (
                     <button
@@ -186,10 +188,10 @@ export function PSFCEScreen() {
               </div>
 
               <div className="mt-6">
-                <h3 className="mb-3 text-xs font-bold uppercase tracking-wide text-slate-400">Observations du mentor</h3>
+                <h3 className="mb-3 text-xs font-bold uppercase tracking-wide text-slate-400">{t("psfce.observations")}</h3>
                 <div className="space-y-2">
                   {selected.observations.length === 0 && (
-                    <p className="text-sm text-slate-400">Aucune observation consignée.</p>
+                    <p className="text-sm text-slate-400">{t("psfce.noObservations")}</p>
                   )}
                   {selected.observations.map((o, i) => (
                     <div key={i} className="rounded-lg bg-slate-50 px-3 py-2 text-sm text-slate-600">{o}</div>
@@ -198,7 +200,7 @@ export function PSFCEScreen() {
                 <Textarea
                   value={note}
                   onChange={(e) => setNote(e.target.value)}
-                  placeholder="Ajouter une observation terrain..."
+                  placeholder={t("psfce.addObservation")}
                   className="mt-3 border-tc-border text-sm"
                   rows={2}
                 />
@@ -209,25 +211,25 @@ export function PSFCEScreen() {
                   size="sm"
                   className="mt-2 border-tc-border text-xs disabled:opacity-40"
                 >
-                  <Save className="mr-1.5 h-3.5 w-3.5" /> Enregistrer l'observation
+                  <Save className="mr-1.5 h-3.5 w-3.5" /> {t("psfce.saveObservation")}
                 </Button>
               </div>
 
               <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-tc-border pt-4">
                 <span className="text-xs text-slate-400">
-                  Décision finale requiert : PSFCE complet + observation + validation superviseur.
+                  {t("psfce.decisionNote")}
                 </span>
                 <Button
                   disabled={selected.status !== "Completed"}
                   className="bg-tc-green hover:bg-tc-green/90 disabled:opacity-40"
                 >
-                  <UserCheck className="mr-2 h-4 w-4" /> Autoriser la compétence
+                  <UserCheck className="mr-2 h-4 w-4" /> {t("psfce.authorize")}
                 </Button>
               </div>
             </div>
           ) : (
             <div className="rounded-2xl border border-dashed border-tc-border py-16 text-center text-sm text-slate-400">
-              Sélectionnez un PSFCE pour voir le détail.
+              {t("psfce.selectOne")}
             </div>
           )}
         </div>

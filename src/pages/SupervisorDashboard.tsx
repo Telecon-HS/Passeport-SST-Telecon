@@ -3,10 +3,12 @@ import { useDataStore } from "@/lib/data-store";
 import { ComplianceKpiCard } from "@/components/shared/ComplianceKpiCard";
 import { EmployeeTable } from "@/components/shared/EmployeeTable";
 import { StatusBadge } from "@/components/shared/StatusBadge";
+import { useT } from "@/lib/i18n";
 import { psfceTone, psfceLabel } from "@/lib/status";
 import { Users, ShieldAlert, ClipboardList, TrendingUp, ArrowRight, AlertOctagon } from "lucide-react";
 
 export function SupervisorDashboard() {
+  const t = useT();
   const { persona, setScreen, navigateToPassport, visibleEmployees } = useApp();
   const { authorizations, psfce: psfceRecords } = useDataStore();
   const team = visibleEmployees.filter((e) => e.id !== persona.employeeId);
@@ -24,21 +26,21 @@ export function SupervisorDashboard() {
   return (
     <div className="mx-auto max-w-6xl space-y-6 px-4 py-6 sm:px-8">
       <div>
-        <h1 className="font-display text-2xl font-bold text-tc-navy">Mon équipe</h1>
-        <p className="text-sm text-slate-500">Vue d'ensemble de la conformité et des écarts à traiter — {persona.displayName}.</p>
+        <h1 className="font-display text-2xl font-bold text-tc-navy">{t("dash.team")}</h1>
+        <p className="text-sm text-slate-500">{t("dash.teamSubtitle")} — {persona.displayName}.</p>
       </div>
 
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <ComplianceKpiCard label="Membres de l'équipe" value={team.length} icon={Users} tone="navy" />
-        <ComplianceKpiCard label="Conformité moyenne" value={avgCompliance} suffix="%" icon={TrendingUp} />
-        <ComplianceKpiCard label="Non autorisés" value={notAuthorized} icon={ShieldAlert} tone={notAuthorized > 0 ? "red" : "green"} />
-        <ComplianceKpiCard label="PSFCE actifs" value={activePsfce.length} icon={ClipboardList} tone="teal" />
+        <ComplianceKpiCard label={t("dash.teamMembers")} value={team.length} icon={Users} tone="navy" />
+        <ComplianceKpiCard label={t("dash.avgCompliance")} value={avgCompliance} suffix="%" icon={TrendingUp} />
+        <ComplianceKpiCard label={t("dash.notAuthorized")} value={notAuthorized} icon={ShieldAlert} tone={notAuthorized > 0 ? "red" : "green"} />
+        <ComplianceKpiCard label={t("dash.activePsfce")} value={activePsfce.length} icon={ClipboardList} tone="teal" />
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div className="lg:col-span-2">
           <div className="mb-3 flex items-center justify-between">
-            <h2 className="font-display text-base font-bold text-tc-navy">Membres de l'équipe</h2>
+            <h2 className="font-display text-base font-bold text-tc-navy">{t("dash.teamMembers")}</h2>
           </div>
           <EmployeeTable employees={team} />
         </div>
@@ -47,9 +49,9 @@ export function SupervisorDashboard() {
           <section className="rounded-2xl border border-tc-border bg-white p-5 shadow-sm">
             <div className="mb-3 flex items-center gap-2">
               <AlertOctagon className="h-4 w-4 text-tc-red" />
-              <h2 className="font-display text-sm font-bold text-tc-navy">Écarts critiques</h2>
+              <h2 className="font-display text-sm font-bold text-tc-navy">{t("dash.criticalGaps")}</h2>
             </div>
-            {criticalGaps.length === 0 && <p className="text-sm text-slate-400">Aucun écart critique détecté.</p>}
+            {criticalGaps.length === 0 && <p className="text-sm text-slate-400">{t("dash.noGaps")}</p>}
             <div className="space-y-2">
               {criticalGaps.slice(0, 6).map(({ employee, auth }, i) => (
                 <button
@@ -69,9 +71,9 @@ export function SupervisorDashboard() {
 
           <section className="rounded-2xl border border-tc-border bg-white p-5 shadow-sm">
             <div className="mb-3 flex items-center justify-between">
-              <h2 className="font-display text-sm font-bold text-tc-navy">PSFCE de l'équipe</h2>
+              <h2 className="font-display text-sm font-bold text-tc-navy">{t("dash.teamPsfce")}</h2>
               <button onClick={() => setScreen("psfce")} className="flex items-center gap-1 text-xs font-semibold text-tc-teal hover:underline">
-                Gérer <ArrowRight className="h-3.5 w-3.5" />
+                {t("dash.manage")} <ArrowRight className="h-3.5 w-3.5" />
               </button>
             </div>
             <div className="space-y-2.5">
@@ -87,7 +89,7 @@ export function SupervisorDashboard() {
                   </div>
                 );
               })}
-              {teamPsfce.length === 0 && <p className="text-sm text-slate-400">Aucun PSFCE pour l'équipe.</p>}
+              {teamPsfce.length === 0 && <p className="text-sm text-slate-400">{t("dash.noPsfce")}</p>}
             </div>
           </section>
         </div>

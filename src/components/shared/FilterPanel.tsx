@@ -2,6 +2,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/input";
 import { Search, SlidersHorizontal, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useT } from "@/lib/i18n";
 
 export interface FilterConfig {
   key: string;
@@ -24,6 +25,7 @@ export function FilterPanel({
   filters: FilterConfig[];
   onReset?: () => void;
 }) {
+  const t = useT();
   return (
     <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-tc-border bg-white p-3 shadow-sm">
       <div className="flex items-center gap-1.5 pl-1 pr-2 text-slate-400">
@@ -46,7 +48,7 @@ export function FilterPanel({
             <SelectValue placeholder={f.label} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="Tous">{f.label} : Tous</SelectItem>
+            <SelectItem value="Tous">{f.label} : {t("common.all")}</SelectItem>
             {f.options.filter((opt) => opt !== "Tous").map((opt) => (
               <SelectItem key={opt} value={opt}>
                 {opt}
@@ -57,7 +59,7 @@ export function FilterPanel({
       ))}
       {onReset && (
         <Button variant="ghost" size="sm" className="h-8 text-xs text-slate-500" onClick={onReset}>
-          <X className="mr-1 h-3.5 w-3.5" /> Réinitialiser
+          <X className="mr-1 h-3.5 w-3.5" /> {t("action.reset")}
         </Button>
       )}
     </div>

@@ -12,8 +12,10 @@ import { OnboardingTimeline } from "@/components/shared/OnboardingTimeline";
 import { psfceTone, psfceLabel } from "@/lib/status";
 import { GraduationCap, ClipboardCheck, ShieldCheck, AlertTriangle, CreditCard, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useT } from "@/lib/i18n";
 
 export function EmployeeDashboard() {
+  const t = useT();
   const { focusEmployeeId, setScreen } = useApp();
   const { authorizations: allAuthorizations, psfce: allPsfce } = useDataStore();
   const employee = employeeById(focusEmployeeId ?? "EMP001")!;
@@ -36,31 +38,31 @@ export function EmployeeDashboard() {
       <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
         <div>
           <h1 className="font-display text-2xl font-bold text-tc-navy">Bonjour, {employee.name.split(" ")[0]} 👋</h1>
-          <p className="text-sm text-slate-500">Voici où en est votre conformité SST aujourd'hui.</p>
+          <p className="text-sm text-slate-500">{t("dash.employeeGreeting")}</p>
         </div>
         <Button className="bg-tc-navy hover:bg-tc-navy2" onClick={() => setScreen("passport")}>
-          <CreditCard className="mr-2 h-4 w-4" /> Voir mon passeport complet
+          <CreditCard className="mr-2 h-4 w-4" /> {t("action.viewPassport")}
         </Button>
       </div>
 
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <ComplianceKpiCard label="Conformité globale" value={employee.compliance} suffix="%" icon={ShieldCheck} />
-        <ComplianceKpiCard label="Formations complétées" value={completed} icon={GraduationCap} tone="teal" />
-        <ComplianceKpiCard label="Formations en cours" value={inProgress} icon={ClipboardCheck} tone="navy" />
-        <ComplianceKpiCard label="Échéances à traiter" value={upcoming.length} icon={AlertTriangle} tone={upcoming.length > 3 ? "red" : "orange"} />
+        <ComplianceKpiCard label={t("dash.globalCompliance")} value={employee.compliance} suffix="%" icon={ShieldCheck} />
+        <ComplianceKpiCard label={t("dash.completedTraining")} value={completed} icon={GraduationCap} tone="teal" />
+        <ComplianceKpiCard label={t("dash.inProgressTraining")} value={inProgress} icon={ClipboardCheck} tone="navy" />
+        <ComplianceKpiCard label={t("dash.deadlines")} value={upcoming.length} icon={AlertTriangle} tone={upcoming.length > 3 ? "red" : "orange"} />
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div className="space-y-6 lg:col-span-2">
           <section className="rounded-2xl border border-tc-border bg-white p-5 shadow-sm">
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="font-display text-base font-bold text-tc-navy">À compléter prochainement</h2>
+              <h2 className="font-display text-base font-bold text-tc-navy">{t("dash.upcoming")}</h2>
               <button onClick={() => setScreen("trainingCenter")} className="flex items-center gap-1 text-xs font-semibold text-tc-teal hover:underline">
-                Centre de formation <ArrowRight className="h-3.5 w-3.5" />
+                {t("nav.trainingCenter")} <ArrowRight className="h-3.5 w-3.5" />
               </button>
             </div>
             {nextModules.length === 0 ? (
-              <p className="py-8 text-center text-sm text-slate-400">Aucune formation en attente — excellent travail !</p>
+              <p className="py-8 text-center text-sm text-slate-400">{t("dash.noUpcoming")}</p>
             ) : (
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 {nextModules.map((m) => m && <TrainingModuleCard key={m.id} module={m} />)}
@@ -69,12 +71,12 @@ export function EmployeeDashboard() {
           </section>
 
           <section className="rounded-2xl border border-tc-border bg-white p-5 shadow-sm">
-            <h2 className="mb-4 font-display text-base font-bold text-tc-navy">Mes autorisations de travail</h2>
+            <h2 className="mb-4 font-display text-base font-bold text-tc-navy">{t("dash.myAuthorizations")}</h2>
             <div className="space-y-2.5">
               {authorizations.map((a) => (
                 <AuthorizationCard key={a.id} authorization={a} />
               ))}
-              {authorizations.length === 0 && <p className="text-sm text-slate-400">Aucune autorisation enregistrée.</p>}
+              {authorizations.length === 0 && <p className="text-sm text-slate-400">{t("dash.noAuth")}</p>}
             </div>
           </section>
         </div>
@@ -82,7 +84,7 @@ export function EmployeeDashboard() {
         <div className="space-y-6">
           {myPsfce.length > 0 && (
             <section className="rounded-2xl border border-tc-border bg-white p-5 shadow-sm">
-              <h2 className="mb-4 font-display text-base font-bold text-tc-navy">Mon PSFCE</h2>
+              <h2 className="mb-4 font-display text-base font-bold text-tc-navy">{t("dash.myPsfce")}</h2>
               <div className="space-y-3">
                 {myPsfce.map((p) => (
                   <div key={p.id} className="rounded-xl border border-tc-border p-3.5">
@@ -90,9 +92,9 @@ export function EmployeeDashboard() {
                       <span className="text-sm font-semibold text-tc-text">{p.competency}</span>
                       <StatusBadge label={psfceLabel(p.status)} tone={psfceTone(p.status)} className="text-[10px]" />
                     </div>
-                    <p className="mt-1 text-xs text-slate-500">Mentor : {p.mentor}</p>
+                    <p className="mt-1 text-xs text-slate-500">{t("psfce.mentor")} : {p.mentor}</p>
                     <div className="mt-2 text-xs font-medium text-tc-teal">
-                      {p.steps.filter((s) => s.done).length}/{p.steps.length} étapes complétées
+                      {p.steps.filter((s) => s.done).length}/{p.steps.length} {t("psfce.stepsDone")}
                     </div>
                   </div>
                 ))}
@@ -102,7 +104,7 @@ export function EmployeeDashboard() {
 
           {onboarding && (
             <section className="rounded-2xl border border-tc-border bg-white p-5 shadow-sm">
-              <h2 className="mb-4 font-display text-base font-bold text-tc-navy">Mon parcours d'accueil</h2>
+              <h2 className="mb-4 font-display text-base font-bold text-tc-navy">{t("dash.myOnboarding")}</h2>
               <OnboardingTimeline onboardingCase={onboarding} />
             </section>
           )}

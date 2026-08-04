@@ -15,6 +15,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { trainingStateTone, psfceTone, psfceLabel } from "@/lib/status";
 import { Button } from "@/components/ui/button";
+import { useT } from "@/lib/i18n";
 import { FolderCheck, CheckCircle2, Circle, Clock, AlertTriangle, XCircle, Users2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -27,6 +28,7 @@ const stateIcon: Record<string, any> = {
 };
 
 export function DigitalPassport() {
+  const t = useT();
   const { focusEmployeeId, setFocusEmployeeId, role, visibleEmployees, canViewEmployee } = useApp();
   const { authorizations: allAuthorizations, psfce: allPsfce } = useDataStore();
   const { trainingCatalogWithOverrides: trainingCatalog } = useResourceEditing();
@@ -53,7 +55,7 @@ export function DigitalPassport() {
       {canSwitch && (
         <div className="flex items-center gap-2 rounded-xl border border-tc-border bg-white p-2.5 shadow-sm">
           <Users2 className="ml-1 h-4 w-4 text-slate-400" />
-          <span className="text-xs font-medium text-slate-500">Consulter le passeport de :</span>
+          <span className="text-xs font-medium text-slate-500">{t("passport.viewOf")}</span>
           <Select value={employee.id} onValueChange={setFocusEmployeeId}>
             <SelectTrigger className="h-8 w-64 border-tc-border text-sm">
               <SelectValue />
@@ -75,9 +77,9 @@ export function DigitalPassport() {
         <div className="lg:col-span-2">
           <Tabs defaultValue="formations">
             <TabsList className="bg-slate-100">
-              <TabsTrigger value="formations">Formations</TabsTrigger>
-              <TabsTrigger value="psfce">PSFCE</TabsTrigger>
-              <TabsTrigger value="autorisations">Autorisations</TabsTrigger>
+              <TabsTrigger value="formations">{t("passport.tabTraining")}</TabsTrigger>
+              <TabsTrigger value="psfce">{t("passport.tabPsfce")}</TabsTrigger>
+              <TabsTrigger value="autorisations">{t("passport.tabAuth")}</TabsTrigger>
             </TabsList>
 
             <TabsContent value="formations" className="mt-4 space-y-5">
@@ -129,7 +131,7 @@ export function DigitalPassport() {
             <TabsContent value="psfce" className="mt-4 space-y-4">
               {psfce.length === 0 && (
                 <div className="rounded-2xl border border-dashed border-tc-border py-12 text-center text-sm text-slate-400">
-                  Aucun PSFCE actif pour cet employé.
+                  {t("psfce.noneInScope")}
                 </div>
               )}
               {psfce.map((p) => (
@@ -138,7 +140,7 @@ export function DigitalPassport() {
                     <h3 className="text-sm font-semibold text-tc-text">{p.competency}</h3>
                     <StatusBadge label={psfceLabel(p.status)} tone={psfceTone(p.status)} />
                   </div>
-                  <p className="mt-1 text-xs text-slate-500">Mentor : {p.mentor} · Niveau : {p.level}</p>
+                  <p className="mt-1 text-xs text-slate-500">{t("psfce.mentor")} : {p.mentor} · {t("psfce.level")} : {p.level}</p>
                   <div className="mt-3 space-y-1.5">
                     {p.steps.map((s, i) => (
                       <div key={i} className="flex items-center gap-2 text-xs">
@@ -157,7 +159,7 @@ export function DigitalPassport() {
               ))}
               {authorizations.length === 0 && (
                 <div className="rounded-2xl border border-dashed border-tc-border py-12 text-center text-sm text-slate-400">
-                  Aucune autorisation enregistrée.
+                  {t("dash.noAuth")}
                 </div>
               )}
             </TabsContent>
@@ -166,24 +168,22 @@ export function DigitalPassport() {
 
         <div className="space-y-6">
           <section className="rounded-2xl border border-tc-border bg-white p-5 shadow-sm">
-            <h2 className="font-display text-sm font-bold text-tc-navy">Profil requis (matrice)</h2>
+            <h2 className="font-display text-sm font-bold text-tc-navy">{t("passport.requiredProfile")}</h2>
             <p className="mt-0.5 text-xs text-slate-500">
               {employee.businessUnit} · {employee.position}
             </p>
             {usesVisitorProfile(employee) && (
               <div className="mt-2 rounded-lg border border-tc-orange/25 bg-tc-orange/[0.06] px-2.5 py-2 text-[11px] leading-relaxed text-tc-orange">
-                <span className="font-semibold">Profil de visiteur de base appliqué.</span> Ce poste
-                n'est pas encore couvert par une règle de matrice : accès accompagné uniquement,
-                aucune tâche critique autorisée. À compléter par le PASS SST.
+                <span className="font-semibold">{t("passport.visitorProfile")}</span> {t("passport.visitorProfileText")}
               </div>
             )}
                 <div className="mt-3 flex items-center justify-between border-b border-tc-border/60 pb-2 text-xs">
-                  <span className="text-slate-500">PSFCE requis</span>
+                  <span className="text-slate-500">{t("passport.psfceRequired")}</span>
                   <span className="font-medium text-tc-text">{psfceRequirementFor(employee)}</span>
                 </div>
                 <div className="mt-2">
                   <div className="text-[11px] font-semibold uppercase tracking-wide text-slate-400">
-                    Autorisations visées
+                    {t("passport.targetAuth")}
                   </div>
                   {targetAuthorizationsFor(employee).map((a, i) => (
                     <div key={i} className="mt-1 text-xs text-tc-text">
@@ -194,7 +194,7 @@ export function DigitalPassport() {
                 </div>
                 <div className="mt-3">
                   <div className="text-[11px] font-semibold uppercase tracking-wide text-slate-400">
-                    Compétences terrain à évaluer
+                    {t("passport.fieldCompetencies")}
                   </div>
                   <ul className="mt-1 space-y-1">
                     {fieldCompetenciesFor(employee).map((c, i) => (
@@ -208,7 +208,7 @@ export function DigitalPassport() {
           </section>
 
           <section className="rounded-2xl border border-tc-border bg-white p-5 shadow-sm">
-            <h2 className="mb-3 font-display text-sm font-bold text-tc-navy">Prérequis RH</h2>
+            <h2 className="mb-3 font-display text-sm font-bold text-tc-navy">{t("passport.hrPrereq")}</h2>
             <div className="space-y-2 text-sm">
               <RhRow label="Vérification Mintz" value={employee.mintzStatus} />
               <RhRow label="Dossier de conduite" value={employee.drivingRecordStatus} />
@@ -219,12 +219,12 @@ export function DigitalPassport() {
 
           <section className="rounded-2xl border border-tc-border bg-white p-5 shadow-sm">
             <div className="flex items-center justify-between">
-              <h2 className="font-display text-sm font-bold text-tc-navy">Preuves disponibles</h2>
+              <h2 className="font-display text-sm font-bold text-tc-navy">{t("passport.evidence")}</h2>
               <span className="text-xs font-semibold text-slate-400">{evidence.length}</span>
             </div>
             <p className="mt-1 text-xs text-slate-500">Preuves exportables pour un audit COR.</p>
             <Button variant="outline" className="mt-3 w-full border-tc-border text-sm" onClick={() => setEvidenceOpen(true)}>
-              <FolderCheck className="mr-2 h-4 w-4" /> Ouvrir la bibliothèque
+              <FolderCheck className="mr-2 h-4 w-4" /> {t("passport.openLibrary")}
             </Button>
           </section>
         </div>

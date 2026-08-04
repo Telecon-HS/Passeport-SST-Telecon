@@ -4,6 +4,7 @@ import { getSyncMode, onSyncModeChange } from "@/lib/sync";
 import { useEffect, useState } from "react";
 import { History, RotateCcw, HardDriveDownload, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useT } from "@/lib/i18n";
 import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogTrigger,
 } from "@/components/ui/dialog";
@@ -17,6 +18,7 @@ function formatDate(iso: string) {
 }
 
 export function ActivityJournal() {
+  const t = useT();
   const { activity, resetAll } = useDataStore();
   const [mode, setMode] = useState(getSyncMode());
   useEffect(() => onSyncModeChange(setMode), []);
@@ -29,9 +31,9 @@ export function ActivityJournal() {
             <History className="h-5 w-5" />
           </div>
           <div>
-            <h1 className="font-display text-2xl font-bold text-tc-navy">Journal d'activité</h1>
+            <h1 className="font-display text-2xl font-bold text-tc-navy">{t("activity.title")}</h1>
             <p className="text-sm text-slate-500">
-              Trace des actions réalisées dans l'application — appui à la traçabilité COR.
+              {t("activity.subtitle")}
             </p>
           </div>
         </div>
@@ -39,7 +41,7 @@ export function ActivityJournal() {
         <Dialog>
           <DialogTrigger asChild>
             <Button variant="outline" className="border-tc-border text-sm">
-              <RotateCcw className="mr-2 h-4 w-4" /> Réinitialiser les données
+              <RotateCcw className="mr-2 h-4 w-4" /> {t("activity.resetData")}
             </Button>
           </DialogTrigger>
           <DialogContent>
@@ -91,10 +93,10 @@ export function ActivityJournal() {
           <div className="flex flex-col items-center py-16 text-center">
             <AlertTriangle className="h-6 w-6 text-slate-300" />
             <p className="mt-3 text-sm text-slate-400">
-              Aucune action enregistrée pour l'instant.
+              {t("activity.none")}
             </p>
             <p className="mt-1 text-xs text-slate-400">
-              Validez une étape PSFCE ou accordez une autorisation pour alimenter le journal.
+              {t("activity.hint")}
             </p>
           </div>
         ) : (

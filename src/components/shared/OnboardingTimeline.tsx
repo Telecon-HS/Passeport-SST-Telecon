@@ -1,14 +1,16 @@
 import type { OnboardingCase } from "@/types";
 import { Check, Circle } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useT } from "@/lib/i18n";
 
 export function OnboardingTimeline({ onboardingCase }: { onboardingCase: OnboardingCase }) {
+  const t = useT();
   const doneCount = onboardingCase.steps.filter((s) => s.done).length;
   return (
     <div>
       <div className="mb-3 flex items-center justify-between">
         <span className="text-xs font-semibold uppercase tracking-wide text-slate-400">
-          {doneCount}/{onboardingCase.steps.length} étapes complétées
+          {doneCount}/{onboardingCase.steps.length} {t("onboarding.stepsDone")}
         </span>
       </div>
       <ol className="relative space-y-0">

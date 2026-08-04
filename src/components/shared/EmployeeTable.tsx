@@ -5,19 +5,21 @@ import { TrainingProgressBar } from "./TrainingProgressBar";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { ChevronRight } from "lucide-react";
 import { useApp } from "@/lib/app-context";
+import { useT } from "@/lib/i18n";
 
 export function EmployeeTable({ employees }: { employees: Employee[] }) {
+  const t = useT();
   const { navigateToPassport } = useApp();
   return (
     <div className="overflow-hidden rounded-2xl border border-tc-border bg-white shadow-sm">
       <Table>
         <TableHeader>
           <TableRow className="bg-slate-50/70 hover:bg-slate-50/70">
-            <TableHead className="text-xs font-semibold uppercase tracking-wide text-slate-500">Employé</TableHead>
-            <TableHead className="text-xs font-semibold uppercase tracking-wide text-slate-500">Poste / BU</TableHead>
-            <TableHead className="text-xs font-semibold uppercase tracking-wide text-slate-500">Région</TableHead>
-            <TableHead className="text-xs font-semibold uppercase tracking-wide text-slate-500">Conformité</TableHead>
-            <TableHead className="text-xs font-semibold uppercase tracking-wide text-slate-500">Statut</TableHead>
+            <TableHead className="text-xs font-semibold uppercase tracking-wide text-slate-500">{t("field.employee")}</TableHead>
+            <TableHead className="text-xs font-semibold uppercase tracking-wide text-slate-500">{t("field.position")} / BU</TableHead>
+            <TableHead className="text-xs font-semibold uppercase tracking-wide text-slate-500">{t("field.region")}</TableHead>
+            <TableHead className="text-xs font-semibold uppercase tracking-wide text-slate-500">{t("field.compliance")}</TableHead>
+            <TableHead className="text-xs font-semibold uppercase tracking-wide text-slate-500">{t("field.status")}</TableHead>
             <TableHead className="w-8" />
           </TableRow>
         </TableHeader>
@@ -58,7 +60,7 @@ export function EmployeeTable({ employees }: { employees: Employee[] }) {
           {employees.length === 0 && (
             <TableRow>
               <TableCell colSpan={6} className="py-10 text-center text-sm text-slate-400">
-                Aucun employé ne correspond aux filtres sélectionnés.
+                {t("common.noResults")}
               </TableCell>
             </TableRow>
           )}

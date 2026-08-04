@@ -197,13 +197,13 @@ absente n'affiche jamais de chaîne vide.
 
 ### Couverture actuelle
 
-**Traduits** : navigation, en-tête, menu utilisateur, écran de connexion, Accueil, badges de
-statut, intitulés de rôles, bandeau et pied de page.
+**Traduits** : l'ensemble de l'interface — navigation, en-tête, connexion, Accueil, les cinq
+tableaux de bord, Passeport, PSFCE, Matrice, Centre de formation, Power BI, Bibliothèque de
+preuves, Journal d'activité, Ressources de formation, Parcours de formation, ainsi que les
+composants partagés (tableaux, filtres, badges de statut, cartes).
 
-**Non encore traduits** : le corps des écrans spécialisés (Passeport, PSFCE, Matrice, Centre de
-formation, tableaux de bord, Power BI, Preuves, Journal, Ressources, Parcours). Les clés
-`passport.*`, `field.*` et `action.*` sont déjà en place dans le dictionnaire ; il reste à les
-brancher écran par écran.
+Environ 190 clés par langue. Un test de balayage vérifie l'absence de résidus français sur les
+9 écrans principaux en mode anglais.
 
 **Hors périmètre de l'interface** : les libellés issus des données (titres de modules, postes,
 BU, compétences, règles de matrice) proviennent des documents Telecon et restent dans leur langue

@@ -5,6 +5,7 @@ import { employeeById } from "@/data/employees";
 import { OnboardingTimeline } from "@/components/shared/OnboardingTimeline";
 import { StatusBadge } from "@/components/shared/StatusBadge";
 import { ComplianceKpiCard } from "@/components/shared/ComplianceKpiCard";
+import { useT } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 import { Mail, UserPlus, Clock, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -18,6 +19,7 @@ const caseTone: Record<string, "gray" | "blue" | "orange" | "green"> = {
 };
 
 export function HRDashboard() {
+  const t = useT();
   const { navigateToPassport } = useApp();
   const [selectedId, setSelectedId] = useState(onboardingCases[0]?.id);
   const selected = onboardingCases.find((c) => c.id === selectedId);
@@ -33,19 +35,19 @@ export function HRDashboard() {
     <div className="mx-auto max-w-6xl space-y-6 px-4 py-6 sm:px-8">
       <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center">
         <div>
-          <h1 className="font-display text-2xl font-bold text-tc-navy">Tableau de bord RH</h1>
-          <p className="text-sm text-slate-500">Onboarding, vérifications préalables et statut avant le premier jour.</p>
+          <h1 className="font-display text-2xl font-bold text-tc-navy">{t("dash.hrTitle")}</h1>
+          <p className="text-sm text-slate-500">{t("dash.hrSubtitle")}</p>
         </div>
         <Button className="bg-tc-navy hover:bg-tc-navy2">
-          <UserPlus className="mr-2 h-4 w-4" /> Nouvel onboarding
+          <UserPlus className="mr-2 h-4 w-4" /> {t("dash.newOnboarding")}
         </Button>
       </div>
 
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <ComplianceKpiCard label="Dossiers actifs" value={onboardingCases.length} icon={Mail} tone="navy" />
-        <ComplianceKpiCard label="En cours" value={inProgress} icon={Clock} tone="orange" />
-        <ComplianceKpiCard label="Prêts pour jour 1" value={readyForDay1} icon={CheckCircle2} tone="green" />
-        <ComplianceKpiCard label="Taux de complétion" value={Math.round(((onboardingCases.length - inProgress) / onboardingCases.length) * 100)} suffix="%" icon={CheckCircle2} />
+        <ComplianceKpiCard label={t("dash.activeCases")} value={onboardingCases.length} icon={Mail} tone="navy" />
+        <ComplianceKpiCard label={t("dash.inProgress")} value={inProgress} icon={Clock} tone="orange" />
+        <ComplianceKpiCard label={t("dash.readyDay1")} value={readyForDay1} icon={CheckCircle2} tone="green" />
+        <ComplianceKpiCard label={t("dash.completionRate")} value={Math.round(((onboardingCases.length - inProgress) / onboardingCases.length) * 100)} suffix="%" icon={CheckCircle2} />
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
@@ -87,7 +89,7 @@ export function HRDashboard() {
                   onClick={() => navigateToPassport(selectedEmployee.id)}
                   className="rounded-full border border-tc-border px-3 py-1.5 text-xs font-semibold text-tc-navy2 hover:bg-slate-50"
                 >
-                  Voir le passeport →
+                  {t("dash.viewPassport")} →
                 </button>
               </div>
 

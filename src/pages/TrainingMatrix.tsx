@@ -6,8 +6,10 @@ import { FilterPanel } from "@/components/shared/FilterPanel";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Grid3x3, Users } from "lucide-react";
 import { StatusBadge } from "@/components/shared/StatusBadge";
+import { useT } from "@/lib/i18n";
 
 export function TrainingMatrix() {
+  const t = useT();
   const [search, setSearch] = useState("");
   const [family, setFamily] = useState("Tous");
   const [bu, setBu] = useState("Tous");
@@ -37,28 +39,28 @@ export function TrainingMatrix() {
           <Grid3x3 className="h-5 w-5" />
         </div>
         <div>
-          <h1 className="font-display text-2xl font-bold text-tc-navy">Matrice de formation</h1>
-          <p className="text-sm text-slate-500">Règles poste + BU + client + projet + TQT — automatisation du profil requis.</p>
+          <h1 className="font-display text-2xl font-bold text-tc-navy">{t("matrix.title")}</h1>
+          <p className="text-sm text-slate-500">{t("matrix.subtitle")}</p>
         </div>
       </div>
 
       <Tabs defaultValue="rules">
         <TabsList className="bg-slate-100">
-          <TabsTrigger value="rules">Règles par poste ({matrixRules.length})</TabsTrigger>
-          <TabsTrigger value="profiles">Profils de postes ({jobProfiles.length})</TabsTrigger>
+          <TabsTrigger value="rules">{t("matrix.rulesByPosition")} ({matrixRules.length})</TabsTrigger>
+          <TabsTrigger value="profiles">{t("matrix.jobProfiles")} ({jobProfiles.length})</TabsTrigger>
         </TabsList>
 
         <TabsContent value="rules" className="mt-4 space-y-4">
           <FilterPanel
             search={search}
             onSearchChange={setSearch}
-            searchPlaceholder="Rechercher une règle, un TQT, une formation..."
+            searchPlaceholder={t("matrix.searchPlaceholder")}
             filters={[
-              { key: "family", label: "Business Unit", options: familyOptions, value: family, onChange: setFamily },
-              { key: "bu", label: "Poste", options: buOptions, value: bu, onChange: setBu },
-              { key: "client", label: "Client", options: clientOptions, value: client, onChange: setClient },
-              { key: "province", label: "Région", options: provinceOptions, value: province, onChange: setProvince },
-              { key: "status", label: "Statut", options: ["À valider", "Proposé — à valider", "Profil de base"], value: ruleStatus, onChange: setRuleStatus },
+              { key: "family", label: t("field.businessUnit"), options: familyOptions, value: family, onChange: setFamily },
+              { key: "bu", label: t("field.position"), options: buOptions, value: bu, onChange: setBu },
+              { key: "client", label: t("field.client"), options: clientOptions, value: client, onChange: setClient },
+              { key: "province", label: t("field.region"), options: provinceOptions, value: province, onChange: setProvince },
+              { key: "status", label: t("field.status"), options: ["À valider", "Proposé — à valider", "Profil de base"], value: ruleStatus, onChange: setRuleStatus },
             ]}
             onReset={() => { setSearch(""); setFamily("Tous"); setBu("Tous"); setClient("Tous"); setProvince("Tous"); setRuleStatus("Tous"); }}
           />

@@ -10,6 +10,7 @@ import {
 import { MonitorSmartphone, Gauge, CalendarClock, Building2 } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useState } from "react";
+import { useT } from "@/lib/i18n";
 
 const trend = [
   { month: "Mars", value: 71 },
@@ -21,6 +22,7 @@ const trend = [
 ];
 
 export function PowerBIView() {
+  const t = useT();
   const { visibleEmployees: employees } = useApp();
   const [region, setRegion] = useState("Tous");
   const regionList = Array.from(new Set(employees.map((e) => e.region))).sort();
@@ -48,28 +50,28 @@ export function PowerBIView() {
             <MonitorSmartphone className="h-5 w-5" />
           </div>
           <div>
-            <h1 className="font-display text-2xl font-bold text-tc-navy">Vue Power BI — Conformité SST</h1>
-            <p className="text-sm text-slate-500">Simulation de tableau de bord connecté à SharePoint / Forms / eCompliance.</p>
+            <h1 className="font-display text-2xl font-bold text-tc-navy">{t("powerbi.title")}</h1>
+            <p className="text-sm text-slate-500">{t("powerbi.subtitle")}</p>
           </div>
         </div>
         <Select value={region} onValueChange={setRegion}>
-          <SelectTrigger className="h-9 w-44 border-tc-border text-sm"><SelectValue placeholder="Région" /></SelectTrigger>
+          <SelectTrigger className="h-9 w-44 border-tc-border text-sm"><SelectValue placeholder={t("field.region")} /></SelectTrigger>
           <SelectContent>
-            <SelectItem value="Tous">Toutes régions</SelectItem>
+            <SelectItem value="Tous">{t("powerbi.allRegions")}</SelectItem>
             {regionList.map((r) => <SelectItem key={r} value={r}>{r}</SelectItem>)}
           </SelectContent>
         </Select>
       </div>
 
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <ComplianceKpiCard label="Conformité (filtre actif)" value={avgCompliance} suffix="%" icon={Gauge} trend="up" trendLabel="+3 pts / mois" />
-        <ComplianceKpiCard label="Autorisations expirant (60j)" value={expiring.length} icon={CalendarClock} tone="orange" />
-        <ComplianceKpiCard label="Règles avec PSFCE" value={highRiskCount} icon={Building2} tone="red" />
-        <ComplianceKpiCard label="Contrôles COR actifs" value={corControlled} icon={Gauge} tone="teal" />
+        <ComplianceKpiCard label={t("powerbi.complianceFilter")} value={avgCompliance} suffix="%" icon={Gauge} trend="up" trendLabel="+3 pts / mois" />
+        <ComplianceKpiCard label={t("powerbi.expiring")} value={expiring.length} icon={CalendarClock} tone="orange" />
+        <ComplianceKpiCard label={t("dash.psfceRules")} value={highRiskCount} icon={Building2} tone="red" />
+        <ComplianceKpiCard label={t("powerbi.corControls")} value={corControlled} icon={Gauge} tone="teal" />
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-        <PowerBIWidget title="Tendance de conformité" subtitle="6 derniers mois" className="lg:col-span-2">
+        <PowerBIWidget title={t("powerbi.trend")} subtitle={t("powerbi.last6")} className="lg:col-span-2">
           <ResponsiveContainer width="100%" height={220}>
             <LineChart data={trend} margin={{ left: -20 }}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#EEF2F6" />
@@ -81,7 +83,7 @@ export function PowerBIView() {
           </ResponsiveContainer>
         </PowerBIWidget>
 
-        <PowerBIWidget title="Objectif de conformité" subtitle="Cible : 90 %">
+        <PowerBIWidget title={t("powerbi.target")} subtitle="90 %">
           <ResponsiveContainer width="100%" height={220}>
             <RadialBarChart innerRadius="70%" outerRadius="100%" data={[{ name: "Conformité", value: avgCompliance, fill: "#008C82" }]} startAngle={90} endAngle={-270}>
               <PolarAngleAxis type="number" domain={[0, 100]} angleAxisId={0} tick={false} />
@@ -96,7 +98,7 @@ export function PowerBIView() {
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <PowerBIWidget title="Conformité par Business Unit" subtitle="Moyenne par BU">
+        <PowerBIWidget title={t("powerbi.byBU")} subtitle={t("dash.weightedAvg")}>
           <ResponsiveContainer width="100%" height={200}>
             <BarChart data={byBU} margin={{ left: -20 }}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#EEF2F6" />
@@ -108,7 +110,7 @@ export function PowerBIView() {
           </ResponsiveContainer>
         </PowerBIWidget>
 
-        <PowerBIWidget title="Échéances à venir" subtitle="Autorisations expirant dans les 60 jours">
+        <PowerBIWidget title={t("powerbi.upcomingDeadlines")} subtitle={t("powerbi.expiring")}>
           <div className="max-h-[200px] space-y-2 overflow-y-auto scrollbar-thin pr-1">
             {expiring.map((a) => {
               const emp = employees.find((e) => e.id === a.employeeId);

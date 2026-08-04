@@ -3,9 +3,11 @@ import { categoryOrder } from "@/data/trainingCatalog";
 import { useResourceEditing } from "@/pages/ResourceManager";
 import { TrainingModuleCard } from "@/components/shared/TrainingModuleCard";
 import { FilterPanel } from "@/components/shared/FilterPanel";
+import { useT } from "@/lib/i18n";
 import { GraduationCap, Info } from "lucide-react";
 
 export function TrainingCenter() {
+  const t = useT();
   const { trainingCatalogWithOverrides: trainingCatalog } = useResourceEditing();
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("Tous");
@@ -36,44 +38,41 @@ export function TrainingCenter() {
           <GraduationCap className="h-5 w-5" />
         </div>
         <div>
-          <h1 className="font-display text-2xl font-bold text-tc-navy">Centre de formation</h1>
-          <p className="text-sm text-slate-500">{trainingCatalog.length} modules du catalogue SSE-800.</p>
+          <h1 className="font-display text-2xl font-bold text-tc-navy">{t("training.title")}</h1>
+          <p className="text-sm text-slate-500">{trainingCatalog.length} {t("training.subtitle")}</p>
         </div>
       </div>
 
       <div className="flex items-start gap-2.5 rounded-xl border border-tc-border bg-white p-4">
         <Info className="mt-0.5 h-4 w-4 shrink-0 text-tc-teal" />
         <div className="text-xs leading-relaxed text-slate-600">
-          Les quiz d'<span className="font-medium">orientation</span> ne demandent pas de connexion —
-          les comptes Microsoft ne sont généralement pas encore actifs à ce moment. Les quiz du
-          <span className="font-medium"> Programme de développement des superviseurs</span> exigent
-          une connexion au compte professionnel Microsoft.
+          {t("training.signInNote")}
           <br />
-          Problème de connexion :{" "}
+          {t("training.supportNote")}{" "}
           <a href="https://support.telecon.ca/support/home" target="_blank" rel="noopener noreferrer"
              className="font-medium text-tc-navy2 underline">
             support.telecon.ca
           </a>{" "}
-          · lien défectueux : signalez-le à votre HSBP.
+          · {t("training.brokenLink")}
         </div>
       </div>
 
       <FilterPanel
         search={search}
         onSearchChange={setSearch}
-        searchPlaceholder="Rechercher une formation ou un ID..."
+        searchPlaceholder={t("training.searchPlaceholder")}
         filters={[
-          { key: "category", label: "Catégorie", options: categoryOrder, value: category, onChange: setCategory },
+          { key: "category", label: t("field.category"), options: categoryOrder, value: category, onChange: setCategory },
           { key: "bu", label: "BU", options: buOptions, value: bu, onChange: setBu },
           { key: "tqt", label: "TQT", options: tqtOptions, value: tqt, onChange: setTqt },
-          { key: "lang", label: "Langue", options: ["FR", "EN", "Bilingual"], value: language, onChange: setLanguage },
+          { key: "lang", label: t("field.language"), options: ["FR", "EN", "Bilingual"], value: language, onChange: setLanguage },
         ]}
         onReset={() => { setSearch(""); setCategory("Tous"); setLanguage("Tous"); setBu("Tous"); setTqt("Tous"); }}
       />
 
       {grouped.length === 0 && (
         <div className="rounded-2xl border border-dashed border-tc-border py-16 text-center text-sm text-slate-400">
-          Aucune formation ne correspond à ces filtres.
+          {t("training.noResults")}
         </div>
       )}
 
