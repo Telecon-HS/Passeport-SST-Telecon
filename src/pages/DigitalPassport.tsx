@@ -10,6 +10,7 @@ import { PassportCard } from "@/components/shared/PassportCard";
 import { StatusBadge } from "@/components/shared/StatusBadge";
 import { AuthorizationCard } from "@/components/shared/AuthorizationCard";
 import { EvidenceDrawer } from "@/components/shared/EvidenceDrawer";
+import { ModuleResources } from "@/components/shared/ModuleResources";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { trainingStateTone, psfceTone, psfceLabel } from "@/lib/status";
@@ -92,7 +93,8 @@ export function DigitalPassport() {
                         const Icon = stateIcon[r.state];
                         const tone = trainingStateTone(r.state);
                         return (
-                          <div key={r.moduleId} className="flex items-center gap-3 rounded-lg px-2 py-2 hover:bg-slate-50">
+                          <div key={r.moduleId} className="rounded-lg px-2 py-2 hover:bg-slate-50">
+                            <div className="flex items-center gap-3">
                             <Icon
                               className={cn(
                                 "h-4 w-4 shrink-0",
@@ -108,6 +110,12 @@ export function DigitalPassport() {
                               {r.quizScore && <div className="text-xs text-slate-400">Quiz : {r.quizScore}%</div>}
                             </div>
                             <StatusBadge label={r.state} tone={tone} className="text-[10px]" />
+                            </div>
+                            {module.resources && module.resources.length > 0 && (
+                              <div className="ml-7 mt-1.5">
+                                <ModuleResources resources={module.resources} compact />
+                              </div>
+                            )}
                           </div>
                         );
                       })}

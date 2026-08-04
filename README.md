@@ -153,6 +153,29 @@ BU canoniques pour garder les croisements cohérents entre la matrice et les dos
 - Les codes internes (TDU, TDI, AGIR, Questzone, SC360, Marcomm) ne sont pas modélisés :
   ils relèvent des feuilles de temps, pas des parcours de formation SST.
 
+## Ressources de formation
+
+Les modules portent les **liens réels** vers les vidéos YouTube et les quiz Microsoft Forms
+(champ `resources` dans `src/data/trainingCatalog.ts`). Ils s'ouvrent dans un nouvel onglet
+depuis le Centre de formation et le Passeport numérique.
+
+Couverture actuelle : version **française** de 7 modules — `ORI-001`, `WHMIS-001`, `DRV-001`,
+`SIL-001`, `EXC-001`, `TOOLS-001`, `ELEC-001`.
+
+Trois cas sont distingués visuellement :
+
+- **Lien externe** → cliquable, ouvre YouTube ou Forms ;
+- **Fichier interne** (`.mp4`, `.pptx` non publiés) → affiché en grisé, non cliquable, pour ne pas
+  laisser croire à un lien mort ;
+- **Réserve connue** → pastille orange, ex. « Traduction à vérifier » ou lien manquant.
+
+### À compléter
+
+- Quiz **SIMDUT 2022** : le lien Forms n'a pas été fourni (seul un libellé était présent).
+- Traductions à vérifier : quiz `EXC-001`, présentation et quiz `TOOLS-001`.
+- Fichiers à publier : vidéo excavation (`.mp4`), présentations `TOOLS-001` et `ELEC-001` (`.pptx`).
+- Versions **anglaises** : aucune ressource fournie à ce jour.
+
 ## Moteur de matrice
 
 `src/lib/matrix-engine.ts` transforme un dossier employé en exigences concrètes, ce qui correspond

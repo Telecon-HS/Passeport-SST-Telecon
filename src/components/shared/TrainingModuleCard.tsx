@@ -2,7 +2,8 @@ import type { TrainingModule } from "@/types";
 import { StatusBadge } from "./StatusBadge";
 import { moduleStatusTone } from "@/lib/status";
 import { PlayCircle, FileText, Presentation, ExternalLink, ClipboardCheck, Users } from "lucide-react";
-import { cn } from "@/lib/utils";
+
+import { ModuleResources } from "./ModuleResources";
 
 const deliveryIcon: Record<string, any> = {
   Video: PlayCircle,
@@ -48,6 +49,11 @@ export function TrainingModuleCard({
           ))}
         </div>
       )}
+      {module.resources && module.resources.length > 0 && (
+        <div className="mt-3 border-t border-tc-border pt-3">
+          <ModuleResources resources={module.resources} compact />
+        </div>
+      )}
       <div className="mt-3 flex items-center justify-between border-t border-tc-border pt-3">
         <div className="flex items-center gap-3 text-[11px] text-slate-500">
           {module.requiresQuiz && (
@@ -61,15 +67,21 @@ export function TrainingModuleCard({
             </span>
           )}
         </div>
-        <button
-          onClick={onLaunch}
-          className={cn(
-            "text-xs font-semibold text-tc-teal opacity-0 transition-opacity group-hover:opacity-100",
-            "hover:underline"
-          )}
-        >
-          Lancer →
-        </button>
+        {(() => {
+          const primary = module.resources?.find((r) => r.kind !== "quiz" && r.url);
+          if (!primary) return null;
+          return (
+            <a
+              href={primary.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={onLaunch}
+              className="text-xs font-semibold text-tc-teal hover:underline"
+            >
+              Lancer →
+            </a>
+          );
+        })()}
       </div>
     </div>
   );

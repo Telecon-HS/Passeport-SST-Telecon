@@ -44,6 +44,20 @@ export interface Employee {
   onboardingSent: boolean;
 }
 
+export type ResourceKind = "video" | "quiz" | "presentation" | "fichier";
+
+export interface TrainingResource {
+  kind: ResourceKind;
+  language: "FR" | "EN";
+  label: string;
+  /** URL externe. Absente si la ressource est un fichier interne non publié. */
+  url?: string;
+  /** Nom du fichier interne, lorsqu'aucune URL n'est disponible. */
+  fileName?: string;
+  /** Réserve connue sur la ressource (ex. traduction à vérifier). */
+  caveat?: string;
+}
+
 export interface TrainingModule {
   id: string;
   title: string;
@@ -57,6 +71,7 @@ export interface TrainingModule {
   psfceRequirement: string;
   requiresFieldValidation: boolean;
   status: string;
+  resources?: TrainingResource[];
 }
 
 export interface EmployeeTrainingRecord {
