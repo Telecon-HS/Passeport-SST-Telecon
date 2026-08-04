@@ -14,17 +14,17 @@ export function TrainingMatrix() {
   const [client, setClient] = useState("Tous");
   const [province, setProvince] = useState("Tous");
 
-  const familyOptions = useMemo(() => Array.from(new Set(matrixRules.map((r) => r.jobFamily))).sort(), []);
-  const buOptions = useMemo(() => Array.from(new Set(matrixRules.map((r) => r.bu))).sort(), []);
+  const familyOptions = useMemo(() => Array.from(new Set(matrixRules.map((r) => r.bu))).sort(), []);
+  const buOptions = useMemo(() => Array.from(new Set(matrixRules.map((r) => r.position))).sort(), []);
   const clientOptions = useMemo(() => Array.from(new Set(matrixRules.map((r) => r.client))).sort(), []);
-  const provinceOptions = useMemo(() => Array.from(new Set(matrixRules.map((r) => r.province))).sort(), []);
+  const provinceOptions = useMemo(() => Array.from(new Set(matrixRules.map((r) => r.regions))).sort(), []);
 
   const filtered = matrixRules.filter((r) => {
-    if (search && !r.formationTitle.toLowerCase().includes(search.toLowerCase()) && !r.id.toLowerCase().includes(search.toLowerCase()) && !r.tqt.toLowerCase().includes(search.toLowerCase())) return false;
-    if (family !== "Tous" && r.jobFamily !== family) return false;
-    if (bu !== "Tous" && r.bu !== bu) return false;
+    if (search && !r.position.toLowerCase().includes(search.toLowerCase()) && !r.id.toLowerCase().includes(search.toLowerCase()) && !r.tqt.toLowerCase().includes(search.toLowerCase())) return false;
+    if (family !== "Tous" && r.bu !== family) return false;
+    if (bu !== "Tous" && r.position !== bu) return false;
     if (client !== "Tous" && r.client !== client) return false;
-    if (province !== "Tous" && r.province !== province) return false;
+    if (province !== "Tous" && r.regions !== province) return false;
     return true;
   });
 
@@ -42,7 +42,7 @@ export function TrainingMatrix() {
 
       <Tabs defaultValue="rules">
         <TabsList className="bg-slate-100">
-          <TabsTrigger value="rules">Règles avancées ({matrixRules.length})</TabsTrigger>
+          <TabsTrigger value="rules">Règles par poste ({matrixRules.length})</TabsTrigger>
           <TabsTrigger value="profiles">Profils de postes ({jobProfiles.length})</TabsTrigger>
         </TabsList>
 
@@ -52,10 +52,10 @@ export function TrainingMatrix() {
             onSearchChange={setSearch}
             searchPlaceholder="Rechercher une règle, un TQT, une formation..."
             filters={[
-              { key: "family", label: "Famille métier", options: familyOptions, value: family, onChange: setFamily },
-              { key: "bu", label: "BU", options: buOptions, value: bu, onChange: setBu },
+              { key: "family", label: "Business Unit", options: familyOptions, value: family, onChange: setFamily },
+              { key: "bu", label: "Poste", options: buOptions, value: bu, onChange: setBu },
               { key: "client", label: "Client", options: clientOptions, value: client, onChange: setClient },
-              { key: "province", label: "Province", options: provinceOptions, value: province, onChange: setProvince },
+              { key: "province", label: "Région", options: provinceOptions, value: province, onChange: setProvince },
             ]}
             onReset={() => { setSearch(""); setFamily("Tous"); setBu("Tous"); setClient("Tous"); setProvince("Tous"); }}
           />

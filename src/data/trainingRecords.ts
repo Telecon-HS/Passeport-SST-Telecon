@@ -1,6 +1,6 @@
 import type { EmployeeTrainingRecord } from "@/types";
 import { employees } from "./employees";
-import { trainingCatalog } from "./trainingCatalog";
+import { requiredModulesFor } from "@/lib/matrix-engine";
 
 // Deterministic pseudo-random generator so the dataset is stable across renders.
 function seededRandom(seed: number) {
@@ -12,17 +12,11 @@ function seededRandom(seed: number) {
   };
 }
 
-function moduleAppliesToEmployee(businessUnits: string[], bu: string, client: string | undefined, moduleClient: string | undefined) {
-  const buMatch = businessUnits.includes("All") || businessUnits.includes(bu) || businessUnits.some((b) => bu.toLowerCase().includes(b.toLowerCase()));
-  if (moduleClient && client && moduleClient !== client) return false;
-  return buMatch;
-}
-
 export const trainingRecords: EmployeeTrainingRecord[] = [];
 
 employees.forEach((emp, idx) => {
   const rand = seededRandom(1000 + idx * 37);
-  const relevant = trainingCatalog.filter((m) => moduleAppliesToEmployee(m.businessUnits, emp.businessUnit, emp.client, m.client));
+  const relevant = requiredModulesFor(emp);
   relevant.forEach((mod) => {
     const roll = rand();
     const threshold = emp.compliance / 100;

@@ -7,9 +7,11 @@ export const businessUnits = [
   "Infrastructure",
   "I&R",
   "Structured Cabling",
-  "Design",
+  "Design CAD",
+  "Design Surveyors",
   "Locate",
   "Warehouse",
+  "Corporate / All",
 ] as const;
 
 export type BusinessUnit = (typeof businessUnits)[number];
@@ -19,7 +21,9 @@ export const businessUnitScope: Record<BusinessUnit, string> = {
   "Infrastructure": "Excavation, daylighting, électricité télécom, TCP, travaux civils, FTTH, aérien et souterrain",
   "I&R": "Installation, réparation et travaux terrain télécommunications",
   "Structured Cabling": "Fibre, cuivre, Wi-Fi, DAS, AV, sécurité, centres de données",
-  "Design": "Conception, dessin technique, ingénierie de réseaux, arpentage et relevés terrain",
+  "Design CAD": "Conception, dessin technique, ingénierie de réseaux",
+  "Design Surveyors": "Arpentage, relevés terrain, travail près de la circulation",
+  "Corporate / All": "Fonctions transversales : SST, RH, gestion opérationnelle",
   "Locate": "Localisation d'infrastructures, utility locating, vérification des services souterrains",
   "Warehouse": "Entrepôt, réception, inventaire, matériel",
 };
@@ -27,7 +31,7 @@ export const businessUnitScope: Record<BusinessUnit, string> = {
 /** Sous-divisions connues, à titre indicatif. */
 export const businessUnitDivisions: Partial<Record<BusinessUnit, string[]>> = {
   "Infrastructure": ["Infrastructure QC", "Infrastructure ON", "Infrastructure West"],
-  "Design": ["Design CAD", "Design Surveyors", "Design Canada", "Design USA"],
+  "Design CAD": ["Design Canada", "Design USA"],
   "Locate": ["Promark Utility Services"],
   "Structured Cabling": ["Enterprise Connectivity"],
 };
@@ -78,9 +82,12 @@ const buAliases: Record<string, BusinessUnit> = {
   "Structured Cabling": "Structured Cabling",
   "Opérations régionales": "Structured Cabling",
   "Enterprise Connectivity": "Structured Cabling",
-  "Design": "Design",
-  "Conception CAD": "Design",
-  "Géomètres Design": "Design",
+  "Design": "Design CAD",
+  "Design CAD": "Design CAD",
+  "Conception CAD": "Design CAD",
+  "Design Surveyors": "Design Surveyors",
+  "Géomètres Design": "Design Surveyors",
+  "Corporate / All": "Corporate / All",
   "Localisation": "Locate",
   "Locate": "Locate",
   "Promark": "Locate",

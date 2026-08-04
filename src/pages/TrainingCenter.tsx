@@ -35,7 +35,7 @@ export function TrainingCenter() {
         </div>
         <div>
           <h1 className="font-display text-2xl font-bold text-tc-navy">Centre de formation</h1>
-          <p className="text-sm text-slate-500">{trainingCatalog.length} modules — vidéos, présentations et formations externes.</p>
+          <p className="text-sm text-slate-500">{trainingCatalog.length} modules du catalogue SSE-800.</p>
         </div>
       </div>
 

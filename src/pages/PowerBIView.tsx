@@ -37,8 +37,8 @@ export function PowerBIView() {
 
   const expiring = authorizations.filter((a) => a.validUntil && a.validUntil < "2026-11-01" && a.validUntil >= "2026-08-01");
 
-  const highRiskCount = matrixRules.filter((r) => r.riskPriority === "Élevée").length;
-  const corControlled = matrixRules.filter((r) => r.riskPriority === "Élevée").length;
+  const highRiskCount = matrixRules.filter((r) => r.psfceRequired !== "Non").length;
+  const corControlled = matrixRules.filter((r) => r.psfceRequired !== "Non").length;
 
   return (
     <div className="mx-auto max-w-6xl space-y-6 px-4 py-6 sm:px-8">
@@ -64,7 +64,7 @@ export function PowerBIView() {
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <ComplianceKpiCard label="Conformité (filtre actif)" value={avgCompliance} suffix="%" icon={Gauge} trend="up" trendLabel="+3 pts / mois" />
         <ComplianceKpiCard label="Autorisations expirant (60j)" value={expiring.length} icon={CalendarClock} tone="orange" />
-        <ComplianceKpiCard label="TQT priorité élevée" value={highRiskCount} icon={Building2} tone="red" />
+        <ComplianceKpiCard label="Règles avec PSFCE" value={highRiskCount} icon={Building2} tone="red" />
         <ComplianceKpiCard label="Contrôles COR actifs" value={corControlled} icon={Gauge} tone="teal" />
       </div>
 

@@ -54,9 +54,9 @@ export interface TrainingModule {
   client?: string;
   delivery: string;
   requiresQuiz: boolean;
-  requiresPSFCE: boolean;
+  psfceRequirement: string;
+  requiresFieldValidation: boolean;
   status: string;
-  modifiedDuties: boolean;
 }
 
 export interface EmployeeTrainingRecord {
@@ -101,29 +101,24 @@ export interface Evidence {
 
 export interface MatrixRule {
   id: string;
-  status: "À valider" | "Approuvé" | "Suspendu" | "Pilote";
-  jobFamily: string;
-  position: string;
+  status: string;
   bu: string;
+  regions: string;
+  position: string;
+  positionLevel: string;
   client: string;
   projectType: string;
-  province: string;
   tqt: string;
-  context: string;
-  formationId: string;
-  formationTitle: string;
-  level: string;
-  moment: string;
-  frequency: string;
-  evidence: string;
-  competencyCriteria: string;
-  bpmnStep: string;
-  responsibleA: string;
-  responsibleR: string;
-  responsibleC: string;
-  responsibleI: string;
-  riskPriority: "Faible" | "Moyenne" | "Élevée";
+  requiredModules: string[];
+  quizEvidence: string;
+  psfceRequired: string;
+  fieldCompetencies: string;
+  targetAuthorization: string;
+  defaultAuthorizationStatus: string;
+  validationOwner: string;
+  bpmn: string;
   corControl: string;
+  source: string;
 }
 
 export interface JobProfile {

@@ -58,9 +58,9 @@ src/
 ├── types.ts                # Modèle de données (Employee, TrainingModule, PSFCE, Authorization, ...)
 ├── data/                    # Données fictives (dérivées du catalogue et de la matrice réels)
 │   ├── employees.ts
-│   ├── trainingCatalog.ts   # 25 modules — issus de 05_CATALOGUE_FORMATIONS.csv
-│   ├── matrixRules.ts       # 45 règles — issues de la matrice avancée (xlsx)
-│   ├── jobProfiles.ts       # 9 profils de postes
+│   ├── trainingCatalog.ts   # 26 modules — catalogue SSE-800
+│   ├── matrixRules.ts       # 28 règles Poste → BU → TQT → Formations → PSFCE → Autorisations
+│   ├── organization.ts      # Référentiel BU / Région / Poste
 │   ├── psfce.ts
 │   ├── authorizations.ts
 │   └── evidence.ts          # Preuves + dossiers d'onboarding
@@ -152,6 +152,28 @@ BU canoniques pour garder les croisements cohérents entre la matrice et les dos
   les dossiers concernés sont rattachés à `I&R` — à valider.
 - Les codes internes (TDU, TDI, AGIR, Questzone, SC360, Marcomm) ne sont pas modélisés :
   ils relèvent des feuilles de temps, pas des parcours de formation SST.
+
+## Moteur de matrice
+
+`src/lib/matrix-engine.ts` transforme un dossier employé en exigences concrètes, ce qui correspond
+à l'étape **BPMN-03 « Consulter la matrice »** :
+
+```
+BU + Poste + Région
+   → règles applicables (matrixRules)
+   → modules de formation requis  (+ tronc commun ORI-001, SRI-001)
+   → exigence PSFCE
+   → autorisations visées et responsable de validation
+   → compétences terrain à évaluer
+```
+
+Le Passeport numérique affiche ce profil requis, et l'état de formation de chaque employé est
+dérivé de ses modules requis plutôt que du catalogue complet.
+
+Sources de la matrice : SSE-800 (orientation et formation), SSE-801 (jeunes et nouveaux
+travailleurs), SSE-203 (supervision compétente), documents Enterprise Structured Cabling et
+Livre du localisateur. Toutes les règles sont au statut **« À valider »** — la liste officielle
+des postes RH par BU n'a pas été retrouvée dans les sources.
 
 ## Persistance des données
 

@@ -42,7 +42,7 @@ export function ManagerDashboard() {
   };
 
   const atRisk = employees.filter((e) => e.compliance < 65).sort((a, b) => a.compliance - b.compliance);
-  const highRiskRules = matrixRules.filter((r) => r.riskPriority === "Élevée").length;
+  const highRiskRules = matrixRules.filter((r) => r.psfceRequired !== "Non").length;
   const notAuthCritical = authorizations.filter((a) => a.status === "Not authorized").length;
 
   return (
@@ -56,7 +56,7 @@ export function ManagerDashboard() {
         <ComplianceKpiCard label="Conformité globale" value={avgCompliance} suffix="%" icon={ShieldCheck} />
         <ComplianceKpiCard label="Employés autorisés" value={authorized} icon={Users} tone="green" />
         <ComplianceKpiCard label="Non autorisés (tâche critique)" value={notAuthCritical} icon={AlertTriangle} tone="red" />
-        <ComplianceKpiCard label="Règles priorité élevée" value={highRiskRules} icon={TrendingUp} tone="orange" />
+        <ComplianceKpiCard label="Règles avec PSFCE" value={highRiskRules} icon={TrendingUp} tone="orange" />
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">

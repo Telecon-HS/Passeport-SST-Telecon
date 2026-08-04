@@ -4,6 +4,7 @@ import { employeeById } from "@/data/employees";
 import { recordsForEmployee } from "@/data/trainingRecords";
 import { trainingCatalog } from "@/data/trainingCatalog";
 import { useDataStore } from "@/lib/data-store";
+import { rulesForEmployee, psfceRequirementFor, fieldCompetenciesFor, targetAuthorizationsFor } from "@/lib/matrix-engine";
 import { evidenceForEmployee } from "@/data/evidence";
 import { PassportCard } from "@/components/shared/PassportCard";
 import { StatusBadge } from "@/components/shared/StatusBadge";
@@ -36,11 +37,13 @@ export function DigitalPassport() {
   const evidence = evidenceForEmployee(employee.id);
   const canSwitch = role !== "Employé" && visibleEmployees.length > 1;
 
+  const categoryOf = (id: string) => trainingCatalog.find((m) => m.id === id)?.category ?? "Autre";
   const groups: { label: string; filter: (id: string) => boolean }[] = [
-    { label: "Orientation corporative", filter: (id) => id.startsWith("ORI") || id.startsWith("SIM") || id.startsWith("WHMIS") || id.startsWith("DRV") },
-    { label: "TQT / STKY", filter: (id) => ["TQT-FR", "SIL-FR", "EXC-FR", "DAY-EN", "LOC-EN", "FLUKE-EN", "ELEC-FR", "RESP-FR", "LEAD-FR"].includes(id) },
-    { label: "Formation BU / métier", filter: (id) => ["TOOLS-FR", "PUB-FR", "TCP-ON"].includes(id) },
-    { label: "Autre / réglementaire", filter: (id) => ["NALOX-ON", "HAZCOM-US", "FIRE-EN", "ENERGY-FR", "PREJOB-FR", "IMP-FR", "URG-FR", "DIL-FR", "EVID-FR"].includes(id) },
+    { label: "Orientation corporative", filter: (id) => categoryOf(id) === "Orientation" },
+    { label: "TQT / STKY", filter: (id) => categoryOf(id) === "TQT" },
+    { label: "Orientation métier", filter: (id) => ["Orientation métier", "Technique"].includes(categoryOf(id)) },
+    { label: "Urgence et provincial", filter: (id) => ["Urgence", "Provincial"].includes(categoryOf(id)) },
+    { label: "Développement superviseur", filter: (id) => categoryOf(id) === "Supervisor Development" },
   ];
 
   return (
@@ -153,6 +156,49 @@ export function DigitalPassport() {
         </div>
 
         <div className="space-y-6">
+          <section className="rounded-2xl border border-tc-border bg-white p-5 shadow-sm">
+            <h2 className="font-display text-sm font-bold text-tc-navy">Profil requis (matrice)</h2>
+            <p className="mt-0.5 text-xs text-slate-500">
+              {employee.businessUnit} · {employee.position}
+            </p>
+            {rulesForEmployee(employee).length === 0 ? (
+              <p className="mt-3 text-xs text-tc-orange">
+                Aucune règle de matrice ne correspond encore à ce poste — à compléter par le PASS SST.
+              </p>
+            ) : (
+              <>
+                <div className="mt-3 flex items-center justify-between border-b border-tc-border/60 pb-2 text-xs">
+                  <span className="text-slate-500">PSFCE requis</span>
+                  <span className="font-medium text-tc-text">{psfceRequirementFor(employee)}</span>
+                </div>
+                <div className="mt-2">
+                  <div className="text-[11px] font-semibold uppercase tracking-wide text-slate-400">
+                    Autorisations visées
+                  </div>
+                  {targetAuthorizationsFor(employee).map((a, i) => (
+                    <div key={i} className="mt-1 text-xs text-tc-text">
+                      {a.authorization}
+                      <span className="text-slate-400"> — {a.owner}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-3">
+                  <div className="text-[11px] font-semibold uppercase tracking-wide text-slate-400">
+                    Compétences terrain à évaluer
+                  </div>
+                  <ul className="mt-1 space-y-1">
+                    {fieldCompetenciesFor(employee).map((c, i) => (
+                      <li key={i} className="flex gap-1.5 text-xs text-slate-600">
+                        <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-tc-teal" />
+                        {c}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </>
+            )}
+          </section>
+
           <section className="rounded-2xl border border-tc-border bg-white p-5 shadow-sm">
             <h2 className="mb-3 font-display text-sm font-bold text-tc-navy">Prérequis RH</h2>
             <div className="space-y-2 text-sm">

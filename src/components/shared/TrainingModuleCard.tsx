@@ -55,7 +55,7 @@ export function TrainingModuleCard({
               <ClipboardCheck className="h-3.5 w-3.5" /> Quiz
             </span>
           )}
-          {module.requiresPSFCE && (
+          {module.psfceRequirement !== "Non" && (
             <span className="flex items-center gap-1">
               <Users className="h-3.5 w-3.5" /> PSFCE
             </span>
