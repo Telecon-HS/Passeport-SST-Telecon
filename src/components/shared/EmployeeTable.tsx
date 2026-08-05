@@ -6,9 +6,11 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { ChevronRight } from "lucide-react";
 import { useApp } from "@/lib/app-context";
 import { useT } from "@/lib/i18n";
+import { makeDataLabel } from "@/lib/data-labels";
 
 export function EmployeeTable({ employees }: { employees: Employee[] }) {
   const t = useT();
+  const dl = makeDataLabel(t);
   const { navigateToPassport } = useApp();
   return (
     <div className="overflow-hidden rounded-2xl border border-tc-border bg-white shadow-sm">
@@ -42,7 +44,7 @@ export function EmployeeTable({ employees }: { employees: Employee[] }) {
                 </div>
               </TableCell>
               <TableCell>
-                <div className="text-sm text-tc-text">{emp.position}</div>
+                <div className="text-sm text-tc-text">{dl(emp.position)}</div>
                 <div className="text-xs text-slate-500">{emp.businessUnit}</div>
               </TableCell>
               <TableCell><div className="text-sm text-tc-text">{emp.region}</div><div className="text-xs text-slate-500">{emp.province}</div></TableCell>

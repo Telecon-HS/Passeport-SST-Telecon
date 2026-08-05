@@ -15,7 +15,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { trainingStateTone, psfceTone, psfceLabel } from "@/lib/status";
 import { Button } from "@/components/ui/button";
-import { useT } from "@/lib/i18n";
+import { useT, useI18n } from "@/lib/i18n";
+import { moduleTitle } from "@/lib/data-labels";
 import { FolderCheck, CheckCircle2, Circle, Clock, AlertTriangle, XCircle, Users2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -29,6 +30,7 @@ const stateIcon: Record<string, any> = {
 
 export function DigitalPassport() {
   const t = useT();
+  const { lang } = useI18n();
   const { focusEmployeeId, setFocusEmployeeId, role, visibleEmployees, canViewEmployee } = useApp();
   const { authorizations: allAuthorizations, psfce: allPsfce } = useDataStore();
   const { trainingCatalogWithOverrides: trainingCatalog } = useResourceEditing();
@@ -43,7 +45,7 @@ export function DigitalPassport() {
 
   const categoryOf = (id: string) => trainingCatalog.find((m) => m.id === id)?.category ?? "Autre";
   const groups: { label: string; filter: (id: string) => boolean }[] = [
-    { label: "Orientation corporative", filter: (id) => categoryOf(id) === "Orientation" },
+    { label: t("data.Orientation") === "data.Orientation" ? "Orientation corporative" : "Corporate orientation", filter: (id) => categoryOf(id) === "Orientation" },
     { label: "TQT / STKY", filter: (id) => categoryOf(id) === "TQT" },
     { label: "Orientation métier", filter: (id) => ["Orientation métier", "Technique"].includes(categoryOf(id)) },
     { label: "Urgence et provincial", filter: (id) => ["Urgence", "Provincial"].includes(categoryOf(id)) },
@@ -109,7 +111,7 @@ export function DigitalPassport() {
                               )}
                             />
                             <div className="min-w-0 flex-1">
-                              <div className="truncate text-sm font-medium text-tc-text">{module.title}</div>
+                              <div className="truncate text-sm font-medium text-tc-text">{moduleTitle(module, lang)}</div>
                               {r.quizScore && <div className="text-xs text-slate-400">Quiz : {r.quizScore}%</div>}
                             </div>
                             <StatusBadge label={r.state} tone={tone} className="text-[10px]" />

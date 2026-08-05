@@ -9,7 +9,8 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { FilterPanel } from "@/components/shared/FilterPanel";
 import { StatusBadge } from "@/components/shared/StatusBadge";
-import { useT } from "@/lib/i18n";
+import { useT, useI18n } from "@/lib/i18n";
+import { moduleTitle } from "@/lib/data-labels";
 import { moduleStatusTone } from "@/lib/status";
 import { Link2, Plus, Trash2, RotateCcw, Save, ExternalLink, AlertTriangle, CheckCircle2 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -18,6 +19,7 @@ const kinds: ResourceKind[] = ["video", "quiz", "presentation", "fichier"];
 
 export function ResourceManager() {
   const t = useT();
+  const { lang } = useI18n();
   const { trainingCatalogWithOverrides, saveModuleResources, resetModuleResources, resourceOverrides } =
     useResourceEditing();
   const { account } = useAuth();
@@ -133,7 +135,7 @@ export function ResourceManager() {
                       </span>
                     )}
                   </div>
-                  <div className="truncate text-sm font-medium text-tc-text">{m.title}</div>
+                  <div className="truncate text-sm font-medium text-tc-text">{moduleTitle(m, lang)}</div>
                   <div className="text-[11px] text-slate-400">
                     {(m.resources ?? []).length} ressource(s)
                   </div>
@@ -156,7 +158,7 @@ export function ResourceManager() {
             <div className="rounded-2xl border border-tc-border bg-white p-5 shadow-sm">
               <div className="flex flex-wrap items-start justify-between gap-3 border-b border-tc-border pb-4">
                 <div>
-                  <h2 className="font-display text-lg font-bold text-tc-navy">{selected.title}</h2>
+                  <h2 className="font-display text-lg font-bold text-tc-navy">{moduleTitle(selected, lang)}</h2>
                   <p className="text-xs text-slate-500">
                     {selected.id} · {selected.category} · {selected.language}
                   </p>

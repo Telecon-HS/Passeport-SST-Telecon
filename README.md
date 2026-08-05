@@ -205,9 +205,23 @@ composants partagés (tableaux, filtres, badges de statut, cartes).
 Environ 190 clés par langue. Un test de balayage vérifie l'absence de résidus français sur les
 9 écrans principaux en mode anglais.
 
-**Hors périmètre de l'interface** : les libellés issus des données (titres de modules, postes,
-BU, compétences, règles de matrice) proviennent des documents Telecon et restent dans leur langue
-d'origine. Les traduire supposerait une version bilingue de la matrice et du catalogue.
+### Libellés issus des données
+
+Les titres de modules, catégories, dangers (TQT), postes et statuts sont également traduits :
+
+- **Titres de modules** — champ `titleEn`. 24 des 28 titres proviennent des intitulés anglais
+  **officiels** du document « Internal Training Videos and Quizzes ». Les 4 restants
+  (`SRI-001`, `ASB-001`, `HOT-001`, `SPILL-001`) n'y figurant pas, leur titre anglais est une
+  **traduction proposée**, marquée `titleEnProposed: true` — à faire valider par le PASS SST.
+- **Catégories, dangers, postes, statuts** — clés `data.*` du dictionnaire, résolues par
+  `makeDataLabel()` (`src/lib/data-labels.ts`). En français la valeur d'origine est renvoyée
+  telle quelle ; une clé absente ne casse donc jamais l'affichage.
+- **Traductions de postes à valider** : les intitulés anglais des postes (`Lineman`, `Foreman`,
+  `Locator`, `Flagger`…) sont mes propositions, pas des libellés RH officiels Telecon.
+
+**Restent dans leur langue d'origine** : les libellés de ressources (« SIMDUT — vidéo »,
+« WHMIS — quiz »), qui désignent des contenus réellement produits dans cette langue, ainsi que
+les compétences terrain et les textes de règles de la matrice.
 
 ## Glossaire
 

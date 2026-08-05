@@ -2,6 +2,7 @@ import type { MatrixRule } from "@/types";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { StatusBadge } from "./StatusBadge";
 import { useT } from "@/lib/i18n";
+import { makeDataLabel } from "@/lib/data-labels";
 
 function psfceTone(v: string) {
   if (v === "Oui") return "teal" as const;
@@ -11,6 +12,7 @@ function psfceTone(v: string) {
 
 export function MatrixRuleTable({ rules }: { rules: MatrixRule[] }) {
   const t = useT();
+  const dl = makeDataLabel(t);
   return (
     <div className="overflow-auto rounded-2xl border border-tc-border bg-white shadow-sm">
       <Table>
@@ -27,7 +29,7 @@ export function MatrixRuleTable({ rules }: { rules: MatrixRule[] }) {
               <TableCell className="font-mono text-xs font-semibold text-tc-navy2">{rule.id}</TableCell>
               <TableCell>
                 <StatusBadge
-                  label={rule.status === "Proposé — à valider" ? "Proposé" : rule.status === "Profil de base" ? "Repli" : "À valider"}
+                  label={dl(rule.status)}
                   tone={rule.status === "Proposé — à valider" ? "orange" : rule.status === "Profil de base" ? "gray" : "blue"}
                   className="text-[10px]"
                   dot={false}
@@ -38,10 +40,10 @@ export function MatrixRuleTable({ rules }: { rules: MatrixRule[] }) {
                 <div className="text-xs text-slate-500">{rule.regions}</div>
               </TableCell>
               <TableCell className="max-w-[170px]">
-                <div className="text-sm text-tc-text">{rule.position}</div>
+                <div className="text-sm text-tc-text">{dl(rule.position)}</div>
                 <div className="text-xs text-slate-500">{rule.positionLevel}</div>
               </TableCell>
-              <TableCell className="max-w-[150px] text-xs text-slate-600">{rule.tqt}</TableCell>
+              <TableCell className="max-w-[150px] text-xs text-slate-600">{dl(rule.tqt)}</TableCell>
               <TableCell className="max-w-[230px]">
                 <div className="flex flex-wrap gap-1">
                   {rule.requiredModules.map((m) => (

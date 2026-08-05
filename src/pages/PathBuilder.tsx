@@ -9,7 +9,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { useT } from "@/lib/i18n";
+import { useT, useI18n } from "@/lib/i18n";
+import { makeDataLabel, moduleTitle } from "@/lib/data-labels";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Route, Wand2, Save, Trash2, CheckSquare, Square } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -18,6 +19,8 @@ const ANY = "Tous";
 
 export function PathBuilder() {
   const t = useT();
+  const { lang } = useI18n();
+  const dl = makeDataLabel(t);
   const { trainingPaths, addTrainingPath, deleteTrainingPath } = useDataStore();
   const { account } = useAuth();
 
@@ -130,7 +133,7 @@ export function PathBuilder() {
               <SelectTrigger className="h-8 text-xs"><SelectValue /></SelectTrigger>
               <SelectContent>
                 <SelectItem value={ANY}>{t("common.all")}</SelectItem>
-                {positions.map((p) => <SelectItem key={p} value={p}>{p}</SelectItem>)}
+                {positions.map((p) => <SelectItem key={p} value={p}>{dl(p)}</SelectItem>)}
               </SelectContent>
             </Select>
           </Field>
@@ -200,7 +203,7 @@ export function PathBuilder() {
                       <Square className="h-4 w-4 shrink-0 text-slate-300" />
                     )}
                     <span className="font-mono text-[10px] text-slate-400">{m.id}</span>
-                    <span className="min-w-0 flex-1 truncate text-tc-text">{m.title}</span>
+                    <span className="min-w-0 flex-1 truncate text-tc-text">{moduleTitle(m, lang)}</span>
                     {isSuggested && (
                       <span className="shrink-0 rounded bg-tc-navy/[0.07] px-1.5 py-0.5 text-[10px] font-medium text-tc-navy2">
                         {t("matrix.suggested")}

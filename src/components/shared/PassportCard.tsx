@@ -4,9 +4,11 @@ import { globalStatusTone } from "@/lib/status";
 import { TrainingProgressBar } from "./TrainingProgressBar";
 import { MapPin, Building2, User, Calendar, CreditCard } from "lucide-react";
 import { useT } from "@/lib/i18n";
+import { makeDataLabel } from "@/lib/data-labels";
 
 export function PassportCard({ employee }: { employee: Employee }) {
   const t = useT();
+  const dl = makeDataLabel(t);
   return (
     <div className="relative overflow-hidden rounded-2xl border border-tc-border bg-gradient-to-br from-tc-navy via-tc-navy to-tc-navy2 p-6 text-white shadow-md">
       <div className="pointer-events-none absolute -right-10 -top-10 h-48 w-48 rounded-full bg-tc-teal/20 blur-2xl" />
@@ -22,7 +24,7 @@ export function PassportCard({ employee }: { employee: Employee }) {
               <CreditCard className="h-3.5 w-3.5" /> {t("passport.title")}
             </div>
             <h2 className="mt-0.5 font-display text-2xl font-bold">{employee.name}</h2>
-            <p className="text-sm text-white/70">{employee.position} · {employee.employeeNumber}</p>
+            <p className="text-sm text-white/70">{dl(employee.position)} · {employee.employeeNumber}</p>
           </div>
         </div>
         <div className="flex flex-col items-start gap-2 sm:items-end">

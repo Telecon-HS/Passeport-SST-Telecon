@@ -67,6 +67,10 @@ export interface TrainingResource {
 export interface TrainingModule {
   id: string;
   title: string;
+  /** Intitulé anglais officiel, lorsqu'il existe. */
+  titleEn?: string;
+  /** Vrai si titleEn est une traduction proposée, non issue des documents Telecon. */
+  titleEnProposed?: boolean;
   category: string;
   language: "FR" | "EN" | "Bilingual";
   businessUnits: string[];

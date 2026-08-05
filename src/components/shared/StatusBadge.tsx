@@ -15,8 +15,10 @@ export function StatusBadge({
   dot?: boolean;
 }) {
   const t = useT();
-  const key = `status.${label}`;
-  const shown = t(key) === key ? label : t(key);
+  const statusKey = `status.${label}`;
+  const dataKey = `data.${label}`;
+  const shown =
+    t(statusKey) !== statusKey ? t(statusKey) : t(dataKey) !== dataKey ? t(dataKey) : label;
   return (
     <span
       className={cn(

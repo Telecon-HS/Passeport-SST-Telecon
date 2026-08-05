@@ -4,10 +4,12 @@ import { useResourceEditing } from "@/pages/ResourceManager";
 import { TrainingModuleCard } from "@/components/shared/TrainingModuleCard";
 import { FilterPanel } from "@/components/shared/FilterPanel";
 import { useT } from "@/lib/i18n";
+import { makeDataLabel } from "@/lib/data-labels";
 import { GraduationCap, Info } from "lucide-react";
 
 export function TrainingCenter() {
   const t = useT();
+  const dl = makeDataLabel(t);
   const { trainingCatalogWithOverrides: trainingCatalog } = useResourceEditing();
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("Tous");
@@ -19,7 +21,7 @@ export function TrainingCenter() {
   const tqtOptions = useMemo(() => Array.from(new Set(trainingCatalog.flatMap((m) => m.tqt))).filter(Boolean).sort(), [trainingCatalog]);
 
   const filtered = trainingCatalog.filter((m) => {
-    if (search && !m.title.toLowerCase().includes(search.toLowerCase()) && !m.id.toLowerCase().includes(search.toLowerCase())) return false;
+    if (search && ![m.title, m.titleEn ?? "", m.id].some((v) => v.toLowerCase().includes(search.toLowerCase()))) return false;
     if (category !== "Tous" && m.category !== category) return false;
     if (language !== "Tous" && m.language !== language) return false;
     if (bu !== "Tous" && !m.businessUnits.includes(bu)) return false;
@@ -79,7 +81,7 @@ export function TrainingCenter() {
       {grouped.map((g) => (
         <section key={g.cat}>
           <h2 className="mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-slate-400">
-            {g.cat}
+            {dl(g.cat)}
             <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-semibold text-slate-500">{g.modules.length}</span>
           </h2>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">

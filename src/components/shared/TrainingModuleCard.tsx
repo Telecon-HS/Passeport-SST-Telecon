@@ -4,6 +4,8 @@ import { moduleStatusTone } from "@/lib/status";
 import { PlayCircle, FileText, Presentation, ExternalLink, ClipboardCheck, Users } from "lucide-react";
 
 import { ModuleResources } from "./ModuleResources";
+import { useI18n } from "@/lib/i18n";
+import { makeDataLabel, moduleTitle } from "@/lib/data-labels";
 
 const deliveryIcon: Record<string, any> = {
   Video: PlayCircle,
@@ -24,6 +26,8 @@ export function TrainingModuleCard({
   module: TrainingModule;
   onLaunch?: () => void;
 }) {
+  const { t, lang } = useI18n();
+  const dl = makeDataLabel(t);
   const Icon = deliveryIcon[module.delivery] ?? FileText;
   return (
     <div className="group rounded-2xl border border-tc-border bg-white p-4 shadow-sm transition-all hover:shadow-md hover:border-tc-teal/40">
@@ -33,7 +37,7 @@ export function TrainingModuleCard({
         </div>
         <StatusBadge label={module.status} tone={moduleStatusTone(module.status)} className="text-[10px] py-0" />
       </div>
-      <h4 className="mt-3 text-sm font-semibold leading-snug text-tc-text line-clamp-2">{module.title}</h4>
+      <h4 className="mt-3 text-sm font-semibold leading-snug text-tc-text line-clamp-2">{moduleTitle(module, lang)}</h4>
       <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-slate-500">
         <span className="rounded bg-slate-100 px-1.5 py-0.5 font-medium">{module.id}</span>
         <span>{module.language}</span>
@@ -42,9 +46,9 @@ export function TrainingModuleCard({
       </div>
       {module.tqt.length > 0 && (
         <div className="mt-2 flex flex-wrap gap-1">
-          {module.tqt.slice(0, 2).map((t) => (
-            <span key={t} className="rounded-md bg-tc-red/[0.06] px-1.5 py-0.5 text-[10px] font-medium text-tc-red border border-tc-red/15">
-              {t}
+          {module.tqt.slice(0, 2).map((tag) => (
+            <span key={tag} className="rounded-md bg-tc-red/[0.06] px-1.5 py-0.5 text-[10px] font-medium text-tc-red border border-tc-red/15">
+              {dl(tag)}
             </span>
           ))}
         </div>
@@ -78,7 +82,7 @@ export function TrainingModuleCard({
               onClick={onLaunch}
               className="text-xs font-semibold text-tc-teal hover:underline"
             >
-              Lancer →
+              {t("action.launch")} →
             </a>
           );
         })()}
